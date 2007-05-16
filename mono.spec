@@ -1,6 +1,6 @@
 %define name	mono
-%define version 1.2.3.1
-%define release %mkrel 4
+%define version 1.2.4
+%define release %mkrel 1
 
 %define major 0
 %define majorminor 0
@@ -300,8 +300,8 @@ mv %{buildroot}%{_bindir}/resgen %{buildroot}%{_bindir}/resgen.mono
 mv %buildroot%_datadir/libgc-mono installed-docs
 
 #gw these are all obsolete and shouldn't be packaged:
-rm -f %buildroot%_bindir/{httpcfg,mbas} \
-      %buildroot%_mandir/man1/{httpcfg.1,mint.1,oldmono.1,monostyle.1} \
+rm -f %buildroot%_bindir/mbas \
+      %buildroot%_mandir/man1/{mint.1,oldmono.1,monostyle.1} \
       %buildroot%monodir/1.0/{browsercaps-updater.exe*,ictool.exe*}
 # these work on Windows only
 rm -fr %buildroot%monodir/*/Mono.Security.Win32*
@@ -354,6 +354,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_mandir/man1/mozroots.1*
 %_mandir/man1/setreg.1*
 %_mandir/man1/sn.1*
+%_mandir/man1/vbnc.1*
 %_mandir/man5/mono-config.5*
 %dir %monodir
 %dir %monodir/gac/
@@ -395,6 +396,8 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %monodir/gac/Mono.Security
 %monodir/1.0/Mono.Security.dll
 %monodir/2.0/Mono.Security.dll
+%monodir/gac/System.Core
+%monodir/2.0/System.Core.dll
 %monodir/gac/System.Security
 %monodir/1.0/System.Security.dll
 %monodir/2.0/System.Security.dll
@@ -456,9 +459,12 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 
 %files data-sqlite
 %defattr(-, root, root)
-%monodir/1.0/Mono.Data.SqliteClient.dll*
+%monodir/1.0/Mono.Data.Sqlite.dll
+%monodir/1.0/Mono.Data.SqliteClient.dll
+%monodir/2.0/Mono.Data.Sqlite.dll
 %monodir/2.0/Mono.Data.SqliteClient.dll
-%monodir/gac/Mono.Data.SqliteClient/
+%monodir/gac/Mono.Data.Sqlite
+%monodir/gac/Mono.Data.SqliteClient
 
 %files -n %libname-devel
 %defattr(-, root, root)
@@ -479,14 +485,19 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_bindir/dtd2rng
 %_bindir/dtd2xsd
 %_bindir/genxs
+%_bindir/httpcfg
 %_bindir/ilasm.mono
 %_bindir/ilasm2
+%_bindir/installvst
 #
 %_bindir/macpack
 #
 %_bindir/makecert
 %_bindir/mkbundle
 %_bindir/mkbundle2
+%_bindir/mono-api-diff
+%_bindir/mono-api-info
+%_bindir/mono-api-info2
 %_bindir/mono-find-provides
 %_bindir/mono-find-requires
 %_bindir/mono-shlib-cop
@@ -509,6 +520,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_mandir/man1/cilc.1*
 %_mandir/man1/dtd2xsd.1*
 %_mandir/man1/genxs.1*
+%_mandir/man1/httpcfg.1*
 %_mandir/man1/ilasm*.1*
 #
 %_mandir/man1/macpack.1*
@@ -562,16 +574,22 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %monodir/1.0/cert2spc.exe.mdb
 %monodir/1.0/cilc.exe
 %monodir/1.0/cilc.exe.mdb
+%monodir/1.0/culevel.exe
+%monodir/1.0/culevel.exe.mdb
 %monodir/1.0/dtd2rng.exe
 %monodir/1.0/dtd2rng.exe.mdb
 %monodir/1.0/dtd2xsd.exe
 %monodir/1.0/dtd2xsd.exe.mdb
 %monodir/1.0/genxs.exe
 %monodir/1.0/genxs.exe.mdb
+%monodir/2.0/httpcfg.exe
+%monodir/2.0/httpcfg.exe.mdb
 %monodir/1.0/ilasm.exe
 %monodir/1.0/ilasm.exe.mdb
 %monodir/2.0/ilasm.exe
 %monodir/2.0/ilasm.exe.mdb
+%monodir/1.0/installvst.exe
+%monodir/1.0/installvst.exe.mdb
 %monodir/1.0/mkbundle.exe
 %monodir/1.0/mkbundle.exe.mdb
 %monodir/2.0/mkbundle.exe
