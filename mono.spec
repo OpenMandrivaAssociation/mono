@@ -1,10 +1,11 @@
 %define name	mono
-%define version 1.2.4
+%define version 1.2.5
 %define release %mkrel 1
 
 %define major 0
 %define majorminor 0
 %define libname %mklibname %{name} %{major}
+%define libnamedev %mklibname -d %{name}
 
 %define bootstrap 0
 %{?_with_bootstrap: %{expand: %%global bootstrap 1}}
@@ -97,7 +98,7 @@ an interpeter.  It can also be used to run programs from the .NET
 Framework.
 This package provides the connectivity to the sqlite database for Mono.
 
-%package -n %libname-devel
+%package -n %libnamedev
 Summary:	Tools required to embed the Mono runtime
 Group:		Development/Other
 Requires:	%libname = %version
@@ -119,8 +120,9 @@ Requires: 	mono-nunit = %version
 Conflicts: 	mono-nunit < %version-%release
 Provides:	mono-devel = %version-%release
 Provides:	libmono-devel = %version-%release
+Obsoletes:  %mklibname -d %{name} 0
 
-%description -n %libname-devel
+%description -n %libnamedev
 Header files and libraries used to embed the Mono runtime in an application.
 
 %package -n jay
@@ -313,7 +315,7 @@ rm -rf %{buildroot}
 
 %post -n %libname -p /sbin/ldconfig
 
-%post -n %libname-devel 
+%post -n %libnamedev
 update-alternatives --install %{_bindir}/ilasm ilasm %{_bindir}/ilasm.mono 10
 update-alternatives --install %{_mandir}/man1/ilasm.1.bz2 man-ilasm %{_mandir}/man1/ilasm.mono.1.bz2 10
 update-alternatives --install %{_bindir}/al al %{_bindir}/al.mono 10
@@ -321,7 +323,7 @@ update-alternatives --install %{_bindir}/resgen resgen %{_bindir}/resgen.mono 10
 
 %postun -n %libname -p /sbin/ldconfig
 
-%postun  -n %libname-devel
+%postun  -n %libnamedev
 [ $1 = 0 ] || exit 0
 update-alternatives --remove ilasm  %{_bindir}/ilasm.mono
 update-alternatives --remove man-ilasm  %{_mandir}/man1/ilasm.mono.1.bz2
@@ -345,6 +347,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_bindir/mcs
 %_bindir/mozroots
 %_bindir/setreg
+%_bindir/smcs
 %_bindir/sn
 %_mandir/man1/mono.1*
 %_mandir/man1/certmgr.1*
@@ -466,7 +469,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %monodir/gac/Mono.Data.Sqlite
 %monodir/gac/Mono.Data.SqliteClient
 
-%files -n %libname-devel
+%files -n %libnamedev
 %defattr(-, root, root)
 %doc ChangeLog
 %dir %_includedir/mono-1.0/
@@ -502,8 +505,8 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_bindir/mono-find-requires
 %_bindir/mono-shlib-cop
 %_bindir/mono-xmltool
-%_bindir/monodiet
 %_bindir/monodis
+%_bindir/monolinker
 %_bindir/monop
 %_bindir/monop2
 %_bindir/pedump
@@ -530,9 +533,11 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_mandir/man1/monoburg.*
 %_mandir/man1/mono-shlib-cop.1*
 %_mandir/man1/monodis.1*
+%_mandir/man1/monolinker.1*
 %_mandir/man1/monop.1*
 %_mandir/man1/permview.1*
 %_mandir/man1/prj2make.1*
+%_mandir/man1/resgen.1*
 %_mandir/man1/secutil.1*
 %_mandir/man1/sgen.1*
 %_mandir/man1/signcode.1*
@@ -559,6 +564,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 #
 %monodir/2.0/Microsoft.VisualBasic.targets
 #
+%monodir/gac/Mono.Cecil/
 %monodir/2.0/MSBuild
 %monodir/2.0/xbuild.rsp
 %monodir/1.0/*ake*ert.exe
@@ -594,6 +600,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %monodir/1.0/mkbundle.exe.mdb
 %monodir/2.0/mkbundle.exe
 %monodir/2.0/mkbundle.exe.mdb
+%monodir/1.0/monolinker*
 %monodir/1.0/monop.exe
 %monodir/1.0/monop.exe.mdb
 %monodir/2.0/monop.exe
