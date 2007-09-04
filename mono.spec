@@ -1,6 +1,6 @@
 %define name	mono
 %define version 1.2.5
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define majorminor 0
@@ -41,9 +41,6 @@ Provides:        mono(mscorlib) = 1.0.3300.0
 Provides:        mono(System) = 1.0.3300.0 
 Provides:        mono(System.Drawing) = 1.0.3300.0 
 Provides:        mono(System.Xml) = 1.0.3300.0 
-
-# old pnet doesn't use alternatives for ilasm
-Conflicts:	pnet =< 0.6.2
 %if ! %bootstrap
 #gw needed for mono-find-requires which needs monodis and libmono.so
 BuildRequires: mono-devel
@@ -121,6 +118,7 @@ Conflicts: 	mono-nunit < %version-%release
 Provides:	mono-devel = %version-%release
 Provides:	libmono-devel = %version-%release
 Obsoletes:  %mklibname -d %{name} 0
+Conflicts: update-alternatives < 1.9.0
 
 %description -n %libnamedev
 Header files and libraries used to embed the Mono runtime in an application.
@@ -293,12 +291,6 @@ make
 rm -rf %{buildroot} installed-docs
 %makeinstall_std
 
-# don't conflict with pnet, use alternatives
-mv %{buildroot}%{_mandir}/man1/ilasm.1 %{buildroot}%{_mandir}/man1/ilasm.mono.1
-mv %{buildroot}%{_bindir}/ilasm %{buildroot}%{_bindir}/ilasm.mono
-mv %{buildroot}%{_bindir}/al %{buildroot}%{_bindir}/al.mono
-mv %{buildroot}%{_bindir}/resgen %{buildroot}%{_bindir}/resgen.mono
-
 mv %buildroot%_datadir/libgc-mono installed-docs
 
 #gw these are all obsolete and shouldn't be packaged:
@@ -312,24 +304,8 @@ rm -fr %buildroot%monodir/*/Mono.Security.Win32*
 %clean
 rm -rf %{buildroot}
 
-
 %post -n %libname -p /sbin/ldconfig
-
-%post -n %libnamedev
-update-alternatives --install %{_bindir}/ilasm ilasm %{_bindir}/ilasm.mono 10
-update-alternatives --install %{_mandir}/man1/ilasm.1.bz2 man-ilasm %{_mandir}/man1/ilasm.mono.1.bz2 10
-update-alternatives --install %{_bindir}/al al %{_bindir}/al.mono 10
-update-alternatives --install %{_bindir}/resgen resgen %{_bindir}/resgen.mono 10
-
 %postun -n %libname -p /sbin/ldconfig
-
-%postun  -n %libnamedev
-[ $1 = 0 ] || exit 0
-update-alternatives --remove ilasm  %{_bindir}/ilasm.mono
-update-alternatives --remove man-ilasm  %{_mandir}/man1/ilasm.mono.1.bz2
-update-alternatives --remove al  %{_bindir}/al.mono
-update-alternatives --remove resgen  %{_bindir}/resgen.mono
-
 
 %files
 %defattr(-, root, root)
@@ -480,7 +456,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_libdir/pkgconfig/dotnet.pc
 %_libdir/pkgconfig/mono-cairo.pc
 %_libdir/pkgconfig/mono.pc
-%_bindir/al.mono
+%_bindir/al
 %_bindir/al2
 %_bindir/caspol
 %_bindir/cert2spc
@@ -489,7 +465,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_bindir/dtd2xsd
 %_bindir/genxs
 %_bindir/httpcfg
-%_bindir/ilasm.mono
+%_bindir/ilasm
 %_bindir/ilasm2
 %_bindir/installvst
 #
@@ -512,7 +488,7 @@ update-alternatives --remove resgen  %{_bindir}/resgen.mono
 %_bindir/pedump
 %_bindir/permview
 %_bindir/prj2make
-%_bindir/resgen.mono
+%_bindir/resgen
 %_bindir/resgen2
 %_bindir/secutil
 %_bindir/sgen
