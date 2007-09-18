@@ -1,13 +1,13 @@
 %define name	mono
 %define version 1.2.5
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define majorminor 0
 %define libname %mklibname %{name} %{major}
 %define libnamedev %mklibname -d %{name}
 
-%define bootstrap 0
+%define bootstrap 1
 %{?_with_bootstrap: %{expand: %%global bootstrap 1}}
 %define monodir %_prefix/lib/mono
 
