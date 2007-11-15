@@ -1,6 +1,6 @@
 %define name	mono
 %define version 1.2.5.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -21,6 +21,7 @@ Source0:	http://www.go-mono.com/sources/%name/%name-%version.tar.bz2
 Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-1.2.3.1-selfexe.patch
+Patch2:		mono-CVE-2007-5197.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -275,6 +276,7 @@ xUnit to all .NET languages.
 %setup -q
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
+%patch2 -p0 -b .cve-2007-5197
 
 %build
 %configure2_5x --with-preview=yes
