@@ -1,5 +1,5 @@
 %define name	mono
-%define version 1.2.5.2
+%define version 1.2.6
 %define release %mkrel 1
 
 %define major 0
@@ -317,6 +317,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/mono/2.0/machine.config
 %config  %{_sysconfdir}/mono/config
 %_bindir/mono
+%_bindir/mono-test-install
 %_bindir/certmgr
 %_bindir/chktrust
 %_bindir/gacutil
@@ -358,6 +359,9 @@ rm -rf %{buildroot}
 %monodir/1.0/setreg.exe.mdb
 %monodir/1.0/sn.exe
 %monodir/1.0/sn.exe.mdb
+###
+%monodir/1.0/transform.exe
+###
 %monodir/gac/cscompmgd
 %monodir/1.0/cscompmgd.dll
 %monodir/2.0/cscompmgd.dll
@@ -454,6 +458,7 @@ rm -rf %{buildroot}
 %{_libdir}/*.a
 %attr(644,root,root) %{_libdir}/*.la
 %{_libdir}/libmono*.so
+%_libdir/pkgconfig/cecil.pc
 %_libdir/pkgconfig/dotnet.pc
 %_libdir/pkgconfig/mono-cairo.pc
 %_libdir/pkgconfig/mono.pc
@@ -542,6 +547,7 @@ rm -rf %{buildroot}
 %monodir/2.0/Microsoft.VisualBasic.targets
 #
 %monodir/gac/Mono.Cecil/
+%monodir/gac/Mono.Cecil.Mdb/
 %monodir/2.0/MSBuild
 %monodir/2.0/xbuild.rsp
 %monodir/1.0/*ake*ert.exe
@@ -618,22 +624,30 @@ rm -rf %{buildroot}
 
 %files web
 %defattr(-, root, root)
+%dir %{_sysconfdir}/mono/mconfig
 %config(noreplace) %{_sysconfdir}/mono/browscap.ini
 %config(noreplace) %{_sysconfdir}/mono/1.0/DefaultWsdlHelpGenerator.aspx
 %config(noreplace) %{_sysconfdir}/mono/2.0/DefaultWsdlHelpGenerator.aspx
 %config(noreplace) %{_sysconfdir}/mono/2.0/web.config
+%config(noreplace) %{_sysconfdir}/mono/mconfig/config.xml
 %_bindir/disco
+%_bindir/mconfig
 %_bindir/soapsuds
 %_bindir/wsdl
 %_bindir/wsdl2
 %_bindir/xsd
 %_mandir/man1/disco.1*
+%_mandir/man1/mconfig.1*
 %_mandir/man1/soapsuds.1*
 %_mandir/man1/wsdl.1*
 %_mandir/man1/xsd.1*
 %monodir/gac/Mono.Http
 %monodir/1.0/Mono.Http.dll
 %monodir/2.0/Mono.Http.dll
+%monodir/gac/System.Web.Extensions
+%monodir/2.0/System.Web.Extensions.dll
+%monodir/gac/System.Web.Extensions.Design
+%monodir/2.0/System.Web.Extensions.Design.dll
 %monodir/gac/System.Runtime.Remoting
 %monodir/1.0/System.Runtime.Remoting.dll
 %monodir/2.0/System.Runtime.Remoting.dll
@@ -648,6 +662,8 @@ rm -rf %{buildroot}
 %monodir/2.0/System.Web.Services.dll
 %monodir/1.0/disco.exe
 %monodir/1.0/disco.exe.mdb
+%monodir/2.0/mconfig.exe
+%monodir/2.0/mconfig.exe.mdb
 %monodir/1.0/soapsuds.exe
 %monodir/1.0/soapsuds.exe.mdb
 %monodir/1.0/wsdl.exe
@@ -686,6 +702,9 @@ rm -rf %{buildroot}
 %monodir/gac/System.Drawing.Design
 %monodir/1.0/System.Drawing.Design.dll
 %monodir/2.0/System.Drawing.Design.dll
+%monodir/gac/Mono.Mozilla/
+%monodir/1.0/Mono.Mozilla.dll
+%monodir/2.0/Mono.Mozilla.dll
 
 %files extras
 %defattr(-, root, root)
