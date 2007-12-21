@@ -23,6 +23,7 @@ Patch0:		mono-dllmap.patch
 Patch1:		mono-1.2.3.1-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
 URL:		http://www.go-mono.com/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
 BuildRequires:	bison
 BuildRequires:	zlib-devel
