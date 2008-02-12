@@ -195,7 +195,6 @@ Group:	 	 Development/Other
 Requires:	 mono = %version
 
 %description jscript
-
 This package contains the JScript .NET compiler and language
 runtime. This allows you to compile and run JScript.NET application
 and assemblies.
