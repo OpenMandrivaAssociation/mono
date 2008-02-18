@@ -127,7 +127,7 @@ Conflicts: update-alternatives < 1.9.0
 Header files and libraries used to embed the Mono runtime in an application.
 
 %package -n jay
-Summary:	Jay is a LALR(1) parser generator for Java and C#
+Summary:	LALR(1) parser generator for Java and C#
 Group:		Development/Other
 
 %description -n jay
