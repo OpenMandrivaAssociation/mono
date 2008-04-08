@@ -1,6 +1,6 @@
 %define name	mono
-%define version 1.2.6
-%define release %mkrel 4
+%define version 1.9
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -22,9 +22,6 @@ Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-1.2.3.1-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
-# (mrl) http://www.nabble.com/threads-types.h-missing-td14410166.html
-# Without this, OOo mono binding doesn't build.
-Patch3:		mono-1.2.6-threads-types.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -280,7 +277,6 @@ xUnit to all .NET languages.
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
-%patch3 -p1 -b .threads-types
 
 %build
 %configure2_5x --with-preview=yes
@@ -319,6 +315,7 @@ rm -rf %{buildroot}
 %dir %{_sysconfdir}/mono/2.0/
 %config(noreplace) %{_sysconfdir}/mono/1.0/machine.config
 %config(noreplace) %{_sysconfdir}/mono/2.0/machine.config
+%config(noreplace) %{_sysconfdir}/mono/2.0/settings.map
 %config  %{_sysconfdir}/mono/config
 %_bindir/mono
 %_bindir/mono-test-install
@@ -357,6 +354,8 @@ rm -rf %{buildroot}
 %monodir/1.0/mcs.exe.config
 %monodir/1.0/mcs.exe
 %monodir/1.0/mcs.exe.mdb
+%monodir/2.1/smcs.exe
+%monodir/2.1/smcs.exe.mdb
 %monodir/1.0/mozroots.exe
 %monodir/1.0/mozroots.exe.mdb
 %monodir/1.0/setreg.exe
@@ -386,21 +385,29 @@ rm -rf %{buildroot}
 %monodir/2.0/Mono.Security.dll
 %monodir/gac/System.Core
 %monodir/2.0/System.Core.dll
+%monodir/2.1/System.Core.dll
 %monodir/gac/System.Security
 %monodir/1.0/System.Security.dll
 %monodir/2.0/System.Security.dll
 %monodir/gac/System.Xml
 %monodir/1.0/System.Xml.dll
 %monodir/2.0/System.Xml.dll
+%monodir/gac/System.Xml.Linq
+%monodir/3.5/System.Xml.Linq.dll
+%monodir/gac/System.Xml.Core
+%monodir/2.1/System.Xml.Core.dll
 %monodir/gac/System
 %monodir/1.0/System.dll
 %monodir/2.0/System.dll
+%monodir/2.1/System.dll
 %monodir/gac/System.Configuration
 %monodir/2.0/System.Configuration.dll
 %monodir/1.0/mscorlib.dll
 %monodir/1.0/mscorlib.dll.mdb
 %monodir/2.0/mscorlib.dll
 %monodir/2.0/mscorlib.dll.mdb
+%monodir/2.1/mscorlib.dll
+%monodir/2.1/mscorlib.dll.mdb
 %monodir/gac/Mono.C5
 %monodir/2.0/Mono.C5.dll
 %monodir/gac/System.Drawing
@@ -529,6 +536,10 @@ rm -rf %{buildroot}
 %_mandir/man1/signcode.1*
 %_mandir/man1/al.1*
 %_mandir/man1/mono-xmltool.1*
+%monodir/1.0/installutil.exe
+%monodir/1.0/installutil.exe.mdb
+%monodir/2.0/installutil.exe
+%monodir/2.0/installutil.exe.mdb
 #
 %monodir/1.0/macpack.exe*
 #
@@ -648,10 +659,14 @@ rm -rf %{buildroot}
 %monodir/gac/Mono.Http
 %monodir/1.0/Mono.Http.dll
 %monodir/2.0/Mono.Http.dll
+%monodir/gac/Mono.Web
+%monodir/2.0/Mono.Web.dll
 %monodir/gac/System.Web.Extensions
 %monodir/2.0/System.Web.Extensions.dll
+%monodir/3.5/System.Web.Extensions.dll
 %monodir/gac/System.Web.Extensions.Design
 %monodir/2.0/System.Web.Extensions.Design.dll
+%monodir/3.5/System.Web.Extensions.Design.dll
 %monodir/gac/System.Runtime.Remoting
 %monodir/1.0/System.Runtime.Remoting.dll
 %monodir/2.0/System.Runtime.Remoting.dll
@@ -821,9 +836,13 @@ rm -rf %{buildroot}
 %monodir/2.0/nunit-console.exe.config
 %monodir/2.0/nunit-console.exe.mdb
 %monodir/1.0/nunit.core.dll
+%monodir/2.0/nunit.core.dll
 %monodir/1.0/nunit.framework.dll
-%monodir/1.0/nunit.util.dll
+%monodir/2.0/nunit.framework.dll
 %monodir/1.0/nunit.mocks.dll
+%monodir/2.0/nunit.mocks.dll
+%monodir/1.0/nunit.util.dll
+%monodir/2.0/nunit.util.dll
 %monodir/gac/nunit.core
 %monodir/gac/nunit.framework
 %monodir/gac/nunit.util
