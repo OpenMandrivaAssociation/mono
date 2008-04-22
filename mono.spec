@@ -1,5 +1,5 @@
 %define name	mono
-%define version 1.9
+%define version 1.9.1
 %define release %mkrel 1
 
 %define major 0
@@ -14,7 +14,7 @@ Summary:	Mono Runtime
 Name:		%name
 Version:	%version
 Release:	%release
-License:	GPL/LGPL/BSD
+License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Source0:	http://www.go-mono.com/sources/%name/%name-%version.tar.bz2
 #gw add some major numbers to the dll map to not depend on -devel packages
