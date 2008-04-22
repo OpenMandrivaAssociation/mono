@@ -1,6 +1,6 @@
 %define name	mono
 %define version 1.9.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -22,6 +22,10 @@ Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-1.2.3.1-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
+#gw fix for this bug:
+# https://bugzilla.novell.com/show_bug.cgi?id=381151
+# (DataAdapter returns 0 rows after an SQL timeout occured)
+Patch3: mono-fix-bug-381151.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -277,6 +281,7 @@ xUnit to all .NET languages.
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
+%patch3 -p1 -b .ado
 
 %build
 %configure2_5x --with-preview=yes
