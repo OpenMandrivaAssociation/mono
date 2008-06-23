@@ -26,6 +26,7 @@ Patch2:		mono-CVE-2007-5197.patch
 # https://bugzilla.novell.com/show_bug.cgi?id=381151
 # (DataAdapter returns 0 rows after an SQL timeout occured)
 Patch3: mono-fix-bug-381151.patch
+Patch4: mono-wapi_glop.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -282,6 +283,7 @@ xUnit to all .NET languages.
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
 %patch3 -p1 -b .ado
+%patch4 -p1 -b .glop
 
 %build
 %configure2_5x --with-preview=yes
