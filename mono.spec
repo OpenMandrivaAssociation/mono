@@ -1,6 +1,6 @@
 %define name	mono
 %define version 1.9.1
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -27,6 +27,8 @@ Patch2:		mono-CVE-2007-5197.patch
 # (DataAdapter returns 0 rows after an SQL timeout occured)
 Patch3: mono-fix-bug-381151.patch
 Patch4: mono-wapi_glop.patch
+#gw fix building with --no-undefined enabled
+Patch5: mono-1.9.1-fix-linking.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -284,10 +286,12 @@ xUnit to all .NET languages.
 %patch2 -p0 -b .cve-2007-5197
 %patch3 -p1 -b .ado
 %patch4 -p1 -b .glop
+%patch5 -p1
+aclocal
+autoconf
+automake
 
 %build
-#gw else mono/profiler does not build:
-%define _disable_ld_no_undefined 1
 %configure2_5x --with-preview=yes
 #--with-tls=__thread
 #gw parallel build broken in 1.2.3
