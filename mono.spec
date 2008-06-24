@@ -1,6 +1,6 @@
 %define name	mono
 %define version 1.9.1
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -286,6 +286,8 @@ xUnit to all .NET languages.
 %patch4 -p1 -b .glop
 
 %build
+#gw else mono/profiler does not build:
+%define _disable_ld_no_undefined 1
 %configure2_5x --with-preview=yes
 #--with-tls=__thread
 #gw parallel build broken in 1.2.3
