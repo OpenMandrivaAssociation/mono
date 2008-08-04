@@ -1,6 +1,6 @@
 %define name	mono
 %define version 1.9.1
-%define release %mkrel 4
+%define release %mkrel 5
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -217,7 +217,8 @@ Summary: Windows Forms implementation for Mono
 Group:	 	 Development/Other
 Requires:	 mono = %version
 Provides:        mono(System.Windows.Forms) = 1.0.3300.0 
-Requires: gluezilla >= 1.2.6
+#gw this is currently unavailable
+#Requires: gluezilla >= 1.2.6
 
 %description winforms
 This package provides a fully managed implementation of
