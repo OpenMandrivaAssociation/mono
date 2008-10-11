@@ -1,6 +1,6 @@
 %define name	mono
-%define version 1.9.1
-%define release %mkrel 5
+%define version 2.0
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -28,7 +28,8 @@ Patch2:		mono-CVE-2007-5197.patch
 Patch3: mono-fix-bug-381151.patch
 Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
-Patch5: mono-1.9.1-fix-linking.patch
+Patch5: mono-2.0-fix-linking.patch
+Patch6: mono-mcs-r112886-fix-bug-425647.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -217,8 +218,7 @@ Summary: Windows Forms implementation for Mono
 Group:	 	 Development/Other
 Requires:	 mono = %version
 Provides:        mono(System.Windows.Forms) = 1.0.3300.0 
-#gw this is currently unavailable
-#Requires: gluezilla >= 1.2.6
+Requires: gluezilla >= 2.0
 
 %description winforms
 This package provides a fully managed implementation of
@@ -285,9 +285,12 @@ xUnit to all .NET languages.
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
-%patch3 -p1 -b .ado
+#%patch3 -p1 -b .ado
 %patch4 -p1 -b .glop
-%patch5 -p1
+%patch5 -p1 -b .linking
+cd mcs
+%patch6 -p0 -b .no-x11
+cd ..
 aclocal
 autoconf
 automake
@@ -340,8 +343,10 @@ rm -rf %{buildroot}
 %_bindir/certmgr
 %_bindir/chktrust
 %_bindir/gacutil
+%_bindir/gacutil2
 %_bindir/gmcs
 %_bindir/mcs
+%_bindir/mcs1
 %_bindir/mozroots
 %_bindir/setreg
 %_bindir/smcs
@@ -366,6 +371,8 @@ rm -rf %{buildroot}
 %monodir/1.0/chktrust.exe.mdb
 %monodir/1.0/gacutil.exe
 %monodir/1.0/gacutil.exe.mdb
+%monodir/2.0/gacutil.exe
+%monodir/2.0/gacutil.exe.mdb
 %monodir/2.0/gmcs.exe
 %monodir/2.0/gmcs.exe.mdb
 %monodir/2.0/gmcs.exe.config
@@ -410,16 +417,17 @@ rm -rf %{buildroot}
 %monodir/gac/System.Xml
 %monodir/1.0/System.Xml.dll
 %monodir/2.0/System.Xml.dll
+%monodir/2.1/System.Xml.dll
 %monodir/gac/System.Xml.Linq
-%monodir/3.5/System.Xml.Linq.dll
-%monodir/gac/System.Xml.Core
-%monodir/2.1/System.Xml.Core.dll
+%monodir/2.0/System.Xml.Linq.dll
 %monodir/gac/System
 %monodir/1.0/System.dll
 %monodir/2.0/System.dll
 %monodir/2.1/System.dll
 %monodir/gac/System.Configuration
 %monodir/2.0/System.Configuration.dll
+%monodir/gac/System.Net
+%monodir/2.1/System.Net.dll
 %monodir/1.0/mscorlib.dll
 %monodir/1.0/mscorlib.dll.mdb
 %monodir/2.0/mscorlib.dll
@@ -489,9 +497,12 @@ rm -rf %{buildroot}
 %{_libdir}/libmono*.so
 %_libdir/pkgconfig/cecil.pc
 %_libdir/pkgconfig/dotnet.pc
+%_libdir/pkgconfig/dotnet35.pc
 %_libdir/pkgconfig/mono-cairo.pc
 %_libdir/pkgconfig/mono.pc
+%_libdir/pkgconfig/smcs.pc
 %_bindir/al
+%_bindir/al1
 %_bindir/al2
 %_bindir/caspol
 %_bindir/cert2spc
@@ -499,8 +510,11 @@ rm -rf %{buildroot}
 %_bindir/dtd2rng
 %_bindir/dtd2xsd
 %_bindir/genxs
+%_bindir/genxs1
+%_bindir/genxs2
 %_bindir/httpcfg
 %_bindir/ilasm
+%_bindir/ilasm1
 %_bindir/ilasm2
 %_bindir/installvst
 #
@@ -508,9 +522,11 @@ rm -rf %{buildroot}
 #
 %_bindir/makecert
 %_bindir/mkbundle
+%_bindir/mkbundle1
 %_bindir/mkbundle2
 %_bindir/mono-api-diff
 %_bindir/mono-api-info
+%_bindir/mono-api-info1
 %_bindir/mono-api-info2
 %_bindir/mono-find-provides
 %_bindir/mono-find-requires
@@ -519,11 +535,13 @@ rm -rf %{buildroot}
 %_bindir/monodis
 %_bindir/monolinker
 %_bindir/monop
+%_bindir/monop1
 %_bindir/monop2
 %_bindir/pedump
 %_bindir/permview
 %_bindir/prj2make
 %_bindir/resgen
+%_bindir/resgen1
 %_bindir/resgen2
 %_bindir/secutil
 %_bindir/sgen
@@ -660,6 +678,7 @@ rm -rf %{buildroot}
 %dir %{_sysconfdir}/mono/mconfig
 %config(noreplace) %{_sysconfdir}/mono/browscap.ini
 %config(noreplace) %{_sysconfdir}/mono/1.0/DefaultWsdlHelpGenerator.aspx
+%config(noreplace) %{_sysconfdir}/mono/2.0/Browsers/Compat.browser
 %config(noreplace) %{_sysconfdir}/mono/2.0/DefaultWsdlHelpGenerator.aspx
 %config(noreplace) %{_sysconfdir}/mono/2.0/web.config
 %config(noreplace) %{_sysconfdir}/mono/mconfig/config.xml
@@ -667,8 +686,10 @@ rm -rf %{buildroot}
 %_bindir/mconfig
 %_bindir/soapsuds
 %_bindir/wsdl
+%_bindir/wsdl1
 %_bindir/wsdl2
 %_bindir/xsd
+%_bindir/xsd2
 %_mandir/man1/disco.1*
 %_mandir/man1/mconfig.1*
 %_mandir/man1/soapsuds.1*
@@ -709,6 +730,8 @@ rm -rf %{buildroot}
 %monodir/2.0/wsdl.exe.mdb
 %monodir/1.0/xsd.exe
 %monodir/1.0/xsd.exe.mdb
+%monodir/2.0/xsd.exe
+%monodir/2.0/xsd.exe.mdb
 
 %files jscript
 %defattr(-, root, root)
@@ -739,9 +762,9 @@ rm -rf %{buildroot}
 %monodir/gac/System.Drawing.Design
 %monodir/1.0/System.Drawing.Design.dll
 %monodir/2.0/System.Drawing.Design.dll
-%monodir/gac/Mono.Mozilla/
-%monodir/1.0/Mono.Mozilla.dll
-%monodir/2.0/Mono.Mozilla.dll
+%monodir/gac/Mono.WebBrowser
+%monodir/1.0/Mono.WebBrowser.dll
+%monodir/2.0/Mono.WebBrowser.dll
 
 %files extras
 %defattr(-, root, root)
@@ -773,6 +796,7 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %monodir/gac/IBM.Data.DB2
 %monodir/1.0/IBM.Data.DB2.dll
+%monodir/2.0/IBM.Data.DB2.dll
 
 %files data-oracle
 %defattr(-, root, root)
@@ -789,6 +813,10 @@ rm -rf %{buildroot}
 %monodir/gac/System.Data
 %monodir/1.0/System.Data.dll
 %monodir/2.0/System.Data.dll
+%monodir/gac/System.Data.DataSetExtensions
+%monodir/2.0/System.Data.DataSetExtensions.dll
+%monodir/gac/System.Data.Linq
+%monodir/2.0/System.Data.Linq.dll
 %monodir/gac/Mono.Data
 %monodir/1.0/Mono.Data.dll
 %monodir/2.0/Mono.Data.dll
@@ -809,6 +837,7 @@ rm -rf %{buildroot}
 %monodir/2.0/System.DirectoryServices.dll
 %monodir/gac/System.Transactions
 %monodir/2.0/System.Transactions.dll
+
 
 %files locale-extras
 %defattr(-, root, root)
