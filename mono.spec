@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.0.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -30,6 +30,7 @@ Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
 Patch6: mono-mcs-r112886-fix-bug-425647.patch
+Patch7: mono-r117243-bug434892.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -290,6 +291,7 @@ xUnit to all .NET languages.
 %patch5 -p1 -b .linking
 cd mcs
 %patch6 -p0 -b .no-x11
+%patch7 -p0
 cd ..
 aclocal
 autoconf
