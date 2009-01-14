@@ -313,7 +313,7 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
 %patch8 -p1
-aclocal
+aclocal -I .
 autoconf
 automake
 
