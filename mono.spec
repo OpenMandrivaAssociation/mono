@@ -1,6 +1,6 @@
 %define name	mono
-%define version 2.0.1
-%define release %mkrel 2
+%define version 2.2
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -20,7 +20,7 @@ Source0:	http://www.go-mono.com/sources/%name/%name-%version.tar.bz2
 #gw add some major numbers to the dll map to not depend on -devel packages
 Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
-Patch1:		mono-1.2.3.1-selfexe.patch
+Patch1:		mono-2.2-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
 #gw fix for this bug:
 # https://bugzilla.novell.com/show_bug.cgi?id=381151
@@ -29,8 +29,7 @@ Patch3: mono-fix-bug-381151.patch
 Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
-Patch6: mono-mcs-r112886-fix-bug-425647.patch
-Patch7: mono-r117243-bug434892.patch
+Patch8: mono-2.2-format-strings.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -123,6 +122,8 @@ Requires: 	mono-jscript = %version
 Requires: 	mono-locale-extras = %version
 Requires: 	mono-winforms = %version
 Requires: 	mono-nunit = %version
+Requires: 	monodoc-core = %version
+Requires:	mono-wcf = %version
 Conflicts: 	mono-nunit < %version-%release
 Provides:	mono-devel = %version-%release
 Provides:	libmono-devel = %version-%release
@@ -280,6 +281,28 @@ to take advantage of many .NET language features, for example custom
 attributes and other reflection related capabilities. NUnit brings
 xUnit to all .NET languages.
 
+%package -n monodoc-core
+Summary:        Monodoc-Documentation tools for C# code
+Group:          Development/Other
+Provides:       monodoc
+Obsoletes:      monodoc
+
+%description -n monodoc-core
+Monodoc-core contains documentation tools for C#.
+
+%package wcf
+Summary:        Mono implementation of WCF, Windows Communication Foundation
+Group:          Development/Other
+Requires:	%name = %version
+
+%description wcf
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono implementation of WCF, Windows Communication Foundation
 
 %prep
 %setup -q
@@ -289,10 +312,7 @@ xUnit to all .NET languages.
 #%patch3 -p1 -b .ado
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
-cd mcs
-%patch6 -p0 -b .no-x11
-%patch7 -p0
-cd ..
+%patch8 -p1
 aclocal
 autoconf
 automake
@@ -320,6 +340,7 @@ rm -f %buildroot%_bindir/mbas \
 # these work on Windows only
 rm -fr %buildroot%monodir/*/Mono.Security.Win32*
 
+%find_lang mcs
 
 %clean
 rm -rf %{buildroot}
@@ -331,7 +352,7 @@ rm -rf %{buildroot}
 %postun -n %libname -p /sbin/ldconfig
 %endif
 
-%files
+%files -f mcs.lang
 %defattr(-, root, root)
 %dir %{_sysconfdir}/mono
 %dir %{_sysconfdir}/mono/1.0/
@@ -342,9 +363,11 @@ rm -rf %{buildroot}
 %config  %{_sysconfdir}/mono/config
 %_bindir/mono
 %_bindir/mono-test-install
+%_bindir/csharp
 %_bindir/certmgr
 %_bindir/chktrust
 %_bindir/gacutil
+%_bindir/gacutil1
 %_bindir/gacutil2
 %_bindir/gmcs
 %_bindir/mcs
@@ -356,17 +379,19 @@ rm -rf %{buildroot}
 %_mandir/man1/mono.1*
 %_mandir/man1/certmgr.1*
 %_mandir/man1/chktrust.1*
+%_mandir/man1/csharp.1*
 %_mandir/man1/gacutil.1*
 %_mandir/man1/mcs.1*
 %_mandir/man1/mozroots.1*
 %_mandir/man1/setreg.1*
 %_mandir/man1/sn.1*
-%_mandir/man1/vbnc.1*
 %_mandir/man5/mono-config.5*
 %dir %monodir
 %dir %monodir/gac/
 %dir %monodir/1.0/
 %dir %monodir/2.0/
+%monodir/2.0/csharp.exe
+%monodir/2.0/csharp.exe.mdb
 %monodir/1.0/certmgr.exe
 %monodir/1.0/certmgr.exe.mdb
 %monodir/1.0/chktrust.exe
@@ -404,12 +429,19 @@ rm -rf %{buildroot}
 %monodir/gac/Mono.CompilerServices.SymbolWriter
 %monodir/1.0/Mono.CompilerServices.SymbolWriter.dll
 %monodir/2.0/Mono.CompilerServices.SymbolWriter.dll
+%monodir/2.1/Mono.CompilerServices.SymbolWriter.dll
+%monodir/gac/Mono.CSharp
+%monodir/2.0/Mono.CSharp.dll
 %monodir/gac/Mono.GetOptions
 %monodir/1.0/Mono.GetOptions.dll
 %monodir/2.0/Mono.GetOptions.dll
+%monodir/gac/Mono.Management
+%monodir/2.0/Mono.Management.dll
 %monodir/gac/Mono.Security
 %monodir/1.0/Mono.Security.dll
 %monodir/2.0/Mono.Security.dll
+%monodir/gac/Mono.Simd
+%monodir/2.0/Mono.Simd.dll
 %monodir/gac/System.Core
 %monodir/2.0/System.Core.dll
 %monodir/2.1/System.Core.dll
@@ -501,6 +533,8 @@ rm -rf %{buildroot}
 %_libdir/pkgconfig/dotnet.pc
 %_libdir/pkgconfig/dotnet35.pc
 %_libdir/pkgconfig/mono-cairo.pc
+%_libdir/pkgconfig/mono-lineeditor.pc
+%_libdir/pkgconfig/mono-options.pc
 %_libdir/pkgconfig/mono.pc
 %_libdir/pkgconfig/smcs.pc
 %_bindir/al
@@ -530,6 +564,7 @@ rm -rf %{buildroot}
 %_bindir/mono-api-info
 %_bindir/mono-api-info1
 %_bindir/mono-api-info2
+%_bindir/mono-cil-strip
 %_bindir/mono-find-provides
 %_bindir/mono-find-requires
 %_bindir/mono-shlib-cop
@@ -562,6 +597,7 @@ rm -rf %{buildroot}
 %_mandir/man1/makecert.1*
 %_mandir/man1/mkbundle.1*
 %_mandir/man1/monoburg.*
+%_mandir/man1/mono-cil-strip.1*
 %_mandir/man1/mono-shlib-cop.1*
 %_mandir/man1/monodis.1*
 %_mandir/man1/monolinker.1*
@@ -574,6 +610,7 @@ rm -rf %{buildroot}
 %_mandir/man1/signcode.1*
 %_mandir/man1/al.1*
 %_mandir/man1/mono-xmltool.1*
+%_prefix/lib/mono-source-libs/
 %monodir/1.0/installutil.exe
 %monodir/1.0/installutil.exe.mdb
 %monodir/2.0/installutil.exe
@@ -581,6 +618,10 @@ rm -rf %{buildroot}
 #
 %monodir/1.0/macpack.exe*
 #
+%monodir/1.0/mono-cil-strip.exe*
+%monodir/2.0/mono-shlib-cop.exe
+%monodir/2.0/mono-shlib-cop.exe.config
+%monodir/2.0/mono-shlib-cop.exe.mdb
 %monodir/gac/Microsoft.Build.Tasks
 %monodir/2.0/Microsoft.Build.Tasks.dll
 %monodir/gac/Microsoft.Build.Framework
@@ -655,9 +696,6 @@ rm -rf %{buildroot}
 %monodir/1.0/signcode.exe.mdb
 %monodir/1.0/prj2make.exe
 %monodir/1.0/prj2make.exe.mdb
-%monodir/1.0/mono-shlib-cop.exe
-%monodir/1.0/mono-shlib-cop.exe.config
-%monodir/1.0/mono-shlib-cop.exe.mdb
 %monodir/1.0/mono-api-diff.exe
 %monodir/1.0/mono-api-info.exe
 %monodir/2.0/mono-api-info.exe
@@ -702,12 +740,21 @@ rm -rf %{buildroot}
 %monodir/2.0/Mono.Http.dll
 %monodir/gac/Mono.Web
 %monodir/2.0/Mono.Web.dll
+%monodir/gac/System.ComponentModel.DataAnnotations
+%monodir/2.0/System.ComponentModel.DataAnnotations.dll
+%monodir/gac/System.Web.Abstractions
+%monodir/2.0/System.Web.Abstractions.dll
+%monodir/gac/System.Web.DynamicData
+%monodir/2.0/System.Web.DynamicData.dll
 %monodir/gac/System.Web.Extensions
 %monodir/2.0/System.Web.Extensions.dll
-%monodir/3.5/System.Web.Extensions.dll
+%monodir/compat-2.0/System.Web.Extensions.dll
 %monodir/gac/System.Web.Extensions.Design
 %monodir/2.0/System.Web.Extensions.Design.dll
 %monodir/3.5/System.Web.Extensions.Design.dll
+%monodir/compat-2.0/System.Web.Extensions.Design.dll
+%monodir/gac/System.Web.Routing
+%monodir/2.0/System.Web.Routing.dll
 %monodir/gac/System.Runtime.Remoting
 %monodir/1.0/System.Runtime.Remoting.dll
 %monodir/2.0/System.Runtime.Remoting.dll
@@ -734,6 +781,8 @@ rm -rf %{buildroot}
 %monodir/1.0/xsd.exe.mdb
 %monodir/2.0/xsd.exe
 %monodir/2.0/xsd.exe.mdb
+%_libdir/pkgconfig/system.web.extensions.design_1.0.pc
+%_libdir/pkgconfig/system.web.extensions_1.0.pc
 
 %files jscript
 %defattr(-, root, root)
@@ -808,10 +857,10 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-, root, root)
-%monodir/1.0/sqlsharp.exe
-%monodir/1.0/sqlsharp.exe.mdb
 %_bindir/sqlsharp
 %_mandir/man1/sqlsharp.1*
+%monodir/2.0/sqlsharp.exe
+%monodir/2.0/sqlsharp.exe.mdb
 %monodir/gac/System.Data
 %monodir/1.0/System.Data.dll
 %monodir/2.0/System.Data.dll
@@ -898,4 +947,51 @@ rm -rf %{buildroot}
 %monodir/gac/nunit.mocks
 %{_libdir}/pkgconfig/mono-nunit.pc
 
+%files -n monodoc-core
+%defattr(-, root, root)
+%monodir/2.0/mdoc.exe*
+%monodir/1.0/mod.exe*
+%monodir/gac/monodoc
+%monodir/monodoc
+%{_bindir}/mdassembler
+%{_bindir}/mdoc
+%{_bindir}/mdoc-assemble
+%{_bindir}/mdoc-export-html
+%{_bindir}/mdoc-export-msxdoc
+%{_bindir}/mdoc-update
+%{_bindir}/mdoc-validate
+%{_bindir}/mdvalidater
+%{_bindir}/mod
+%{_bindir}/monodocer
+%{_bindir}/monodocs2html
+%{_bindir}/monodocs2slashdoc
+%{_prefix}/lib/monodoc
+%_libdir/pkgconfig/monodoc.pc
+%{_mandir}/man1/mdassembler.1*
+%{_mandir}/man1/mdoc-assemble.1*
+%{_mandir}/man1/mdoc-export-html.1*
+%{_mandir}/man1/mdoc-export-msxdoc.1*
+%{_mandir}/man1/mdoc-update.1*
+%{_mandir}/man1/mdoc-validate.1*
+%{_mandir}/man1/mdoc.1*
+%{_mandir}/man1/mdvalidater.1*
+%{_mandir}/man1/monodocer.1*
+%{_mandir}/man1/monodocs2html.1*
+%{_mandir}/man5/mdoc.5*
 
+%files wcf
+%defattr(-, root, root)
+%monodir/gac/System.IdentityModel
+%monodir/2.0/System.IdentityModel.dll
+%monodir/gac/System.IdentityModel.Selectors
+%monodir/2.0/System.IdentityModel.Selectors.dll
+%monodir/gac/System.Runtime.Serialization
+%monodir/2.0/System.Runtime.Serialization.dll
+%monodir/2.1/System.Runtime.Serialization.dll
+%monodir/gac/System.ServiceModel
+%monodir/2.0/System.ServiceModel.dll
+%monodir/2.1/System.ServiceModel.dll
+%monodir/gac/System.ServiceModel.Web
+%monodir/2.0/System.ServiceModel.Web.dll
+%monodir/2.1/System.ServiceModel.Web.dll
+%_libdir/pkgconfig/wcf.pc
