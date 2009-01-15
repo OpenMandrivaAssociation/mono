@@ -306,6 +306,8 @@ Mono implementation of WCF, Windows Communication Foundation
 
 %prep
 %setup -q
+free
+ulimit -a
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
