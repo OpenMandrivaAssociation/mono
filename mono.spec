@@ -321,11 +321,7 @@ automake
 %configure2_5x --with-preview=yes
 #--with-tls=__thread
 #gw parallel build broken in 1.2.3
-%if %bootstrap
 make
-%else
-make SN="/usr/bin/mono `pwd`/class/lib/net_1_1_bootstrap/sn.exe"
-%endif
 
 %check
 #gw unit tests in mcs/class/corlib fail
