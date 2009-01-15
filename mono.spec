@@ -306,8 +306,6 @@ Mono implementation of WCF, Windows Communication Foundation
 
 %prep
 %setup -q
-free
-ulimit -a
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
@@ -323,7 +321,11 @@ automake
 %configure2_5x --with-preview=yes
 #--with-tls=__thread
 #gw parallel build broken in 1.2.3
+%if %bootstrap
 make
+%else
+make SN=/usr/bin/sn
+%endif
 
 %check
 #gw unit tests in mcs/class/corlib fail
