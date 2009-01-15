@@ -324,7 +324,7 @@ automake
 %if %bootstrap
 make
 %else
-make SN=/usr/bin/sn
+make SN="/usr/bin/mono `pwd`/class/lib/net_1_1_bootstrap/sn.exe"
 %endif
 
 %check
