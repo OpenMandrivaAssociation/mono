@@ -30,6 +30,8 @@ Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
 Patch8: mono-2.2-format-strings.patch
+#gw https://bugzilla.novell.com/show_bug.cgi?id=458168
+Patch9: mono-r121596-work-around-runtime-crash.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -313,6 +315,7 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
 %patch8 -p1
+%patch9 -p0
 aclocal -I .
 autoconf
 automake
