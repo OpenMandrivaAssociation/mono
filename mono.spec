@@ -22,10 +22,6 @@ Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-2.2-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
-#gw fix for this bug:
-# https://bugzilla.novell.com/show_bug.cgi?id=381151
-# (DataAdapter returns 0 rows after an SQL timeout occured)
-Patch3: mono-fix-bug-381151.patch
 Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
@@ -311,7 +307,6 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
-#%patch3 -p1 -b .ado
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
 %patch8 -p1
