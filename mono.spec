@@ -1,6 +1,6 @@
 %define name	mono
-%define version 2.2
-%define release %mkrel 2
+%define version 2.4
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -25,9 +25,7 @@ Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
-Patch8: mono-2.2-format-strings.patch
-#gw https://bugzilla.novell.com/show_bug.cgi?id=458168
-Patch9: mono-r121596-work-around-runtime-crash.patch
+Patch8: mono-2.4-format-strings.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -309,11 +307,8 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch2 -p0 -b .cve-2007-5197
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
-%patch8 -p1
-%patch9 -p0
-aclocal -I .
-autoconf
-automake
+%patch8 -p1 -b .format-strings
+autoreconf -fi
 
 %build
 %configure2_5x --with-preview=yes
@@ -412,9 +407,6 @@ rm -rf %{buildroot}
 %monodir/1.0/setreg.exe.mdb
 %monodir/1.0/sn.exe
 %monodir/1.0/sn.exe.mdb
-###
-%monodir/1.0/transform.exe
-###
 %monodir/gac/cscompmgd
 %monodir/1.0/cscompmgd.dll
 %monodir/2.0/cscompmgd.dll
@@ -452,6 +444,7 @@ rm -rf %{buildroot}
 %monodir/2.1/System.Xml.dll
 %monodir/gac/System.Xml.Linq
 %monodir/2.0/System.Xml.Linq.dll
+%monodir/2.1/System.Xml.Linq.dll
 %monodir/gac/System
 %monodir/1.0/System.dll
 %monodir/2.0/System.dll
@@ -545,7 +538,6 @@ rm -rf %{buildroot}
 %_bindir/dtd2xsd
 %_bindir/genxs
 %_bindir/genxs1
-%_bindir/genxs2
 %_bindir/httpcfg
 %_bindir/ilasm
 %_bindir/ilasm1
@@ -558,10 +550,7 @@ rm -rf %{buildroot}
 %_bindir/mkbundle
 %_bindir/mkbundle1
 %_bindir/mkbundle2
-%_bindir/mono-api-diff
 %_bindir/mono-api-info
-%_bindir/mono-api-info1
-%_bindir/mono-api-info2
 %_bindir/mono-cil-strip
 %_bindir/mono-find-provides
 %_bindir/mono-find-requires
@@ -594,7 +583,6 @@ rm -rf %{buildroot}
 #
 %_mandir/man1/makecert.1*
 %_mandir/man1/mkbundle.1*
-%_mandir/man1/monoburg.*
 %_mandir/man1/mono-cil-strip.1*
 %_mandir/man1/mono-shlib-cop.1*
 %_mandir/man1/monodis.1*
@@ -644,7 +632,6 @@ rm -rf %{buildroot}
 %monodir/2.0/xbuild.rsp
 %monodir/1.0/*ake*ert.exe
 %monodir/1.0/*ake*ert.exe.mdb
-%monodir/1.0/CorCompare.exe
 %monodir/1.0/al.exe
 %monodir/1.0/al.exe.mdb
 %monodir/2.0/al.exe
@@ -694,8 +681,6 @@ rm -rf %{buildroot}
 %monodir/1.0/signcode.exe.mdb
 %monodir/1.0/prj2make.exe
 %monodir/1.0/prj2make.exe.mdb
-%monodir/1.0/mono-api-diff.exe
-%monodir/1.0/mono-api-info.exe
 %monodir/2.0/mono-api-info.exe
 %monodir/2.0/xbuild.exe
 %monodir/2.0/xbuild.exe.mdb
@@ -779,6 +764,7 @@ rm -rf %{buildroot}
 %monodir/1.0/xsd.exe.mdb
 %monodir/2.0/xsd.exe
 %monodir/2.0/xsd.exe.mdb
+%_libdir/pkgconfig/mono.web.pc
 %_libdir/pkgconfig/system.web.extensions.design_1.0.pc
 %_libdir/pkgconfig/system.web.extensions_1.0.pc
 
@@ -820,9 +806,18 @@ rm -rf %{buildroot}
 %monodir/gac/System.Management
 %monodir/1.0/System.Management.dll
 %monodir/2.0/System.Management.dll
+%monodir/gac/RabbitMQ.Client
+%monodir/1.0/RabbitMQ.Client.dll
+%monodir/2.0/RabbitMQ.Client.dll
 %monodir/gac/System.Messaging
 %monodir/1.0/System.Messaging.dll
 %monodir/2.0/System.Messaging.dll
+%monodir/gac/Mono.Messaging
+%monodir/1.0/Mono.Messaging.dll
+%monodir/2.0/Mono.Messaging.dll
+%monodir/gac/Mono.Messaging.RabbitMQ
+%monodir/1.0/Mono.Messaging.RabbitMQ.dll
+%monodir/2.0/Mono.Messaging.RabbitMQ.dll
 %monodir/gac/System.ServiceProcess
 %monodir/1.0/System.ServiceProcess.dll
 %monodir/2.0/System.ServiceProcess.dll
@@ -931,10 +926,23 @@ rm -rf %{buildroot}
 %monodir/2.0/nunit-console.exe
 %monodir/2.0/nunit-console.exe.config
 %monodir/2.0/nunit-console.exe.mdb
+
+%monodir/gac/nunit-console-runner
+%monodir/1.0/nunit-console-runner.dll
+%monodir/2.0/nunit-console-runner.dll
 %monodir/1.0/nunit.core.dll
 %monodir/2.0/nunit.core.dll
+%monodir/gac/nunit.core.extensions
+%monodir/1.0/nunit.core.extensions.dll
+%monodir/2.0/nunit.core.extensions.dll
+%monodir/gac/nunit.core.interfaces
+%monodir/1.0/nunit.core.interfaces.dll
+%monodir/2.0/nunit.core.interfaces.dll
 %monodir/1.0/nunit.framework.dll
 %monodir/2.0/nunit.framework.dll
+%monodir/gac/nunit.framework.extensions
+%monodir/1.0/nunit.framework.extensions.dll
+%monodir/2.0/nunit.framework.extensions.dll
 %monodir/1.0/nunit.mocks.dll
 %monodir/2.0/nunit.mocks.dll
 %monodir/1.0/nunit.util.dll
