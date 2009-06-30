@@ -1,5 +1,5 @@
 %define name	mono
-%define version 2.4
+%define version 2.4.2
 %define release %mkrel 1
 
 %define major 0
@@ -25,7 +25,9 @@ Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
-Patch8: mono-2.4-format-strings.patch
+Patch8: mono-2.4.2-format-strings.patch
+#gw from Fedora, don't install header files twice
+Patch9: mono-242-metadata-appconf.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -308,6 +310,7 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
 %patch8 -p1 -b .format-strings
+%patch9 -p1
 autoreconf -fi
 
 %build
