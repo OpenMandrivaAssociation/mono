@@ -1,5 +1,5 @@
 %define name	mono
-%define version 2.4.2
+%define version 2.4.2.1
 %define release %mkrel 1
 
 %define major 0
