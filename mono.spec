@@ -741,6 +741,8 @@ rm -rf %{buildroot}
 %monodir/2.0/System.Web.Extensions.Design.dll
 %monodir/3.5/System.Web.Extensions.Design.dll
 %monodir/compat-2.0/System.Web.Extensions.Design.dll
+%monodir/gac/System.Web.Mvc
+%monodir/2.0/System.Web.Mvc.dll
 %monodir/gac/System.Web.Routing
 %monodir/2.0/System.Web.Routing.dll
 %monodir/gac/System.Runtime.Remoting
