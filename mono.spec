@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.4.2.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -456,8 +456,6 @@ rm -rf %{buildroot}
 %monodir/2.0/System.Configuration.dll
 %monodir/gac/System.Net
 %monodir/2.1/System.Net.dll
-%monodir/gac/System.Web.Mvc
-%monodir/2.0/System.Web.Mvc.dll
 %monodir/1.0/mscorlib.dll
 %monodir/1.0/mscorlib.dll.mdb
 %monodir/2.0/mscorlib.dll
