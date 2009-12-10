@@ -1,5 +1,5 @@
 %define name	mono
-%define version 2.4.2.3
+%define version 2.4.3
 %define release %mkrel 1
 
 %define major 0
@@ -26,8 +26,6 @@ Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
 Patch8: mono-2.4.2-format-strings.patch
-#gw from Fedora, don't install header files twice
-Patch9: mono-242-metadata-appconf.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -310,7 +308,6 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .linking
 %patch8 -p1 -b .format-strings
-%patch9 -p1
 autoreconf -fi
 
 %build
@@ -581,6 +578,7 @@ rm -rf %{buildroot}
 %_mandir/man1/genxs.1*
 %_mandir/man1/httpcfg.1*
 %_mandir/man1/ilasm*.1*
+%_mandir/man1/lc.1*
 #
 %_mandir/man1/macpack.1*
 #
@@ -599,7 +597,10 @@ rm -rf %{buildroot}
 %_mandir/man1/signcode.1*
 %_mandir/man1/al.1*
 %_mandir/man1/mono-xmltool.1*
+%_mandir/man1/xbuild.1*
 %_prefix/lib/mono-source-libs/
+%monodir/2.0/lc.exe
+%monodir/2.0/lc.exe.mdb
 %monodir/1.0/installutil.exe
 %monodir/1.0/installutil.exe.mdb
 %monodir/2.0/installutil.exe
@@ -689,6 +690,7 @@ rm -rf %{buildroot}
 %monodir/2.0/xbuild.exe.mdb
 %monodir/1.0/mono-xmltool.exe
 %monodir/1.0/mono-xmltool.exe.mdb
+%monodir/xbuild/
 %_datadir/mono-1.0/
 
 
@@ -772,6 +774,7 @@ rm -rf %{buildroot}
 %_libdir/pkgconfig/mono.web.pc
 %_libdir/pkgconfig/system.web.extensions.design_1.0.pc
 %_libdir/pkgconfig/system.web.extensions_1.0.pc
+%_libdir/pkgconfig/system.web.mvc.pc
 
 %files jscript
 %defattr(-, root, root)
