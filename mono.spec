@@ -1,5 +1,5 @@
 %define name	mono
-%define version 2.4.3
+%define version 2.6
 %define release %mkrel 1
 
 %define major 0
@@ -20,12 +20,12 @@ Source0:	http://www.go-mono.com/sources/%name/%name-%version.tar.bz2
 #gw add some major numbers to the dll map to not depend on -devel packages
 Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
-Patch1:		mono-2.2-selfexe.patch
+Patch1:		mono-2.6-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
 #gw fix building with --no-undefined enabled
 Patch5: mono-2.0-fix-linking.patch
-Patch8: mono-2.4.2-format-strings.patch
+Patch8: mono-2.6-format-strings.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -138,6 +138,21 @@ Jay is a LALR(1) parser generator for Java and C#.
 
 This is a port of Jay to C#, the original Jay can be found here:
 http://www.cs.rit.edu/~ats/projects/lp/doc/jay/package-summary.html
+
+%package winfxcore
+Summary: Mono implementation of core WinFX APIs
+Group: Development/Other
+Requires: mono %version
+
+%description winfxcore
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono implementation of core WinFX APIs
+
 	
 %package web
 Summary: ASP.NET, Remoting, and Web Services for Mono
@@ -367,7 +382,6 @@ rm -rf %{buildroot}
 %_bindir/mcs1
 %_bindir/mozroots
 %_bindir/setreg
-%_bindir/smcs
 %_bindir/sn
 %_mandir/man1/mono.1*
 %_mandir/man1/certmgr.1*
@@ -399,8 +413,6 @@ rm -rf %{buildroot}
 %monodir/1.0/mcs.exe.config
 %monodir/1.0/mcs.exe
 %monodir/1.0/mcs.exe.mdb
-%monodir/2.1/smcs.exe
-%monodir/2.1/smcs.exe.mdb
 %monodir/1.0/mozroots.exe
 %monodir/1.0/mozroots.exe.mdb
 %monodir/1.0/setreg.exe
@@ -419,7 +431,6 @@ rm -rf %{buildroot}
 %monodir/gac/Mono.CompilerServices.SymbolWriter
 %monodir/1.0/Mono.CompilerServices.SymbolWriter.dll
 %monodir/2.0/Mono.CompilerServices.SymbolWriter.dll
-%monodir/2.1/Mono.CompilerServices.SymbolWriter.dll
 %monodir/gac/Mono.CSharp
 %monodir/2.0/Mono.CSharp.dll
 %monodir/gac/Mono.GetOptions
@@ -432,33 +443,27 @@ rm -rf %{buildroot}
 %monodir/2.0/Mono.Security.dll
 %monodir/gac/Mono.Simd
 %monodir/2.0/Mono.Simd.dll
+%monodir/2.0/Mono.Tasklets.dll
+%monodir/gac/Mono.Tasklets
 %monodir/gac/System.Core
 %monodir/2.0/System.Core.dll
-%monodir/2.1/System.Core.dll
 %monodir/gac/System.Security
 %monodir/1.0/System.Security.dll
 %monodir/2.0/System.Security.dll
 %monodir/gac/System.Xml
 %monodir/1.0/System.Xml.dll
 %monodir/2.0/System.Xml.dll
-%monodir/2.1/System.Xml.dll
 %monodir/gac/System.Xml.Linq
 %monodir/2.0/System.Xml.Linq.dll
-%monodir/2.1/System.Xml.Linq.dll
 %monodir/gac/System
 %monodir/1.0/System.dll
 %monodir/2.0/System.dll
-%monodir/2.1/System.dll
 %monodir/gac/System.Configuration
 %monodir/2.0/System.Configuration.dll
-%monodir/gac/System.Net
-%monodir/2.1/System.Net.dll
 %monodir/1.0/mscorlib.dll
 %monodir/1.0/mscorlib.dll.mdb
 %monodir/2.0/mscorlib.dll
 %monodir/2.0/mscorlib.dll.mdb
-%monodir/2.1/mscorlib.dll
-%monodir/2.1/mscorlib.dll.mdb
 %monodir/gac/Mono.C5
 %monodir/2.0/Mono.C5.dll
 %monodir/gac/System.Drawing
@@ -527,7 +532,6 @@ rm -rf %{buildroot}
 %_libdir/pkgconfig/mono-lineeditor.pc
 %_libdir/pkgconfig/mono-options.pc
 %_libdir/pkgconfig/mono.pc
-%_libdir/pkgconfig/smcs.pc
 %_bindir/al
 %_bindir/al1
 %_bindir/al2
@@ -543,6 +547,7 @@ rm -rf %{buildroot}
 %_bindir/ilasm1
 %_bindir/ilasm2
 %_bindir/installvst
+%_bindir/lc
 #
 %_bindir/macpack
 #
@@ -554,6 +559,7 @@ rm -rf %{buildroot}
 %_bindir/mono-cil-strip
 %_bindir/mono-find-provides
 %_bindir/mono-find-requires
+%_bindir/mono-gdb.py
 %_bindir/mono-shlib-cop
 %_bindir/mono-xmltool
 %_bindir/monodis
@@ -570,6 +576,7 @@ rm -rf %{buildroot}
 %_bindir/secutil
 %_bindir/sgen
 %_bindir/signcode
+%_bindir/pdb2mdb
 %_bindir/xbuild
 %_bindir/monograph
 %_mandir/man1/cert2spc.1*
@@ -597,6 +604,7 @@ rm -rf %{buildroot}
 %_mandir/man1/signcode.1*
 %_mandir/man1/al.1*
 %_mandir/man1/mono-xmltool.1*
+%_mandir/man1/pdb2mdb.1*
 %_mandir/man1/xbuild.1*
 %_prefix/lib/mono-source-libs/
 %monodir/2.0/lc.exe
@@ -609,17 +617,27 @@ rm -rf %{buildroot}
 %monodir/1.0/macpack.exe*
 #
 %monodir/1.0/mono-cil-strip.exe*
+%monodir/2.0/monolinker.exe
+%monodir/2.0/monolinker.exe.mdb
 %monodir/2.0/mono-shlib-cop.exe
 %monodir/2.0/mono-shlib-cop.exe.config
 %monodir/2.0/mono-shlib-cop.exe.mdb
+%monodir/2.0/mono-xmltool.exe
+%monodir/2.0/mono-xmltool.exe.mdb
 %monodir/gac/Microsoft.Build.Tasks
 %monodir/2.0/Microsoft.Build.Tasks.dll
 %monodir/gac/Microsoft.Build.Framework
 %monodir/2.0/Microsoft.Build.Framework.dll
+%monodir/3.5/Microsoft.Build.Framework.dll
 %monodir/gac/Microsoft.Build.Utilities
 %monodir/2.0/Microsoft.Build.Utilities.dll
 %monodir/gac/Microsoft.Build.Engine
 %monodir/2.0/Microsoft.Build.Engine.dll
+%monodir/3.5/Microsoft.Build.Engine.dll
+%monodir/3.5/Microsoft.Build.Tasks.v3.5.dll
+%monodir/gac/Microsoft.Build.Tasks.v3.5
+%monodir/3.5/Microsoft.Build.Utilities.v3.5.dll
+%monodir/gac/Microsoft.Build.Utilities.v3.5
 %monodir/gac/PEAPI
 %monodir/1.0/PEAPI.dll
 %monodir/2.0/PEAPI.dll
@@ -632,6 +650,8 @@ rm -rf %{buildroot}
 #
 %monodir/gac/Mono.Cecil/
 %monodir/gac/Mono.Cecil.Mdb/
+%monodir/gac/Mono.Debugger*
+%monodir/2.0/Mono.Debugger*
 %monodir/2.0/MSBuild
 %monodir/2.0/xbuild.rsp
 %monodir/1.0/*ake*ert.exe
@@ -666,7 +686,6 @@ rm -rf %{buildroot}
 %monodir/1.0/mkbundle.exe.mdb
 %monodir/2.0/mkbundle.exe
 %monodir/2.0/mkbundle.exe.mdb
-%monodir/1.0/monolinker*
 %monodir/1.0/monop.exe
 %monodir/1.0/monop.exe.mdb
 %monodir/2.0/monop.exe
@@ -686,12 +705,13 @@ rm -rf %{buildroot}
 %monodir/1.0/prj2make.exe
 %monodir/1.0/prj2make.exe.mdb
 %monodir/2.0/mono-api-info.exe
+%monodir/2.0/pdb2mdb.exe
+%monodir/2.0/pdb2mdb.exe.mdb
 %monodir/2.0/xbuild.exe
 %monodir/2.0/xbuild.exe.mdb
-%monodir/1.0/mono-xmltool.exe
-%monodir/1.0/mono-xmltool.exe.mdb
 %monodir/xbuild/
 %_datadir/mono-1.0/
+
 
 
 %files -n jay
@@ -700,6 +720,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/jay*
 %dir %{_datadir}/jay
 %{_datadir}/jay/*
+
+%files -n mono-winfxcore
+%defattr(-, root, root)
+%monodir/gac/WindowsBase
+%monodir/2.0/WindowsBase.dll*
 
 %files web
 %defattr(-, root, root)
@@ -858,10 +883,14 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-, root, root)
+%_bindir/sqlmetal
 %_bindir/sqlsharp
 %_mandir/man1/sqlsharp.1*
 %monodir/2.0/sqlsharp.exe
 %monodir/2.0/sqlsharp.exe.mdb
+%monodir/2.0/sqlmetal.exe
+%monodir/2.0/sqlmetal.exe.config
+%monodir/2.0/sqlmetal.exe.mdb
 %monodir/gac/System.Data
 %monodir/1.0/System.Data.dll
 %monodir/2.0/System.Data.dll
@@ -869,6 +898,8 @@ rm -rf %{buildroot}
 %monodir/2.0/System.Data.DataSetExtensions.dll
 %monodir/gac/System.Data.Linq
 %monodir/2.0/System.Data.Linq.dll
+%monodir/gac/System.Data.Services
+
 %monodir/gac/Mono.Data
 %monodir/1.0/Mono.Data.dll
 %monodir/2.0/Mono.Data.dll
@@ -995,17 +1026,17 @@ rm -rf %{buildroot}
 
 %files wcf
 %defattr(-, root, root)
+%_bindir/svcutil
+%monodir/2.0/svcutil.exe
+%monodir/2.0/svcutil.exe.mdb
 %monodir/gac/System.IdentityModel
 %monodir/2.0/System.IdentityModel.dll
 %monodir/gac/System.IdentityModel.Selectors
 %monodir/2.0/System.IdentityModel.Selectors.dll
 %monodir/gac/System.Runtime.Serialization
 %monodir/2.0/System.Runtime.Serialization.dll
-%monodir/2.1/System.Runtime.Serialization.dll
 %monodir/gac/System.ServiceModel
 %monodir/2.0/System.ServiceModel.dll
-%monodir/2.1/System.ServiceModel.dll
 %monodir/gac/System.ServiceModel.Web
 %monodir/2.0/System.ServiceModel.Web.dll
-%monodir/2.1/System.ServiceModel.Web.dll
 %_libdir/pkgconfig/wcf.pc
