@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.6
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -142,7 +142,7 @@ http://www.cs.rit.edu/~ats/projects/lp/doc/jay/package-summary.html
 %package winfxcore
 Summary: Mono implementation of core WinFX APIs
 Group: Development/Other
-Requires: mono %version
+Requires: mono = %version
 
 %description winfxcore
 The Mono Project is an open development initiative that is working to
