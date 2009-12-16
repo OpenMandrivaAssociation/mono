@@ -120,6 +120,7 @@ Requires: 	mono-winforms = %version
 Requires: 	mono-nunit = %version
 Requires: 	monodoc-core = %version
 Requires:	mono-wcf = %version
+Requires:	mono-winfxcore = %version
 Conflicts: 	mono-nunit < %version-%release
 Provides:	mono-devel = %version-%release
 Provides:	libmono-devel = %version-%release
