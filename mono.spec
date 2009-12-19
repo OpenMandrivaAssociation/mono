@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.6.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -327,9 +327,8 @@ Mono implementation of WCF, Windows Communication Foundation
 autoreconf -fi
 
 %build
-%configure2_5x --with-preview=yes
-#--with-tls=__thread
-#gw parallel build broken in 1.2.3
+%configure2_5x --with-preview=yes --with-oprofile=%_prefix
+#gw parallel build broken in 2.6
 make
 
 %check
