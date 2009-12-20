@@ -31,6 +31,9 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
 BuildRequires:	bison
 BuildRequires:	zlib-devel
+%if %mdvver >= 201010
+BuildRequires:  oprofile-devel
+%endif	
 Requires:	libmono = %version
 # gw requires by System.Drawing
 Requires: 	libgdiplus
@@ -327,7 +330,11 @@ Mono implementation of WCF, Windows Communication Foundation
 autoreconf -fi
 
 %build
-%configure2_5x --with-preview=yes --with-oprofile=%_prefix
+%configure2_5x --with-preview=yes \
+%if %mdvver >= 201010
+ --with-oprofile=%_prefix
+%endif
+
 #gw parallel build broken in 2.6
 make
 
