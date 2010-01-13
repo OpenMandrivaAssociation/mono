@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.6.1
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -531,7 +531,7 @@ rm -rf %{buildroot}
 %_includedir/mono-1.0/*
 %{_libdir}/*.a
 %attr(644,root,root) %{_libdir}/*.la
-%{_libdir}/libmono*.so
+%_libdir/libmono*.so
 %_libdir/pkgconfig/cecil.pc
 %_libdir/pkgconfig/dotnet.pc
 %_libdir/pkgconfig/dotnet35.pc
@@ -539,6 +539,13 @@ rm -rf %{buildroot}
 %_libdir/pkgconfig/mono-lineeditor.pc
 %_libdir/pkgconfig/mono-options.pc
 %_libdir/pkgconfig/mono.pc
+%_libdir/pkgconfig/mono.web.pc
+%_libdir/pkgconfig/system.web.extensions.design_1.0.pc
+%_libdir/pkgconfig/system.web.extensions_1.0.pc
+%_libdir/pkgconfig/system.web.mvc.pc
+%_libdir/pkgconfig/mono-nunit.pc
+%_libdir/pkgconfig/monodoc.pc
+%_libdir/pkgconfig/wcf.pc
 %_bindir/al
 %_bindir/al1
 %_bindir/al2
@@ -803,10 +810,6 @@ rm -rf %{buildroot}
 %monodir/1.0/xsd.exe.mdb
 %monodir/2.0/xsd.exe
 %monodir/2.0/xsd.exe.mdb
-%_libdir/pkgconfig/mono.web.pc
-%_libdir/pkgconfig/system.web.extensions.design_1.0.pc
-%_libdir/pkgconfig/system.web.extensions_1.0.pc
-%_libdir/pkgconfig/system.web.mvc.pc
 
 %files jscript
 %defattr(-, root, root)
@@ -997,7 +1000,6 @@ rm -rf %{buildroot}
 %monodir/gac/nunit.framework
 %monodir/gac/nunit.util
 %monodir/gac/nunit.mocks
-%{_libdir}/pkgconfig/mono-nunit.pc
 
 %files -n monodoc-core
 %defattr(-, root, root)
@@ -1018,7 +1020,6 @@ rm -rf %{buildroot}
 %{_bindir}/monodocs2html
 %{_bindir}/monodocs2slashdoc
 %{_prefix}/lib/monodoc
-%_libdir/pkgconfig/monodoc.pc
 %{_mandir}/man1/mdassembler.1*
 %{_mandir}/man1/mdoc-assemble.1*
 %{_mandir}/man1/mdoc-export-html.1*
@@ -1046,4 +1047,4 @@ rm -rf %{buildroot}
 %monodir/2.0/System.ServiceModel.dll
 %monodir/gac/System.ServiceModel.Web
 %monodir/2.0/System.ServiceModel.Web.dll
-%_libdir/pkgconfig/wcf.pc
+
