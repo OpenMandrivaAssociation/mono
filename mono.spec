@@ -1,6 +1,6 @@
 %define name	mono
-%define version 2.6.1
-%define release %mkrel 3
+%define version 2.6.3
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -852,6 +852,8 @@ rm -rf %{buildroot}
 %monodir/gac/RabbitMQ.Client
 %monodir/1.0/RabbitMQ.Client.dll
 %monodir/2.0/RabbitMQ.Client.dll
+%monodir/1.0/RabbitMQ.Client.Apigen.exe*
+%monodir/2.0/RabbitMQ.Client.Apigen.exe*
 %monodir/gac/System.Messaging
 %monodir/1.0/System.Messaging.dll
 %monodir/2.0/System.Messaging.dll
