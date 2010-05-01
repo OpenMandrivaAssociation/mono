@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.6.4
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -23,8 +23,6 @@ Patch0:		mono-dllmap.patch
 Patch1:		mono-2.6-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
-#gw fix building with --no-undefined enabled
-Patch5: mono-2.0-fix-linking.patch
 Patch8: mono-2.6-format-strings.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -325,9 +323,7 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
 %patch4 -p1 -b .glop
-%patch5 -p1 -b .linking
 %patch8 -p1 -b .format-strings
-autoreconf -fi
 
 %build
 %configure2_5x --with-preview=yes \
