@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.6.4
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -23,7 +23,6 @@ Patch0:		mono-dllmap.patch
 Patch1:		mono-2.6-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
-Patch8: mono-2.6-format-strings.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -323,9 +322,11 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
 %patch4 -p1 -b .glop
-%patch8 -p1 -b .format-strings
 
 %build
+#gw else the syslog() call will not build
+#https://bugzilla.novell.com/show_bug.cgi?id=590967#c16
+%define Werror_cflags %nil
 %configure2_5x --with-preview=yes \
 %if %mdvver >= 201010
  --with-oprofile=%_prefix
