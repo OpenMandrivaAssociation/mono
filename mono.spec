@@ -23,6 +23,7 @@ Patch0:		mono-dllmap.patch
 Patch1:		mono-2.6-selfexe.patch
 Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
+Patch5:         enable_require_glib.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libglib2-devel >= 2.2.0
@@ -322,6 +323,7 @@ Mono implementation of WCF, Windows Communication Foundation
 %patch1 -p1 -b .selfexe
 %patch2 -p0 -b .cve-2007-5197
 %patch4 -p1 -b .glop
+%patch5 -p0 -b .enable_require_glib
 
 %build
 #gw else the syslog() call will not build
