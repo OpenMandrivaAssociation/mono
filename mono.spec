@@ -1,6 +1,6 @@
 %define name	mono
-%define version 2.6.4
-%define release %mkrel 4
+%define version 2.6.7
+%define release %mkrel 1
 
 %define major 0
 %define libname %mklibname %{name} %{major}
@@ -666,6 +666,7 @@ rm -rf %{buildroot}
 %monodir/gac/Mono.Debugger*
 %monodir/2.0/Mono.Debugger*
 %monodir/2.0/MSBuild
+%monodir/3.5/MSBuild
 %monodir/2.0/xbuild.rsp
 %monodir/1.0/*ake*ert.exe
 %monodir/1.0/*ake*ert.exe.mdb
@@ -722,6 +723,10 @@ rm -rf %{buildroot}
 %monodir/2.0/pdb2mdb.exe.mdb
 %monodir/2.0/xbuild.exe
 %monodir/2.0/xbuild.exe.mdb
+%monodir/3.5/*.tasks
+%monodir/3.5/*.targets
+%monodir/3.5/xbuild.*
+%monodir/3.5/Microsoft.Build.xsd
 %monodir/xbuild/
 %_datadir/mono-1.0/
 
@@ -781,6 +786,7 @@ rm -rf %{buildroot}
 %monodir/compat-2.0/System.Web.Extensions.Design.dll
 %monodir/gac/System.Web.Mvc
 %monodir/2.0/System.Web.Mvc.dll
+%monodir/compat-2.0/System.Web.Mvc.dll
 %monodir/gac/System.Web.Routing
 %monodir/2.0/System.Web.Routing.dll
 %monodir/gac/System.Runtime.Remoting
