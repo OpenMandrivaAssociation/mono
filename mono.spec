@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.8
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define major1 1
@@ -46,7 +46,8 @@ BuildRequires:  oprofile-devel
 BuildRequires: llvm > 2.7
 Recommends: %libnamellvm = %version-%release
 %endif
-Requires:	libmono = %version
+Requires:	%libname1 = %version
+Requires:	%libname = %version
 # gw requires by System.Drawing
 Requires: 	libgdiplus
 # Since mono 0.91 (mdk 10.0) we can rely on included config
