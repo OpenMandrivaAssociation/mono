@@ -408,6 +408,9 @@ rm -f %buildroot%_mandir/man1/cilc.1*
 rm -f %buildroot%monodir/*/browsercaps-updater.exe*
 rm -f %buildroot%monodir/*/culevel.exe*
 rm -f %buildroot%monodir/*/cilc.exe*
+#gw not in 2.8 as well:
+rm -f %buildroot%_bindir/prj2make
+rm -f %buildroot%_mandir/man1/prj2make.1*
 
 %find_lang mcs
 
@@ -655,7 +658,6 @@ rm -rf %{buildroot}
 %_bindir/monop2
 %_bindir/pedump
 %_bindir/permview
-%_bindir/prj2make
 %_bindir/resgen
 %_bindir/resgen2
 %_bindir/secutil
@@ -683,7 +685,6 @@ rm -rf %{buildroot}
 %_mandir/man1/monolinker.1*
 %_mandir/man1/monop.1*
 %_mandir/man1/permview.1*
-%_mandir/man1/prj2make.1*
 %_mandir/man1/resgen.1*
 %_mandir/man1/secutil.1*
 %_mandir/man1/sgen.1*
