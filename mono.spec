@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.8
-%define release %mkrel 4
+%define release %mkrel 5
 
 %define major 0
 %define major1 1
@@ -57,6 +57,25 @@ Provides:	libmono-runtime
 Obsoletes:      libmono-runtime
 # gw this is for some binary-only packages, the versions are retargetted
 # by the mono runtime
+Provides:        mono(mscorlib) = 1.0.3300.0 
+Provides:        mono(System) = 1.0.3300.0 
+Provides:        mono(System.Drawing) = 1.0.3300.0 
+Provides:        mono(System.Xml) = 1.0.3300.0 
+Provides:       mono(Commons.Xml.Relaxng) = 1.0.5000.0
+Provides:       mono(CustomMarshalers) = 1.0.5000.0
+Provides:       mono(I18N) = 1.0.5000.0
+Provides:       mono(I18N.West) = 1.0.5000.0
+Provides:       mono(ICSharpCode.SharpZipLib) = 0.6.0.0
+Provides:       mono(ICSharpCode.SharpZipLib) = 0.84.0.0
+Provides:       mono(Mono.Cairo) = 1.0.5000.0
+Provides:       mono(Mono.CompilerServices.SymbolWriter) = 1.0.5000.0
+Provides:       mono(Mono.Posix) = 1.0.5000.0
+Provides:       mono(Mono.Security) = 1.0.5000.0
+Provides:       mono(OpenSystem.C) = 1.0.5000.0
+Provides:       mono(System) = 1.0.5000.0
+Provides:       mono(System.Security) = 1.0.5000.0
+Provides:       mono(System.Xml) = 1.0.5000.0
+Provides:       mono(mscorlib) = 1.0.5000.0
 %if ! %bootstrap
 #gw needed for mono-find-requires which needs monodis and libmono.so
 BuildRequires: mono-devel
@@ -164,6 +183,8 @@ Provides:	mono-devel = %version-%release
 Provides:	libmono-devel = %version-%release
 Obsoletes:  %mklibname -d %{name} 0
 Conflicts: update-alternatives < 1.9.0
+Provides:       mono(PEAPI) = 1.0.5000.0
+Provides:       mono(resgen) = 1.0.5000.0
 
 %description -n %libnamedev
 Header files and libraries used to embed the Mono runtime in an application.
@@ -187,6 +208,12 @@ Mono implementation of core WinFX APIs
 Summary: ASP.NET, Remoting, and Web Services for Mono
 Group:	 	  Development/Other
 Requires: mono = %version
+Provides:        mono(System.Web) = 1.0.3300.0
+Provides:       mono(Mono.Http) = 1.0.5000.0
+Provides:       mono(System.Runtime.Remoting) = 1.0.5000.0
+Provides:       mono(System.Runtime.Serialization.Formatters.Soap) = 1.0.5000.0
+Provides:       mono(System.Web) = 1.0.5000.0
+Provides:       mono(System.Web.Services) = 1.0.5000.0
 
 %description web
 This package provides the ASP.NET libraries and runtime for
@@ -196,6 +223,7 @@ development of web application, web services and remoting support.
 Summary: Oracle database connectivity for Mono
 Group:	 	Development/Other
 Requires:	mono = %version
+Provides:       mono(System.Data.OracleClient) = 1.0.5000.0
 
 %description data-oracle
 This package contains the ADO.NET Data provider for the Oracle
@@ -205,6 +233,12 @@ database.
 Summary: Database connectivity for Mono
 Group:	 	  Development/Other
 Requires:	  mono = %version
+Provides:       mono(System.Data) = 1.0.3300.0 
+Provides:       mono(Mono.Data.Tds) = 1.0.5000.0
+Provides:       mono(Novell.Directory.Ldap) = 1.0.5000.0
+Provides:       mono(System.Data) = 1.0.5000.0
+Provides:       mono(System.DirectoryServices) = 1.0.5000.0
+Provides:       mono(System.EnterpriseServices) = 1.0.5000.0
 
 %description data
 This package provides a Mono assembly to facilitate data access and
@@ -218,6 +252,14 @@ providers.
 Summary: Infrastructure for running and building daemons and services
 Group:	 	  Development/Other
 Requires:	  mono = %version
+Provides:       mono(Mono.Messaging) = 1.0.5000.0
+Provides:       mono(Mono.Messaging.RabbitMQ) = 1.0.5000.0
+Provides:       mono(RabbitMQ.Client) = 1.0.5000.0
+Provides:       mono(System.Configuration.Install) = 1.0.5000.0
+Provides:       mono(System.Management) = 1.0.5000.0
+Provides:       mono(System.Messaging) = 1.0.5000.0
+Provides:       mono(System.ServiceProcess) = 1.0.5000.0
+Provides:       mono(mono-service) = 1.0.5000.0
 
 %description extras
 This package provides the libary and application to run services and
@@ -239,6 +281,12 @@ Summary: Windows Forms implementation for Mono
 Group:	 	 Development/Other
 Requires:	 mono = %version
 Requires: gluezilla >= 2.0
+Provides:        mono(System.Windows.Forms) = 1.0.3300.0 
+Provides:       mono(Accessibility) = 1.0.5000.0
+Provides:       mono(System.Design) = 1.0.5000.0
+Provides:       mono(System.Drawing) = 1.0.5000.0
+Provides:       mono(System.Drawing.Design) = 1.0.5000.0
+Provides:       mono(System.Windows.Forms) = 1.0.5000.0
 
 %description winforms
 This package provides a fully managed implementation of
@@ -249,6 +297,10 @@ applications.
 Summary: Extra locale information for Mono
 Group:	       Development/Other
 Requires:      mono = %version
+Provides:       mono(I18N.CJK) = 1.0.5000.0
+Provides:       mono(I18N.MidEast) = 1.0.5000.0
+Provides:       mono(I18N.Other) = 1.0.5000.0
+Provides:       mono(I18N.Rare) = 1.0.5000.0
 
 %description locale-extras
 This package contains assemblies to support I18N applications for
