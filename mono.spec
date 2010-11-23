@@ -190,6 +190,8 @@ Obsoletes:  %mklibname -d %{name} 0
 Conflicts: update-alternatives < 1.9.0
 Provides:       mono(PEAPI) = 1.0.5000.0
 Provides:       mono(resgen) = 1.0.5000.0
+Provides: mono-bytefx-data-mysql mono-data-firebird mono-data-sybase mono-jscript
+Obsoletes: mono-bytefx-data-mysql mono-data-firebird mono-data-sybase mono-jscript
 
 %description -n %libnamedev
 Header files and libraries used to embed the Mono runtime in an application.
