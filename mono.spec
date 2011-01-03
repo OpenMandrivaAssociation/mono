@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.8.1
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define major1 1
@@ -287,7 +287,8 @@ Universal database.
 Summary: Windows Forms implementation for Mono
 Group:	 	 Development/Other
 Requires:	 mono = %version
-Requires: gluezilla >= 2.0
+#gw not available on Cooker
+#Requires: gluezilla >= 2.0
 Provides:        mono(System.Windows.Forms) = 1.0.3300.0 
 Provides:       mono(Accessibility) = 1.0.5000.0
 Provides:       mono(System.Design) = 1.0.5000.0
@@ -413,6 +414,8 @@ rm -f %buildroot%monodir/*/cilc.exe*
 #gw not in 2.8 as well:
 rm -f %buildroot%_bindir/prj2make
 rm -f %buildroot%_mandir/man1/prj2make.1*
+#gw not usable on Cooker:
+rm -rf %buildroot/%monodir/*/Mono.WebBrowser*
 
 %find_lang mcs
 
@@ -893,9 +896,9 @@ rm -rf %{buildroot}
 %monodir/gac/System.Drawing.Design
 %monodir/2.0/System.Drawing.Design.dll
 %monodir/4.0/System.Drawing.Design.dll
-%monodir/gac/Mono.WebBrowser
-%monodir/2.0/Mono.WebBrowser.dll
-%monodir/4.0/Mono.WebBrowser.dll
+#%monodir/gac/Mono.WebBrowser
+#%monodir/2.0/Mono.WebBrowser.dll
+#%monodir/4.0/Mono.WebBrowser.dll
 
 %files extras
 %defattr(-, root, root)
