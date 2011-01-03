@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.8.1
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define major1 1
@@ -9,7 +9,7 @@
 %define libname1 %mklibname %{name} 2.0 %{major1}
 %define libnamedev %mklibname -d %{name}
 
-%define bootstrap 0
+%define bootstrap 1
 %{?_with_bootstrap: %{expand: %%global bootstrap 1}}
 %define monodir %_prefix/lib/mono
 
@@ -415,7 +415,8 @@ rm -f %buildroot%monodir/*/cilc.exe*
 rm -f %buildroot%_bindir/prj2make
 rm -f %buildroot%_mandir/man1/prj2make.1*
 #gw not usable on Cooker:
-rm -rf %buildroot/%monodir/*/Mono.WebBrowser*
+#gw it is still needed for the deps
+#rm -rf %buildroot/%monodir/*/Mono.WebBrowser*
 
 %find_lang mcs
 
@@ -896,9 +897,9 @@ rm -rf %{buildroot}
 %monodir/gac/System.Drawing.Design
 %monodir/2.0/System.Drawing.Design.dll
 %monodir/4.0/System.Drawing.Design.dll
-#%monodir/gac/Mono.WebBrowser
-#%monodir/2.0/Mono.WebBrowser.dll
-#%monodir/4.0/Mono.WebBrowser.dll
+%monodir/gac/Mono.WebBrowser
+%monodir/2.0/Mono.WebBrowser.dll
+%monodir/4.0/Mono.WebBrowser.dll
 
 %files extras
 %defattr(-, root, root)
