@@ -1,5 +1,5 @@
 %define name	mono
-%define version 2.8.2
+%define version 2.10
 %define release %mkrel 1
 
 %define major 0
@@ -37,7 +37,6 @@ Source1: mono.snk
 Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-2.6-selfexe.patch
-Patch2:		mono-CVE-2007-5197.patch
 Patch4: mono-wapi_glop.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -369,7 +368,6 @@ Mono implementation of WCF, Windows Communication Foundation
 %setup -q
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
-%patch2 -p0 -b .cve-2007-5197
 %patch4 -p1 -b .glop
 
 %build
@@ -437,6 +435,7 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %dir %{_sysconfdir}/mono
 %dir %{_sysconfdir}/mono/2.0/
+%dir %{_sysconfdir}/mono/4.0/
 %config(noreplace) %{_sysconfdir}/mono/2.0/machine.config
 %config(noreplace) %{_sysconfdir}/mono/4.0/machine.config
 %config(noreplace) %{_sysconfdir}/mono/2.0/settings.map
@@ -488,6 +487,7 @@ rm -rf %{buildroot}
 %monodir/4.0/gacutil.exe*
 %monodir/2.0/gmcs.exe*
 %monodir/4.0/certmgr.exe*
+%monodir/2.0/mcs.exe*
 %monodir/4.0/mozroots.exe*
 %monodir/4.0/setreg.exe*
 %monodir/4.0/sn.exe*
@@ -524,6 +524,9 @@ rm -rf %{buildroot}
 %monodir/gac/System.Core
 %monodir/2.0/System.Core.dll
 %monodir/4.0/System.Core.dll
+%monodir/gac/System.Net
+%monodir/2.0/System.Net.dll
+%monodir/4.0/System.Net.dll
 %monodir/gac/System.Security
 %monodir/2.0/System.Security.dll
 %monodir/4.0/System.Security.dll
@@ -560,8 +563,8 @@ rm -rf %{buildroot}
 %monodir/gac/ICSharpCode.SharpZipLib
 %monodir/2.0/ICSharpCode.SharpZipLib.dll
 %monodir/4.0/ICSharpCode.SharpZipLib.dll
+%dir %monodir/compat-2.0/
 %monodir/compat-2.0/ICSharpCode.SharpZipLib.dll
-%monodir/compat-4.0/ICSharpCode.SharpZipLib.dll
 %monodir/gac/Microsoft.VisualC
 %monodir/2.0/Microsoft.VisualC.dll
 %monodir/gac/Commons.Xml.Relaxng
@@ -625,6 +628,7 @@ rm -rf %{buildroot}
 %_libdir/pkgconfig/mono-options.pc
 %_libdir/pkgconfig/mono.pc
 %_libdir/pkgconfig/mono-2.pc
+%_libdir/pkgconfig/monosgen-2.pc
 %_libdir/pkgconfig/mono.web.pc
 %_libdir/pkgconfig/system.web.extensions.design_1.0.pc
 %_libdir/pkgconfig/system.web.extensions_1.0.pc
@@ -662,6 +666,7 @@ rm -rf %{buildroot}
 %_bindir/monolinker
 %_bindir/monop
 %_bindir/monop2
+%_bindir/mprof-report
 %_bindir/pedump
 %_bindir/permview
 %_bindir/resgen
@@ -690,6 +695,7 @@ rm -rf %{buildroot}
 %_mandir/man1/monodis.1*
 %_mandir/man1/monolinker.1*
 %_mandir/man1/monop.1*
+%_mandir/man1/mprof-report.1*
 %_mandir/man1/permview.1*
 %_mandir/man1/resgen.1*
 %_mandir/man1/secutil.1*
@@ -757,6 +763,7 @@ rm -rf %{buildroot}
 %monodir/4.0/Mono.CodeContracts.dll
 %monodir/gac/Mono.Debugger*
 %monodir/2.0/Mono.Debugger*
+%monodir/4.0/Mono.Debugger*
 %monodir/2.0/MSBuild
 %monodir/3.5/MSBuild
 %monodir/4.0/MSBuild
@@ -800,6 +807,8 @@ rm -rf %{buildroot}
 %files -n mono-winfxcore
 %defattr(-, root, root)
 %monodir/gac/System.Data.Services.Client
+%monodir/2.0/System.Data.Services.Client.dll
+%monodir/4.0/System.Data.Services.Client.dll
 %monodir/gac/WindowsBase
 %monodir/2.0/WindowsBase.dll*
 %monodir/4.0/WindowsBase.dll*
@@ -825,6 +834,8 @@ rm -rf %{buildroot}
 %_mandir/man1/soapsuds.1*
 %_mandir/man1/wsdl.1*
 %_mandir/man1/xsd.1*
+%monodir/gac/Microsoft.Web.Infrastructure
+%monodir/4.0/Microsoft.Web.Infrastructure.dll
 %monodir/gac/Mono.Http
 %monodir/2.0/Mono.Http.dll
 %monodir/4.0/Mono.Http.dll
@@ -850,7 +861,6 @@ rm -rf %{buildroot}
 %monodir/compat-2.0/System.Web.Extensions.dll
 %monodir/gac/System.Web.Extensions.Design
 %monodir/2.0/System.Web.Extensions.Design.dll
-%monodir/3.5/System.Web.Extensions.Design.dll
 %monodir/4.0/System.Web.Extensions.Design.dll
 %monodir/compat-2.0/System.Web.Extensions.Design.dll
 %monodir/gac/System.Web.Mvc
@@ -988,6 +998,8 @@ rm -rf %{buildroot}
 %monodir/gac/System.Transactions
 %monodir/2.0/System.Transactions.dll
 %monodir/4.0/System.Transactions.dll
+%monodir/gac/WebMatrix.Data
+%monodir/4.0/WebMatrix.Data.dll
 
 
 %files locale-extras
@@ -1048,7 +1060,7 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %monodir/gac/monodoc
 %monodir/monodoc
-%monodir/4.0/mdoc.exe*
+%monodir/2.0/mdoc.exe*
 %monodir/4.0/mod.exe*
 %{_bindir}/mdassembler
 %{_bindir}/mdoc
