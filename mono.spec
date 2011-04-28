@@ -446,6 +446,7 @@ rm -rf %{buildroot}
 %if %sgen == yes
 %_bindir/mono-sgen
 %endif
+%{_bindir}/mono-sgen-gdb.py
 %_bindir/mono-test-install
 %_bindir/csharp
 %_bindir/csharp2
@@ -800,6 +801,7 @@ rm -rf %{buildroot}
 %monodir/3.5/xbuild.*
 %monodir/3.5/Microsoft.Build.xsd
 %monodir/xbuild/
+%monodir/xbuild-frameworks/
 %_datadir/mono-2.0/
 
 
