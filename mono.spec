@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.10.2
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define major1 1
@@ -9,7 +9,7 @@
 %define libname1 %mklibname %{name} 2.0 %{major1}
 %define libnamedev %mklibname -d %{name}
 
-%define bootstrap 0
+%define bootstrap 1
 %{?_with_bootstrap: %{expand: %%global bootstrap 1}}
 %define monodir %_prefix/lib/mono
 
@@ -52,6 +52,8 @@ Recommends: %libnamellvm = %version-%release
 %endif
 Requires:	%libname1 = %version
 Requires:	%libname = %version
+Requires:	%name-2.0 = %version-%release
+Requires:	%name-4.0 = %version-%release
 # gw requires by System.Drawing
 Requires: 	libgdiplus
 # Since mono 0.91 (mdk 10.0) we can rely on included config
@@ -59,27 +61,6 @@ Obsoletes:	mono-config
 Provides:	mono-config
 Provides:	libmono-runtime
 Obsoletes:      libmono-runtime
-# gw this is for some binary-only packages, the versions are retargetted
-# by the mono runtime
-Provides:        mono(mscorlib) = 1.0.3300.0 
-Provides:        mono(System) = 1.0.3300.0 
-Provides:        mono(System.Drawing) = 1.0.3300.0 
-Provides:        mono(System.Xml) = 1.0.3300.0 
-Provides:       mono(Commons.Xml.Relaxng) = 1.0.5000.0
-Provides:       mono(CustomMarshalers) = 1.0.5000.0
-Provides:       mono(I18N) = 1.0.5000.0
-Provides:       mono(I18N.West) = 1.0.5000.0
-Provides:       mono(ICSharpCode.SharpZipLib) = 0.6.0.0
-Provides:       mono(ICSharpCode.SharpZipLib) = 0.84.0.0
-Provides:       mono(Mono.Cairo) = 1.0.5000.0
-Provides:       mono(Mono.CompilerServices.SymbolWriter) = 1.0.5000.0
-Provides:       mono(Mono.Posix) = 1.0.5000.0
-Provides:       mono(Mono.Security) = 1.0.5000.0
-Provides:       mono(OpenSystem.C) = 1.0.5000.0
-Provides:       mono(System) = 1.0.5000.0
-Provides:       mono(System.Security) = 1.0.5000.0
-Provides:       mono(System.Xml) = 1.0.5000.0
-Provides:       mono(mscorlib) = 1.0.5000.0
 %if ! %bootstrap
 #gw needed for mono-find-requires which needs monodis and libmono.so
 BuildRequires: mono-devel
@@ -95,6 +76,62 @@ This package contains the core of the Mono runtime including its
 Virtual Machine, Just-in-time compiler, C# compiler, security tools
 and libraries (corlib, XML, System.Security, System.Drawing, ZipLib,
 I18N, Cairo and Mono.*).
+
+%package 2.0
+Summary:	2.0 API for mono
+Group:		Development/Other
+Requires:	%{name} = %{version}-%{release}
+Conflicts:	mono < 2.10.2-2
+
+%description 2.0
+Mono is an implementation of the ECMA Common Language Infrastructure,
+it contains both a just-in-time compiler for maximum performance, and
+an interpeter.  It can also be used to run programs from the .NET
+Framework.
+
+This package contains 2.0 API for mono.
+
+%package 4.0
+Summary:	4.0 API for mono
+Group:		Development/Other
+Requires:	%{name} = %{version}-%{release}
+Conflicts:	mono < 2.10.2-2
+
+%description 4.0
+Mono is an implementation of the ECMA Common Language Infrastructure,
+it contains both a just-in-time compiler for maximum performance, and
+an interpeter.  It can also be used to run programs from the .NET
+Framework.
+
+This package contains 4.0 API for mono.
+
+%package compat
+Summary:	Compatible API for mono
+Group:		Development/Other
+Requires:	%{name} = %{version}
+# gw this is for some binary-only packages, the versions are retargetted
+# by the mono runtime
+Provides:	mono(Commons.Xml.Relaxng) = 1.0.5000.0
+Provides:	mono(CustomMarshalers) = 1.0.5000.0
+Provides:	mono(I18N) = 1.0.5000.0
+Provides:	mono(I18N.West) = 1.0.5000.0
+Provides:	mono(Mono.Cairo) = 1.0.5000.0
+Provides:	mono(Mono.CompilerServices.SymbolWriter) = 1.0.5000.0
+Provides:	mono(Mono.Posix) = 1.0.5000.0
+Provides:	mono(Mono.Security) = 1.0.5000.0
+Provides:	mono(OpenSystem.C) = 1.0.5000.0
+Provides:	mono(System) = 1.0.5000.0
+Provides:	mono(System.Security) = 1.0.5000.0
+Provides:	mono(System.Xml) = 1.0.5000.0
+Provides:	mono(mscorlib) = 1.0.5000.0
+
+%description compat
+Mono is an implementation of the ECMA Common Language Infrastructure,
+it contains both a just-in-time compiler for maximum performance, and
+an interpeter.  It can also be used to run programs from the .NET
+Framework.
+
+This package contains compatible API for mono.
 
 %package doc
 Summary:	Documentation for the Mono runtime
@@ -474,109 +511,156 @@ rm -rf %{buildroot}
 %_mandir/man5/mono-config.5*
 %dir %monodir
 %dir %monodir/gac/
-%dir %monodir/2.0/
 %dir %monodir/3.5/
-%dir %monodir/4.0/
 %monodir/mono-configuration-crypto
+
+%files 2.0
+%defattr(-, root, root)
+%dir %monodir/2.0
+%monodir/2.0/Commons.Xml.Relaxng.dll
+%monodir/2.0/CustomMarshalers.dll
+%monodir/2.0/I18N.West.dll
+%monodir/2.0/I18N.dll
+%monodir/2.0/ICSharpCode.SharpZipLib.dll
+%monodir/2.0/Microsoft.VisualC.dll
+%monodir/2.0/Mono.C5.dll
+%monodir/2.0/Mono.CSharp.dll
+%monodir/2.0/Mono.Cairo.dll
+%monodir/2.0/Mono.CompilerServices.SymbolWriter.dll
+%monodir/2.0/Mono.Management.dll
+%monodir/2.0/Mono.Posix.dll
+%monodir/2.0/Mono.Security.dll
+%monodir/2.0/Mono.Simd.dll
+%monodir/2.0/Mono.Tasklets.dll
+%monodir/2.0/OpenSystem.C.dll
+%monodir/2.0/System.Configuration.dll
+%monodir/2.0/System.Core.dll
+%monodir/2.0/System.Drawing.dll
+%monodir/2.0/System.Net.dll
+%monodir/2.0/System.Security.dll
+%monodir/2.0/System.Xml.Linq.dll
+%monodir/2.0/System.Xml.dll
+%monodir/2.0/System.dll
+%monodir/2.0/cscompmgd.dll
 %monodir/2.0/csharp.exe
 %monodir/2.0/csharp.exe.mdb
-%monodir/4.0/csharp.exe*
-%monodir/4.0/chktrust.exe*
-%monodir/4.0/dmcs.exe*
 %monodir/2.0/gacutil.exe
 %monodir/2.0/gacutil.exe.mdb
-%monodir/4.0/gacutil.exe*
-%monodir/2.0/gmcs.exe*
-%monodir/4.0/certmgr.exe*
-%monodir/2.0/mcs.exe*
-%monodir/4.0/mozroots.exe*
-%monodir/4.0/setreg.exe*
-%monodir/4.0/sn.exe*
-%monodir/gac/cscompmgd
-%monodir/2.0/cscompmgd.dll
-%monodir/4.0/cscompmgd.dll
-%monodir/gac/I18N.West
-%monodir/2.0/I18N.West.dll
+%monodir/2.0/gmcs.exe
+%monodir/2.0/gmcs.exe.config
+%monodir/2.0/gmcs.exe.mdb
+%monodir/2.0/mcs.exe
+%monodir/2.0/mcs.exe.so
+%monodir/2.0/mscorlib.dll
+%monodir/2.0/mscorlib.dll.mdb
+%monodir/2.0/mscorlib.dll.so
+%monodir/gac/Commons.Xml.Relaxng/2.0.0.0*
+%monodir/gac/CustomMarshalers/2.0.0.0*
+%monodir/gac/I18N.West/2.0.0.0*
+%monodir/gac/I18N/2.0.0.0*
+%monodir/gac/ICSharpCode.SharpZipLib/2.84.0.0*
+%monodir/gac/Microsoft.VisualC/8.0.0.0*
+%monodir/gac/Mono.C5/1.1.0.0*
+%monodir/gac/Mono.CSharp/2.0.0.0*
+%monodir/gac/Mono.CompilerServices.SymbolWrter/2.0.0.0*
+%monodir/gac/Mono.Management/2.0.0.0*
+%monodir/gac/Mono.Security/2.0.0.0*
+%monodir/gac/Mono.Simd/2.0.0.0*
+%monodir/gac/Mono.Tasklets/2.0.0.0*
+%monodir/gac/OpenSystem.C/2.0.0.0*
+%monodir/gac/System.Configuration/2.0.0.0*
+%monodir/gac/System.Core/3.5.0.0*
+%monodir/gac/System.Drawing/2.0.0.0*
+%monodir/gac/System.Net/3.5.0.0*
+%monodir/gac/System.Security/2.0.0.0*
+%monodir/gac/System.Xml.Linq/3.5.0.0*
+%monodir/gac/System.Xml/2.0.0.0*
+%monodir/gac/System/2.0.0.0*
+%monodir/gac/cscompmgd/8.0.0.0*
+
+%files 4.0
+%defattr(-, root, root)
+%monodir/4.0/Commons.Xml.Relaxng.dll
+%monodir/4.0/CustomMarshalers.dll
 %monodir/4.0/I18N.West.dll
-%monodir/gac/I18N
-%monodir/2.0/I18N.dll
 %monodir/4.0/I18N.dll
-%monodir/gac/Microsoft.CSharp
+%monodir/4.0/ICSharpCode.SharpZipLib.dll
 %monodir/4.0/Microsoft.CSharp.dll
 %monodir/4.0/Microsoft.VisualC.dll
-%monodir/gac/Mono.CompilerServices.SymbolWriter
-%monodir/2.0/Mono.CompilerServices.SymbolWriter.dll
-%monodir/4.0/Mono.CompilerServices.SymbolWriter.dll
-%monodir/gac/Mono.CSharp
-%monodir/2.0/Mono.CSharp.dll
-%monodir/4.0/Mono.CSharp.dll
-%monodir/gac/Mono.Management
-%monodir/2.0/Mono.Management.dll
-%monodir/4.0/Mono.Management.dll
-%monodir/gac/Mono.Security
-%monodir/2.0/Mono.Security.dll
-%monodir/4.0/Mono.Security.dll
-%monodir/gac/Mono.Simd
-%monodir/2.0/Mono.Simd.dll
-%monodir/4.0/Mono.Simd.dll
-%monodir/2.0/Mono.Tasklets.dll
-%monodir/4.0/Mono.Tasklets.dll
-%monodir/gac/Mono.Tasklets
-%monodir/gac/System.Core
-%monodir/2.0/System.Core.dll
-%monodir/4.0/System.Core.dll
-%monodir/gac/System.Net
-%monodir/2.0/System.Net.dll
-%monodir/4.0/System.Net.dll
-%monodir/gac/System.Security
-%monodir/2.0/System.Security.dll
-%monodir/4.0/System.Security.dll
-%monodir/gac/System.Xml
-%monodir/2.0/System.Xml.dll
-%monodir/4.0/System.Xml.dll
-%monodir/gac/System.Xml.Linq
-%monodir/2.0/System.Xml.Linq.dll
-%monodir/4.0/System.Xml.Linq.dll
-%monodir/gac/System
-%monodir/2.0/System.dll
-%monodir/4.0/System.dll
-%monodir/gac/System.Configuration
-%monodir/2.0/System.Configuration.dll
-%monodir/4.0/System.Configuration.dll
-%monodir/2.0/mscorlib.dll*
-%monodir/4.0/mscorlib.dll*
-%monodir/gac/Mono.C5
-%monodir/2.0/Mono.C5.dll
 %monodir/4.0/Mono.C5.dll
-%monodir/gac/System.Drawing
-%monodir/2.0/System.Drawing.dll
-%monodir/4.0/System.Drawing.dll
-%monodir/gac/System.Dynamic
-%monodir/4.0/System.Dynamic.dll
-%monodir/gac/System.Numerics
-%monodir/4.0/System.Numerics.dll
-%monodir/gac/Mono.Posix
-%monodir/2.0/Mono.Posix.dll
-%monodir/4.0/Mono.Posix.dll
-%monodir/gac/Mono.Cairo
-%monodir/2.0/Mono.Cairo.dll
+%monodir/4.0/Mono.CSharp.dll
 %monodir/4.0/Mono.Cairo.dll
-%monodir/gac/ICSharpCode.SharpZipLib
-%monodir/2.0/ICSharpCode.SharpZipLib.dll
-%monodir/4.0/ICSharpCode.SharpZipLib.dll
+%monodir/4.0/Mono.CompilerServices.SymbolWriter.dll
+%monodir/4.0/Mono.Management.dll
+%monodir/4.0/Mono.Posix.dll
+%monodir/4.0/Mono.Security.dll
+%monodir/4.0/Mono.Simd.dll
+%monodir/4.0/Mono.Tasklets.dll
+%monodir/4.0/OpenSystem.C.dll
+%monodir/4.0/System.Configuration.dll
+%monodir/4.0/System.Core.dll
+%monodir/4.0/System.Drawing.dll
+%monodir/4.0/System.Dynamic.dll
+%monodir/4.0/System.Net.dll
+%monodir/4.0/System.Numerics.dll
+%monodir/4.0/System.Security.dll
+%monodir/4.0/System.Xml.Linq.dll
+%monodir/4.0/System.Xml.dll
+%monodir/4.0/System.dll
+%monodir/4.0/certmgr.exe
+%monodir/4.0/certmgr.exe.mdb
+%monodir/4.0/chktrust.exe
+%monodir/4.0/chktrust.exe.mdb
+%monodir/4.0/cscompmgd.dll
+%monodir/4.0/csharp.exe
+%monodir/4.0/csharp.exe.mdb
+%monodir/4.0/dmcs.exe
+%monodir/4.0/dmcs.exe.config
+%monodir/4.0/dmcs.exe.mdb
+%monodir/4.0/gacutil.exe
+%monodir/4.0/gacutil.exe.mdb
+%monodir/4.0/mozroots.exe
+%monodir/4.0/mozroots.exe.mdb
+%monodir/4.0/mscorlib.dll
+%monodir/4.0/mscorlib.dll.mdb
+%monodir/4.0/setreg.exe
+%monodir/4.0/setreg.exe.mdb
+%monodir/4.0/sn.exe
+%monodir/4.0/sn.exe.mdb
+%monodir/gac/Commons.Xml.Relaxng/4.0.0.0*
+%monodir/gac/CustomMarshalers/4.0.0.0*
+%monodir/gac/I18N.West/4.0.0.0*
+%monodir/gac/I18N/4.0.0.0*
+%monodir/gac/ICSharpCode.SharpZipLib/4.84.0.0*
+%monodir/gac/Microsoft.CSharp/4.0.0.0*
+%monodir/gac/Microsoft.VisualC/0.0.0.0*
+%monodir/gac/Mono.C5/1.1.0.0*
+%monodir/gac/Mono.CSharp/4.0.0.0*
+%monodir/gac/Mono.Cairo/4.0.0.0*
+%monodir/gac/Mono.CompilerServices.SymbolWiter/4.0.0.0*
+%monodir/gac/Mono.Management/4.0.0.0*
+%monodir/gac/Mono.Posix/4.0.0.0*
+%monodir/gac/Mono.Security/4.0.0.0*
+%monodir/gac/Mono.Simd/4.0.0.0*
+%monodir/gac/Mono.Tasklets/4.0.0.0*
+%monodir/gac/OpenSystem.C/4.0.0.0*
+%monodir/gac/System.Configuration/4.0.0.0*
+%monodir/gac/System.Core/4.0.0.0*
+%monodir/gac/System.Drawing/4.0.0.0*
+%monodir/gac/System.Dynamic/4.0.0.0*
+%monodir/gac/System.Net/4.0.0.0*
+%monodir/gac/System.Numerics/4.0.0.0*
+%monodir/gac/System.Security/4.0.0.0*
+%monodir/gac/System.Xml.Linq/4.0.0.0*
+%monodir/gac/System.Xml/4.0.0.0*
+%monodir/gac/System/4.0.0.0*
+%monodir/gac/cscompmgd/0.0.0.0*
+
+%files compat
+%defattr(-, root, root)
 %dir %monodir/compat-2.0/
 %monodir/compat-2.0/ICSharpCode.SharpZipLib.dll
-%monodir/gac/Microsoft.VisualC
-%monodir/2.0/Microsoft.VisualC.dll
-%monodir/gac/Commons.Xml.Relaxng
-%monodir/2.0/Commons.Xml.Relaxng.dll
-%monodir/4.0/Commons.Xml.Relaxng.dll
-%monodir/gac/CustomMarshalers
-%monodir/2.0/CustomMarshalers.dll
-%monodir/4.0/CustomMarshalers.dll
-%monodir/gac/OpenSystem.C
-%monodir/2.0/OpenSystem.C.dll
-%monodir/4.0/OpenSystem.C.dll
+%monodir/gac/ICSharpCode.SharpZipLib/2.6.0.0*
 
 %files doc
 %defattr(-, root, root)
