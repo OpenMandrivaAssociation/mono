@@ -494,7 +494,7 @@ Group:         Development/Other
 Requires:      mono-2.0 = %version
 Conflicts:	mono-locale-extras < 2.10.2-2
 
-%description locale-extras
+%description locale-extras-2.0
 This package contains assemblies to support I18N applications for
 non-latin alphabets.
 
@@ -568,7 +568,7 @@ Group:		Development/Other
 Requires:	%name-2.0 = %version
 Conflicts:	%name-wcf < 2.10.2-2
 
-%description wcf
+%description wcf-2.0
 The Mono Project is an open development initiative that is working to
 develop an open source, Unix version of the .NET development platform.
 Its objective is to enable Unix developers to build and deploy
