@@ -473,6 +473,35 @@ daemons with Mono. It also includes stubs for the following .NET 1.1
 and 2.0 assemblies: Microsoft.Vsa, System.Configuration.Install,
 System.Management, System.Messaging.
 
+%package extras-2.0
+Summary: Infrastructure for running and building daemons and services
+Group:		Development/Other
+Requires:	mono-2.0 = %version
+Conflicts:	%name-extras < 2.10.2-2
+
+%description extras-2.0
+This package provides the libary and application to run services and
+daemons with Mono 2.0 API.
+
+%package extras-4.0
+Summary: Infrastructure for running and building daemons and services
+Group:		Development/Other
+Requires:	mono-4.0 = %version
+Conflicts:	%name-extras < 2.10.2-2
+
+%description extras-4.0
+This package provides the libary and application to run services and
+daemons with Mono 4.0 API.
+
+%package extras-compat
+Summary: Infrastructure for running and building daemons and services
+Group:		Development/Other
+Requires:	mono = %version
+
+%description extras-compat
+This package provides the libary and application to run services and
+daemons.
+
 %package ibm-data-db2
 Summary: IBM DB2 database connectivity for Mono 
 Group:	     Development/Other
@@ -1202,41 +1231,60 @@ rm -rf %{buildroot}
 
 %files extras
 %defattr(-, root, root)
-%monodir/gac/System.Management
-%monodir/2.0/System.Management.dll
-%monodir/4.0/System.Management.dll
-%monodir/gac/RabbitMQ.Client
-%monodir/2.0/RabbitMQ.Client.dll
-%monodir/4.0/RabbitMQ.Client.dll
-%monodir/2.0/RabbitMQ.Client.Apigen.exe*
-%monodir/4.0/RabbitMQ.Client.Apigen.exe*
-%monodir/gac/System.Messaging
-%monodir/2.0/System.Messaging.dll
-%monodir/4.0/System.Messaging.dll
-%monodir/gac/Mono.Messaging
-%monodir/2.0/Mono.Messaging.dll
-%monodir/4.0/Mono.Messaging.dll
-%monodir/gac/Mono.Messaging.RabbitMQ
-%monodir/2.0/Mono.Messaging.RabbitMQ.dll
-%monodir/4.0/Mono.Messaging.RabbitMQ.dll
-%monodir/gac/System.Runtime.Caching
-%monodir/4.0/System.Runtime.Caching.dll
-%monodir/gac/System.ServiceProcess
-%monodir/2.0/System.ServiceProcess.dll
-%monodir/4.0/System.ServiceProcess.dll
 %_bindir/mono-service
 %_bindir/mono-service2
-%monodir/4.0/installutil.exe*
+%_mandir/man1/mono-service.1*
+
+%files extras-2.0
+%defattr(-, root, root)
+%monodir/2.0/Mono.Messaging.RabbitMQ.dll
+%monodir/2.0/Mono.Messaging.dll
+%monodir/2.0/RabbitMQ.Client.Apigen.exe
+%monodir/2.0/RabbitMQ.Client.Apigen.exe.mdb
+%monodir/2.0/RabbitMQ.Client.dll
+%monodir/2.0/System.Configuration.Install.dll
+%monodir/2.0/System.Management.dll
+%monodir/2.0/System.Messaging.dll
+%monodir/2.0/System.ServiceProcess.dll
 %monodir/2.0/mono-service.exe
 %monodir/2.0/mono-service.exe.mdb
-%monodir/4.0/mono-service.exe*
-%monodir/gac/mono-service
-%_mandir/man1/mono-service.1*
-%monodir/gac/System.Configuration.Install
-%monodir/2.0/System.Configuration.Install.dll
+%monodir/gac/Mono.Messaging.RabbitMQ/2.0.0.0*
+%monodir/gac/Mono.Messaging/2.0.0.0*
+%monodir/gac/RabbitMQ.Client/2.0.0.0*
+%monodir/gac/System.Configuration.Install/2.0.0.0*
+%monodir/gac/System.Management/2.0.0.0*
+%monodir/gac/System.Messaging/2.0.0.0*
+%monodir/gac/System.ServiceProcess/2.0.0.0*
+
+%files extras-4.0
+%defattr(-, root, root)
+%monodir/4.0/Mono.Messaging.RabbitMQ.dll
+%monodir/4.0/Mono.Messaging.dll
+%monodir/4.0/RabbitMQ.Client.Apigen.exe
+%monodir/4.0/RabbitMQ.Client.Apigen.exe.mdb
+%monodir/4.0/RabbitMQ.Client.dll
 %monodir/4.0/System.Configuration.Install.dll
-%monodir/gac/System.Xaml
-%monodir/4.0/System.Xaml.dll*
+%monodir/4.0/System.Management.dll
+%monodir/4.0/System.Messaging.dll
+%monodir/4.0/System.Runtime.Caching.dll
+%monodir/4.0/System.ServiceProcess.dll
+%monodir/4.0/System.Xaml.dll
+%monodir/4.0/installutil.exe
+%monodir/4.0/installutil.exe.mdb
+%monodir/4.0/mono-service.exe
+%monodir/4.0/mono-service.exe.mdb
+%monodir/gac/Mono.Messaging.RabbitMQ/4.0.0.0*
+%monodir/gac/Mono.Messaging/4.0.0.0*
+%monodir/gac/RabbitMQ.Client/4.0.0.0*
+%monodir/gac/System.Configuration.Install/4.0.0.0*
+%monodir/gac/System.Management/4.0.0.0*
+%monodir/gac/System.Messaging/4.0.0.0*
+%monodir/gac/System.Runtime.Caching/4.0.0.0*
+%monodir/gac/System.ServiceProcess/4.0.0.0*
+%monodir/gac/System.Xaml/4.0.0.0*
+
+%files extras-compat
+%defattr(-, root, root)
 
 %files ibm-data-db2
 %defattr(-, root, root)
