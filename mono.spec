@@ -458,7 +458,7 @@ Group:		Development/Other
 Requires:	%{name}-4.0 = %version
 Conflicts:	mono-winforms < 2.10.2-2
 
-%description winforms
+%description winforms-4.0
 This package provides a fully managed implementation of
 System.Windows.Forms, the default graphical toolkit for .NET
 applications.
