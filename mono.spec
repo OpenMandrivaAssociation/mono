@@ -550,9 +550,40 @@ Monodoc-core contains documentation tools for C#.
 %package wcf
 Summary:        Mono implementation of WCF, Windows Communication Foundation
 Group:          Development/Other
-Requires:	%name = %version
+Requires:	%name-wcf-2.0 = %version
+Requires:	%name-wcf-4.0 = %version
 
 %description wcf
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono implementation of WCF, Windows Communication Foundation
+
+%package wcf-2.0
+Summary:	Mono implementation of WCF, Windows Communication Foundation, API 2.0
+Group:		Development/Other
+Requires:	%name-2.0 = %version
+Conflicts:	%name-wcf < 2.10.2-2
+
+%description wcf
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono implementation of WCF, Windows Communication Foundation
+
+%package wcf-4.0
+Summary:	Mono implementation of WCF, Windows Communication Foundation, API 4.0
+Group:		Development/Other
+Requires:	%name-4.0 = %version
+Conflicts:	%name-wcf < 2.10.2-2
+
+%description wcf-4.0
 The Mono Project is an open development initiative that is working to
 develop an open source, Unix version of the .NET development platform.
 Its objective is to enable Unix developers to build and deploy
@@ -1429,23 +1460,33 @@ rm -rf %{buildroot}
 %files wcf
 %defattr(-, root, root)
 %_bindir/svcutil
-%monodir/4.0/svcutil.exe*
-%monodir/gac/System.IdentityModel
-%monodir/2.0/System.IdentityModel.dll
-%monodir/4.0/System.IdentityModel.dll
-%monodir/gac/System.IdentityModel.Selectors
-%monodir/2.0/System.IdentityModel.Selectors.dll
-%monodir/4.0/System.IdentityModel.Selectors.dll
-%monodir/gac/System.Runtime.DurableInstancing
-%monodir/4.0/System.Runtime.DurableInstancing.dll
-%monodir/gac/System.ServiceModel
-%monodir/2.0/System.ServiceModel.dll
-%monodir/4.0/System.ServiceModel.dll
-%monodir/gac/System.ServiceModel.Discovery
-%monodir/4.0/System.ServiceModel.Discovery.dll
-%monodir/gac/System.ServiceModel.Routing
-%monodir/4.0/System.ServiceModel.Routing.dll
-%monodir/gac/System.ServiceModel.Web
-%monodir/2.0/System.ServiceModel.Web.dll
-%monodir/4.0/System.ServiceModel.Web.dll
 
+%files wcf-2.0
+%defattr(-, root, root)
+%monodir/2.0/System.IdentityModel.Selectors.dll
+%monodir/2.0/System.IdentityModel.dll
+%monodir/2.0/System.ServiceModel.Web.dll
+%monodir/2.0/System.ServiceModel.dll
+%monodir/gac/System.IdentityModel.Selectors/3.0.0.0*
+%monodir/gac/System.IdentityModel/3.0.0.0*
+%monodir/gac/System.ServiceModel.Web/3.5.0.0*
+%monodir/gac/System.ServiceModel/3.0.0.0*
+
+%files wcf-4.0
+%defattr(-, root, root)
+%monodir/4.0/System.IdentityModel.Selectors.dll
+%monodir/4.0/System.IdentityModel.dll
+%monodir/4.0/System.Runtime.DurableInstancing.dll
+%monodir/4.0/System.ServiceModel.Discovery.dll
+%monodir/4.0/System.ServiceModel.Routing.dll
+%monodir/4.0/System.ServiceModel.Web.dll
+%monodir/4.0/System.ServiceModel.dll
+%monodir/4.0/svcutil.exe
+%monodir/4.0/svcutil.exe.mdb
+%monodir/gac/System.IdentityModel.Selectors/4.0.0.0*
+%monodir/gac/System.IdentityModel/4.0.0.0*
+%monodir/gac/System.Runtime.DurableInstancing/4.0.0.0*
+%monodir/gac/System.ServiceModel.Discovery/4.0.0.0*
+%monodir/gac/System.ServiceModel.Routing/4.0.0.0*
+%monodir/gac/System.ServiceModel.Web/4.0.0.0*
+%monodir/gac/System.ServiceModel/4.0.0.0*
