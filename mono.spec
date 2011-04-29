@@ -184,47 +184,6 @@ technologies that have been submitted to the ECMA for standardization.
 Loadable LLVM libary for mono.
 %endif
 
-%package data-sqlite
-Summary:	SQLite database connectivity for mono
-Group:		Development/Other
-Requires:	%{name}-data-sqlite-2.0 = %{version}-%{release}
-Requires:	%{name}-data-sqlite-4.0 = %{version}-%{release}
-
-%description data-sqlite
-Mono is an implementation of the ECMA Common Language Infrastructure,
-it contains both a just-in-time compiler for maximum performance, and
-an interpeter.  It can also be used to run programs from the .NET
-Framework.
-This package provides the connectivity to the sqlite database for Mono.
-
-%package data-sqlite-2.0
-Summary:	SQLite database connectivity for mono 2.0 API
-Group:		Development/Other
-Requires:	%{name}-2.0 = %{version}
-Conflicts:	mono-data-sqlite < 2.10.2-2
-
-%description data-sqlite-2.0
-Mono is an implementation of the ECMA Common Language Infrastructure,
-it contains both a just-in-time compiler for maximum performance, and
-an interpeter.  It can also be used to run programs from the .NET
-Framework.
-
-This package provides the connectivity to the sqlite database for Mono under 2.0 API.
-
-%package data-sqlite-4.0
-Summary:	SQLite database connectivity for mono 4.0 API
-Group:		Development/Other
-Requires:	%{name}-4.0 = %{version}
-Conflicts:	mono-data-sqlite < 2.10.2-2
-
-%description data-sqlite-4.0
-Mono is an implementation of the ECMA Common Language Infrastructure,
-it contains both a just-in-time compiler for maximum performance, and
-an interpeter.  It can also be used to run programs from the .NET
-Framework.
-
-This package provides the connectivity to the sqlite database for Mono under 4.0 API.
-
 %package -n %libnamedev
 Summary:	Tools required to embed the Mono runtime
 Group:		Development/Other
@@ -235,12 +194,8 @@ Requires:       %libnamellvm = %version-%release
 %endif
 Requires:	mono = %version
 Requires:       mono-data = %version
-Requires:       mono-data-sqlite = %version
-Requires: 	mono-data-oracle = %version
-Requires: 	mono-data-postgresql = %version
 Requires: 	mono-extras = %version
 Requires: 	mono-web = %version
-Requires: 	mono-ibm-data-db2 = %version
 Requires: 	mono-locale-extras = %version
 Requires: 	mono-winforms = %version
 Requires: 	mono-nunit = %version
@@ -351,48 +306,6 @@ Provides: mono(System.Web.Services) = 1.0.5000.0
 This package provides the ASP.NET compatible requirements for
 development of web application, web services and remoting support.
 
-%package data-oracle
-Summary: Oracle database connectivity for Mono
-Group:	 	Development/Other
-Requires:	mono = %version
-Requires:	%{name}-data-oracle-2.0 = %version
-Requires:	%{name}-data-oracle-4.0 = %version
-Requires:	%{name}-data-oracle-compat = %version
-
-%description data-oracle
-This package contains the ADO.NET Data provider for the Oracle
-database.
-
-%package data-oracle-2.0
-Summary: Oracle database connectivity for Mono 2.0 API
-Group:		Development/Other
-Requires:	mono-2.0 = %version
-Conflicts:	mono-data-oracle < 2.10.2-2
-
-%description data-oracle-2.0
-This package contains the ADO.NET 2.0 Data provider for the Oracle
-database.
-
-%package data-oracle-4.0
-Summary: Oracle database connectivity for Mono 4.0 API
-Group:		Development/Other
-Requires:	mono-4.0 = %version
-Conflicts:	mono-data-oracle < 2.10.2-2
-
-%description data-oracle-4.0
-This package contains the ADO.NET 4.0 Data provider for the Oracle
-database.
-
-%package data-oracle-compat
-Summary: Oracle database connectivity for Mono (Compatible package)
-Group:		Development/Other
-Requires:	%{name}-data-oracle = %version
-Provides:	mono(System.Data.OracleClient) = 1.0.5000.0
-
-%description data-oracle-compat
-This package contains the compatible ADO.NET Data provider for the Oracle
-database.
-
 %package data
 Summary: Database connectivity for Mono
 Group:	 	Development/Other
@@ -400,6 +313,10 @@ Requires:	mono = %version
 Requires:	%name-data-2.0 = %version
 Requires:	%name-data-4.0 = %version
 Requires:	%name-data-compat = %version
+Obsoletes:	%name-data-oracle < 2.10.2-2
+Obsoletes:	%name-data-postgresql < 2.10.2-2
+Obsoletes:	%name-data-sqlite < 2.10.2-2
+Obsoletes:	%name-ibm-data-db2 < 2.10.2-2
 
 %description data
 This package provides a Mono assembly to facilitate data access and
@@ -414,6 +331,10 @@ Summary: Database connectivity for Mono 2.0 API
 Group:		Development/Other
 Requires:	mono-2.0 = %version
 Conflicts:	mono-data < 2.10.2-2
+Conflicts:	%name-data-oracle < 2.10.2-2
+Conflicts:	%name-data-postgresql < 2.10.2-2
+Conflicts:	%name-data-sqlite < 2.10.2-2
+Conflicts:	%name-ibm-data-db2 < 2.10.2-2
 
 %description data-2.0
 This package provides a Mono assembly to facilitate data access and
@@ -428,6 +349,10 @@ Summary: Database connectivity for Mono
 Group:		Development/Other
 Requires:	mono-4.0 = %version
 Conflicts:	mono-data < 2.10.2-2
+Conflicts:	%name-data-oracle < 2.10.2-2
+Conflicts:	%name-data-postgresql < 2.10.2-2
+Conflicts:	%name-data-sqlite < 2.10.2-2
+Conflicts:	%name-ibm-data-db2 < 2.10.2-2
 
 %description data-4.0
 This package provides a Mono assembly to facilitate data access and
@@ -446,6 +371,8 @@ Provides:	mono(Novell.Directory.Ldap) = 1.0.5000.0
 Provides:	mono(System.Data) = 1.0.5000.0
 Provides:	mono(System.DirectoryServices) = 1.0.5000.0
 Provides:	mono(System.EnterpriseServices) = 1.0.5000.0
+Provides:	mono(Npgsql) = 1.0.5000.0
+Provides:	mono(System.Data.OracleClient) = 1.0.5000.0
 
 %description data-compat
 This package provides a Mono assembly to facilitate data access and
@@ -502,15 +429,6 @@ Requires:	mono-extras = %version
 %description extras-compat
 This package provides the libary and application to run services and
 daemons.
-
-%package ibm-data-db2
-Summary: IBM DB2 database connectivity for Mono 
-Group:	     Development/Other
-Requires:    mono = %version
-
-%description ibm-data-db2
-This package contains the ADO.NET Data provider for the IBM DB2
-Universal database.
 
 %package winforms
 Summary: Windows Forms implementation for Mono
@@ -602,18 +520,6 @@ Provides:       mono(I18N.Rare) = 1.0.5000.0
 %description locale-extras-compat
 This package contains assemblies to support I18N applications for
 non-latin alphabets.
-
-
-%package data-postgresql
-Summary: Postgresql database connectivity for Mono
-Group:	 	    Development/Other
-Requires:	    mono = %version
-Provides:       mono(Npgsql) = 1.0.5000.0
-
-%description data-postgresql
-This package contains the ADO.NET Data provider for the Postgresql
-database.
-
 
 %package nunit
 Summary:	NUnit Testing Framework
@@ -943,17 +849,6 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %{_libdir}/libmono-llvm.so.%{major}*
 %endif
-
-%files data-sqlite
-%defattr(-, root, root)
-
-%files data-sqlite-2.0
-%monodir/2.0/Mono.Data.Sqlite.dll
-%monodir/gac/Mono.Data.Sqlite/2.0.0.0*
-
-%files data-sqlite-4.0
-%monodir/4.0/Mono.Data.Sqlite.dll
-%monodir/gac/Mono.Data.Sqlite/4.0.0.0*
 
 %files -n %libnamedev
 %defattr(-, root, root)
@@ -1362,30 +1257,14 @@ rm -rf %{buildroot}
 %files extras-compat
 %defattr(-, root, root)
 
-%files ibm-data-db2
-%defattr(-, root, root)
-%monodir/gac/IBM.Data.DB2
-%monodir/2.0/IBM.Data.DB2.dll
-%monodir/4.0/IBM.Data.DB2.dll
-
-%files data-oracle
-%defattr(-, root, root)
-
-%files data-oracle-2.0
-%defattr(-, root, root)
-%monodir/2.0/System.Data.OracleClient.dll
-%monodir/gac/System.Data.OracleClient/2.0.0.0*
-
-%files data-oracle-4.0
-%defattr(-, root, root)
-%monodir/4.0/System.Data.OracleClient.dll
-%monodir/gac/System.Data.OracleClient/4.0.0.0*
-
 %files data
 %defattr(-, root, root)
 %_bindir/sqlmetal
 %_bindir/sqlsharp
 %_mandir/man1/sqlsharp.1*
+%monodir/gac/IBM.Data.DB2
+%monodir/2.0/IBM.Data.DB2.dll
+%monodir/4.0/IBM.Data.DB2.dll
 
 %files data-2.0
 %defattr(-, root, root)
@@ -1399,6 +1278,12 @@ rm -rf %{buildroot}
 %monodir/2.0/System.EnterpriseServices.dll
 %monodir/2.0/System.Runtime.Serialization.dll
 %monodir/2.0/System.Transactions.dll
+%monodir/2.0/Mono.Data.Sqlite.dll
+%monodir/2.0/System.Data.OracleClient.dll
+%monodir/2.0/Npgsql.dll
+%monodir/gac/Npgsql/2.0.0.0*
+%monodir/gac/System.Data.OracleClient/2.0.0.0*
+%monodir/gac/Mono.Data.Sqlite/2.0.0.0*
 %monodir/gac/Mono.Data.Tds/2.0.0.0*
 %monodir/gac/Novell.Directory.Ldap/2.0.0.0*
 %monodir/gac/System.Data.DataSetExtensions/3.5.0.0*
@@ -1428,6 +1313,12 @@ rm -rf %{buildroot}
 %monodir/4.0/sqlmetal.exe.mdb
 %monodir/4.0/sqlsharp.exe
 %monodir/4.0/sqlsharp.exe.mdb
+%monodir/4.0/Mono.Data.Sqlite.dll
+%monodir/4.0/System.Data.OracleClient.dll
+%monodir/4.0/Npgsql.dll
+%monodir/gac/Npgsql/4.0.0.0*
+%monodir/gac/System.Data.OracleClient/4.0.0.0*
+%monodir/gac/Mono.Data.Sqlite/4.0.0.0*
 %monodir/gac/Mono.Data.Tds/4.0.0.0*
 %monodir/gac/Novell.Directory.Ldap/4.0.0.0*
 %monodir/gac/System.Data.DataSetExtensions/4.0.0.0*
@@ -1470,12 +1361,6 @@ rm -rf %{buildroot}
 
 %files locale-extras-compat
 %defattr(-, root, root)
-
-%files data-postgresql
-%defattr(-, root, root)
-%monodir/gac/Npgsql
-%monodir/2.0/Npgsql.dll
-%monodir/4.0/Npgsql.dll
 
 %files nunit
 %defattr(-, root, root)
