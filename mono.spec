@@ -593,7 +593,8 @@ technologies that have been submitted to the ECMA for standardization.
 Mono implementation of WCF, Windows Communication Foundation
 
 %prep
-%setup -q
+%setup -qDT
+%if 0
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch4 -p1 -b .glop
@@ -619,6 +620,9 @@ make
 %check
 #gw unit tests in mcs/class/corlib fail
 #make check
+
+
+%endif
 
 %install
 rm -rf %{buildroot} installed-docs
@@ -704,6 +708,8 @@ rm -rf %{buildroot}
 %dir %monodir/gac/
 %dir %monodir/3.5/
 %monodir/mono-configuration-crypto
+%dir %monodir/gac/Mono.C5
+%monodir/gac/Mono.C5/1.1.0.0*
 
 %files 2.0
 %defattr(-, root, root)
@@ -751,10 +757,11 @@ rm -rf %{buildroot}
 %monodir/gac/I18N/2.0.0.0*
 %monodir/gac/ICSharpCode.SharpZipLib/2.84.0.0*
 %monodir/gac/Microsoft.VisualC/8.0.0.0*
-%monodir/gac/Mono.C5/1.1.0.0*
+%monodir/gac/Mono.Cairo/2.0.0.0*
 %monodir/gac/Mono.CSharp/2.0.0.0*
-%monodir/gac/Mono.CompilerServices.SymbolWrter/2.0.0.0*
+%monodir/gac/Mono.CompilerServices.SymbolWriter/2.0.0.0*
 %monodir/gac/Mono.Management/2.0.0.0*
+%monodir/gac/Mono.Posix/2.0.0.0*
 %monodir/gac/Mono.Security/2.0.0.0*
 %monodir/gac/Mono.Simd/2.0.0.0*
 %monodir/gac/Mono.Tasklets/2.0.0.0*
@@ -825,10 +832,9 @@ rm -rf %{buildroot}
 %monodir/gac/ICSharpCode.SharpZipLib/4.84.0.0*
 %monodir/gac/Microsoft.CSharp/4.0.0.0*
 %monodir/gac/Microsoft.VisualC/0.0.0.0*
-%monodir/gac/Mono.C5/1.1.0.0*
 %monodir/gac/Mono.CSharp/4.0.0.0*
 %monodir/gac/Mono.Cairo/4.0.0.0*
-%monodir/gac/Mono.CompilerServices.SymbolWiter/4.0.0.0*
+%monodir/gac/Mono.CompilerServices.SymbolWriter/4.0.0.0*
 %monodir/gac/Mono.Management/4.0.0.0*
 %monodir/gac/Mono.Posix/4.0.0.0*
 %monodir/gac/Mono.Security/4.0.0.0*
@@ -1081,7 +1087,7 @@ rm -rf %{buildroot}
 %monodir/2.0/System.Data.Services.Client.dll
 %monodir/gac/System.Data.Services.Client/3.5.0.0*
 %monodir/2.0/WindowsBase.dll*
-%monodir/gac/WindowsBase/3.0.0.0
+%monodir/gac/WindowsBase/3.0.0.0*
 
 %files winfxcore-4.0
 %defattr(-, root, root)
@@ -1257,6 +1263,7 @@ rm -rf %{buildroot}
 %monodir/gac/System.Management/2.0.0.0*
 %monodir/gac/System.Messaging/2.0.0.0*
 %monodir/gac/System.ServiceProcess/2.0.0.0*
+%monodir/gac/mono-service/2.0.0.0*
 
 %files extras-4.0
 %defattr(-, root, root)
@@ -1284,6 +1291,7 @@ rm -rf %{buildroot}
 %monodir/gac/System.Runtime.Caching/4.0.0.0*
 %monodir/gac/System.ServiceProcess/4.0.0.0*
 %monodir/gac/System.Xaml/4.0.0.0*
+%monodir/gac/mono-service/4.0.0.0*
 
 %files extras-compat
 %defattr(-, root, root)
