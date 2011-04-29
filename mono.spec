@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.10.2
-%define release %mkrel 2
+%define release %mkrel 3
 
 %define major 0
 %define major1 1
@@ -266,7 +266,7 @@ Group:	 	  Development/Other
 Requires: mono = %version
 Requires: %{name}-web-2.0 = %version
 Requires: %{name}-web-4.0 = %version
-Requires: %{name}-web-comapt = %version
+Requires: %{name}-web-compat = %version
 
 %description web
 This package provides the ASP.NET libraries and runtime for
