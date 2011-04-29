@@ -386,6 +386,7 @@ database.
 %package data-oracle-compat
 Summary: Oracle database connectivity for Mono (Compatible package)
 Group:		Development/Other
+Requires:	%{name}-data-oracle = %version
 Provides:	mono(System.Data.OracleClient) = 1.0.5000.0
 
 %description data-oracle-compat
@@ -439,7 +440,7 @@ providers.
 %package data-compat
 Summary: Database connectivity for Mono (Compatible package)
 Group:		Development/Other
-Requires:	mono = %version
+Requires:	mono-data = %version
 Provides:	mono(Mono.Data.Tds) = 1.0.5000.0
 Provides:	mono(Novell.Directory.Ldap) = 1.0.5000.0
 Provides:	mono(System.Data) = 1.0.5000.0
@@ -496,7 +497,7 @@ daemons with Mono 4.0 API.
 %package extras-compat
 Summary: Infrastructure for running and building daemons and services
 Group:		Development/Other
-Requires:	mono = %version
+Requires:	mono-extras = %version
 
 %description extras-compat
 This package provides the libary and application to run services and
@@ -513,18 +514,48 @@ Universal database.
 
 %package winforms
 Summary: Windows Forms implementation for Mono
-Group:	 	 Development/Other
-Requires:	 mono = %version
-#gw not available on Cooker
-#Requires: gluezilla >= 2.0
-Provides:        mono(System.Windows.Forms) = 1.0.3300.0 
+Group:		Development/Other
+Requires:	%{name}-winforms-2.0 = %version
+Requires:	%{name}-winforms-4.0 = %version
+
+%description winforms
+This package provides a fully managed implementation of
+System.Windows.Forms, the default graphical toolkit for .NET
+applications.
+
+%package winforms-2.0
+Summary: Windows Forms implementation for Mono 2.0 API
+Group:		Development/Other
+Requires:	%{name}-2.0 = %version
+Conflicts:	mono-winforms < 2.10.2-2
+
+%description winforms-2.0
+This package provides a fully managed implementation of
+System.Windows.Forms, the default graphical toolkit for .NET
+applications.
+
+%package winforms-4.0
+Summary: Windows Forms implementation for Mono 4.0 API
+Group:		Development/Other
+Requires:	%{name}-4.0 = %version
+Conflicts:	mono-winforms < 2.10.2-2
+
+%description winforms
+This package provides a fully managed implementation of
+System.Windows.Forms, the default graphical toolkit for .NET
+applications.
+
+%package winforms-compat
+Summary: Windows Forms implementation for Mono
+Group:		Development/Other
+Requires:	%{name}-winforms = %version
 Provides:       mono(Accessibility) = 1.0.5000.0
 Provides:       mono(System.Design) = 1.0.5000.0
 Provides:       mono(System.Drawing) = 1.0.5000.0
 Provides:       mono(System.Drawing.Design) = 1.0.5000.0
 Provides:       mono(System.Windows.Forms) = 1.0.5000.0
 
-%description winforms
+%description winforms-compat
 This package provides a fully managed implementation of
 System.Windows.Forms, the default graphical toolkit for .NET
 applications.
@@ -1211,23 +1242,38 @@ rm -rf %{buildroot}
 
 %files winforms
 %defattr(-, root, root)
-%monodir/gac/System.Windows.Forms
-%monodir/2.0/System.Windows.Forms.dll
-%monodir/4.0/System.Windows.Forms.dll
-%monodir/gac/System.Windows.Forms.DataVisualization
-%monodir/4.0/System.Windows.Forms.DataVisualization.dll
-%monodir/gac/Accessibility
+
+%files winforms-2.0
+%defattr(-, root, root)
 %monodir/2.0/Accessibility.dll
-%monodir/4.0/Accessibility.dll
-%monodir/gac/System.Design
-%monodir/2.0/System.Design.dll
-%monodir/4.0/System.Design.dll
-%monodir/gac/System.Drawing.Design
-%monodir/2.0/System.Drawing.Design.dll
-%monodir/4.0/System.Drawing.Design.dll
-%monodir/gac/Mono.WebBrowser
 %monodir/2.0/Mono.WebBrowser.dll
+%monodir/2.0/System.Design.dll
+%monodir/2.0/System.Drawing.Design.dll
+%monodir/2.0/System.Windows.Forms.dll
+%monodir/gac/Accessibility/2.0.0.0*
+%monodir/gac/Mono.WebBrowser/2.0.0.0*
+%monodir/gac/System.Design/2.0.0.0*
+%monodir/gac/System.Drawing.Design/2.0.0.0*
+%monodir/gac/System.Windows.Forms/2.0.0.0*
+
+%files winforms-4.0
+%defattr(-, root, root)
+%monodir/4.0/Accessibility.dll
 %monodir/4.0/Mono.WebBrowser.dll
+%monodir/4.0/System.Design.dll
+%monodir/4.0/System.Drawing.Design.dll
+%monodir/4.0/System.Windows.Forms.DataVisualization.dll
+%monodir/4.0/System.Windows.Forms.dll
+%monodir/gac/Accessibility/4.0.0.0*
+%monodir/gac/Mono.WebBrowser/4.0.0.0*
+%monodir/gac/System.Design/4.0.0.0*
+%monodir/gac/System.Drawing.Design/4.0.0.0*
+%monodir/gac/System.Windows.Forms.DataVisualization/4.0.0.0*
+%monodir/gac/System.Windows.Forms/4.0.0.0*
+
+%files winforms-compat
+%defattr(-, root, root)
+
 
 %files extras
 %defattr(-, root, root)
