@@ -563,15 +563,46 @@ applications.
 %package locale-extras
 Summary: Extra locale information for Mono
 Group:	       Development/Other
-Requires:      mono = %version
+Requires:      mono-locale-extras-2.0 = %version
+Requires:      mono-locale-extras-4.0 = %version
+
+%description locale-extras
+This package contains assemblies to support I18N applications for
+non-latin alphabets.
+
+%package locale-extras-2.0
+Summary: Extra locale information for Mono 2.0 API
+Group:         Development/Other
+Requires:      mono-2.0 = %version
+Conflicts:	mono-locale-extras < 2.10.2-2
+
+%description locale-extras
+This package contains assemblies to support I18N applications for
+non-latin alphabets.
+
+%package locale-extras-4.0
+Summary: Extra locale information for Mono 4.0 API
+Group:         Development/Other
+Requires:      mono-4.0 = %version
+Conflicts:	mono-locale-extras < 2.10.2-2
+
+%description locale-extras-4.0
+This package contains assemblies to support I18N applications for
+non-latin alphabets.
+
+%package locale-extras-compat
+Summary: Extra locale information for Mono
+Group:         Development/Other
+Requires:      mono-locale-extras = %version
 Provides:       mono(I18N.CJK) = 1.0.5000.0
 Provides:       mono(I18N.MidEast) = 1.0.5000.0
 Provides:       mono(I18N.Other) = 1.0.5000.0
 Provides:       mono(I18N.Rare) = 1.0.5000.0
 
-%description locale-extras
+%description locale-extras-compat
 This package contains assemblies to support I18N applications for
 non-latin alphabets.
+
 
 %package data-postgresql
 Summary: Postgresql database connectivity for Mono
@@ -1274,7 +1305,6 @@ rm -rf %{buildroot}
 %files winforms-compat
 %defattr(-, root, root)
 
-
 %files extras
 %defattr(-, root, root)
 %_bindir/mono-service
@@ -1415,18 +1445,31 @@ rm -rf %{buildroot}
 
 %files locale-extras
 %defattr(-, root, root)
-%monodir/gac/I18N.MidEast
-%monodir/2.0/I18N.MidEast.dll
-%monodir/4.0/I18N.MidEast.dll
-%monodir/gac/I18N.Rare
-%monodir/2.0/I18N.Rare.dll
-%monodir/4.0/I18N.Rare.dll
-%monodir/gac/I18N.CJK
+
+%files locale-extras-2.0
+%defattr(-, root, root)
 %monodir/2.0/I18N.CJK.dll
-%monodir/4.0/I18N.CJK.dll
-%monodir/gac/I18N.Other
+%monodir/2.0/I18N.MidEast.dll
 %monodir/2.0/I18N.Other.dll
+%monodir/2.0/I18N.Rare.dll
+%monodir/gac/I18N.CJK/2.0.0.0*
+%monodir/gac/I18N.MidEast/2.0.0.0*
+%monodir/gac/I18N.Other/2.0.0.0*
+%monodir/gac/I18N.Rare/2.0.0.0*
+
+%files locale-extras-4.0
+%defattr(-, root, root)
+%monodir/4.0/I18N.CJK.dll
+%monodir/4.0/I18N.MidEast.dll
 %monodir/4.0/I18N.Other.dll
+%monodir/4.0/I18N.Rare.dll
+%monodir/gac/I18N.CJK/4.0.0.0*
+%monodir/gac/I18N.MidEast/4.0.0.0*
+%monodir/gac/I18N.Other/4.0.0.0*
+%monodir/gac/I18N.Rare/4.0.0.0*
+
+%files locale-extras-compat
+%defattr(-, root, root)
 
 %files data-postgresql
 %defattr(-, root, root)
