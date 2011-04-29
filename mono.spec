@@ -355,24 +355,98 @@ development of web application, web services and remoting support.
 Summary: Oracle database connectivity for Mono
 Group:	 	Development/Other
 Requires:	mono = %version
-Provides:       mono(System.Data.OracleClient) = 1.0.5000.0
+Requires:	%{name}-data-oracle-2.0 = %version
+Requires:	%{name}-data-oracle-4.0 = %version
+Requires:	%{name}-data-oracle-compat = %version
 
 %description data-oracle
 This package contains the ADO.NET Data provider for the Oracle
 database.
 
+%package data-oracle-2.0
+Summary: Oracle database connectivity for Mono 2.0 API
+Group:		Development/Other
+Requires:	mono-2.0 = %version
+Conflicts:	mono-data-oracle < 2.10.2-2
+
+%description data-oracle-2.0
+This package contains the ADO.NET 2.0 Data provider for the Oracle
+database.
+
+%package data-oracle-4.0
+Summary: Oracle database connectivity for Mono 4.0 API
+Group:		Development/Other
+Requires:	mono-4.0 = %version
+Conflicts:	mono-data-oracle < 2.10.2-2
+
+%description data-oracle-4.0
+This package contains the ADO.NET 4.0 Data provider for the Oracle
+database.
+
+%package data-oracle-compat
+Summary: Oracle database connectivity for Mono (Compatible package)
+Group:		Development/Other
+Provides:	mono(System.Data.OracleClient) = 1.0.5000.0
+
+%description data-oracle-compat
+This package contains the compatible ADO.NET Data provider for the Oracle
+database.
+
 %package data
 Summary: Database connectivity for Mono
-Group:	 	  Development/Other
-Requires:	  mono = %version
-Provides:       mono(System.Data) = 1.0.3300.0 
-Provides:       mono(Mono.Data.Tds) = 1.0.5000.0
-Provides:       mono(Novell.Directory.Ldap) = 1.0.5000.0
-Provides:       mono(System.Data) = 1.0.5000.0
-Provides:       mono(System.DirectoryServices) = 1.0.5000.0
-Provides:       mono(System.EnterpriseServices) = 1.0.5000.0
+Group:	 	Development/Other
+Requires:	mono = %version
+Requires:	%name-data-2.0 = %version
+Requires:	%name-data-4.0 = %version
+Requires:	%name-data-compat = %version
 
 %description data
+This package provides a Mono assembly to facilitate data access and
+manipulation with databases, LDAP compatible directory servers and/or
+XML data exchange. Beyond the ADO.NET, Novell.LDAP and
+System.DirectoryServices assemblies, it also includes a command line
+sql application as well as the Microsoft SQL Server and ODBC data
+providers.
+
+%package data-2.0
+Summary: Database connectivity for Mono 2.0 API
+Group:		Development/Other
+Requires:	mono-2.0 = %version
+Conflicts:	mono-data < 2.10.2-2
+
+%description data-2.0
+This package provides a Mono assembly to facilitate data access and
+manipulation with databases, LDAP compatible directory servers and/or
+XML data exchange under 2.0 API. Beyond the ADO.NET, Novell.LDAP and
+System.DirectoryServices assemblies, it also includes a command line
+sql application as well as the Microsoft SQL Server and ODBC data
+providers.
+
+%package data-4.0
+Summary: Database connectivity for Mono
+Group:		Development/Other
+Requires:	mono-4.0 = %version
+Conflicts:	mono-data < 2.10.2-2
+
+%description data-4.0
+This package provides a Mono assembly to facilitate data access and
+manipulation with databases, LDAP compatible directory servers and/or
+XML data exchange under 4.0 API. Beyond the ADO.NET, Novell.LDAP and
+System.DirectoryServices assemblies, it also includes a command line
+sql application as well as the Microsoft SQL Server and ODBC data
+providers.
+
+%package data-compat
+Summary: Database connectivity for Mono (Compatible package)
+Group:		Development/Other
+Requires:	mono = %version
+Provides:	mono(Mono.Data.Tds) = 1.0.5000.0
+Provides:	mono(Novell.Directory.Ldap) = 1.0.5000.0
+Provides:	mono(System.Data) = 1.0.5000.0
+Provides:	mono(System.DirectoryServices) = 1.0.5000.0
+Provides:	mono(System.EnterpriseServices) = 1.0.5000.0
+
+%description data-compat
 This package provides a Mono assembly to facilitate data access and
 manipulation with databases, LDAP compatible directory servers and/or
 XML data exchange. Beyond the ADO.NET, Novell.LDAP and
@@ -1172,50 +1246,75 @@ rm -rf %{buildroot}
 
 %files data-oracle
 %defattr(-, root, root)
-%monodir/gac/System.Data.OracleClient
+
+%files data-oracle-2.0
+%defattr(-, root, root)
 %monodir/2.0/System.Data.OracleClient.dll
+%monodir/gac/System.Data.OracleClient/2.0.0.0*
+
+%files data-oracle-4.0
+%defattr(-, root, root)
 %monodir/4.0/System.Data.OracleClient.dll
+%monodir/gac/System.Data.OracleClient/4.0.0.0*
 
 %files data
 %defattr(-, root, root)
 %_bindir/sqlmetal
 %_bindir/sqlsharp
 %_mandir/man1/sqlsharp.1*
-%monodir/4.0/sqlmetal.exe*
-%monodir/4.0/sqlsharp.exe*
-%monodir/gac/System.Data
-%monodir/2.0/System.Data.dll
-%monodir/4.0/System.Data.dll
-%monodir/gac/System.Data.DataSetExtensions
-%monodir/2.0/System.Data.DataSetExtensions.dll
-%monodir/4.0/System.Data.DataSetExtensions.dll
-%monodir/gac/System.Data.Linq
-%monodir/2.0/System.Data.Linq.dll
-%monodir/4.0/System.Data.Linq.dll
-%monodir/gac/System.Data.Services
-%monodir/2.0/System.Data.Services.dll
-%monodir/4.0/System.Data.Services.dll
-%monodir/gac/Mono.Data.Tds
-%monodir/2.0/Mono.Data.Tds.dll
-%monodir/4.0/Mono.Data.Tds.dll
-%monodir/gac/System.EnterpriseServices
-%monodir/2.0/System.EnterpriseServices.dll
-%monodir/4.0/System.EnterpriseServices.dll
-%monodir/gac/Novell.Directory.Ldap
-%monodir/2.0/Novell.Directory.Ldap.dll
-%monodir/4.0/Novell.Directory.Ldap.dll
-%monodir/gac/System.DirectoryServices
-%monodir/2.0/System.DirectoryServices.dll
-%monodir/4.0/System.DirectoryServices.dll
-%monodir/gac/System.Runtime.Serialization
-%monodir/2.0/System.Runtime.Serialization.dll
-%monodir/4.0/System.Runtime.Serialization.dll
-%monodir/gac/System.Transactions
-%monodir/2.0/System.Transactions.dll
-%monodir/4.0/System.Transactions.dll
-%monodir/gac/WebMatrix.Data
-%monodir/4.0/WebMatrix.Data.dll
 
+%files data-2.0
+%defattr(-, root, root)
+%monodir/2.0/Mono.Data.Tds.dll
+%monodir/2.0/Novell.Directory.Ldap.dll
+%monodir/2.0/System.Data.DataSetExtensions.dll
+%monodir/2.0/System.Data.Linq.dll
+%monodir/2.0/System.Data.Services.dll
+%monodir/2.0/System.Data.dll
+%monodir/2.0/System.DirectoryServices.dll
+%monodir/2.0/System.EnterpriseServices.dll
+%monodir/2.0/System.Runtime.Serialization.dll
+%monodir/2.0/System.Transactions.dll
+%monodir/gac/Mono.Data.Tds/2.0.0.0*
+%monodir/gac/Novell.Directory.Ldap/2.0.0.0*
+%monodir/gac/System.Data.DataSetExtensions/3.5.0.0*
+%monodir/gac/System.Data.Linq/3.5.0.0*
+%monodir/gac/System.Data.Services/3.5.0.0*
+%monodir/gac/System.Data/2.0.0.0*
+%monodir/gac/System.DirectoryServices/2.0.0.0*
+%monodir/gac/System.EnterpriseServices/2.0.0.0*
+%monodir/gac/System.Runtime.Serialization/3.0.0.0*
+%monodir/gac/System.Transactions/2.0.0.0*
+
+%files data-4.0
+%defattr(-, root, root)
+%monodir/4.0/Mono.Data.Tds.dll
+%monodir/4.0/Novell.Directory.Ldap.dll
+%monodir/4.0/System.Data.DataSetExtensions.dll
+%monodir/4.0/System.Data.Linq.dll
+%monodir/4.0/System.Data.Services.dll
+%monodir/4.0/System.Data.dll
+%monodir/4.0/System.DirectoryServices.dll
+%monodir/4.0/System.EnterpriseServices.dll
+%monodir/4.0/System.Runtime.Serialization.dll
+%monodir/4.0/System.Transactions.dll
+%monodir/4.0/WebMatrix.Data.dll
+%monodir/4.0/sqlmetal.exe
+%monodir/4.0/sqlmetal.exe.config
+%monodir/4.0/sqlmetal.exe.mdb
+%monodir/4.0/sqlsharp.exe
+%monodir/4.0/sqlsharp.exe.mdb
+%monodir/gac/Mono.Data.Tds/4.0.0.0*
+%monodir/gac/Novell.Directory.Ldap/4.0.0.0*
+%monodir/gac/System.Data.DataSetExtensions/4.0.0.0*
+%monodir/gac/System.Data.Linq/4.0.0.0*
+%monodir/gac/System.Data.Services/4.0.0.0*
+%monodir/gac/System.Data/4.0.0.0*
+%monodir/gac/System.DirectoryServices/4.0.0.0*
+%monodir/gac/System.EnterpriseServices/4.0.0.0*
+%monodir/gac/System.Runtime.Serialization/4.0.0.0*
+%monodir/gac/System.Transactions/4.0.0.0*
+%monodir/gac/WebMatrix.Data/4.0.0.0*
 
 %files locale-extras
 %defattr(-, root, root)
