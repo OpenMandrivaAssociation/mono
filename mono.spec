@@ -593,8 +593,7 @@ technologies that have been submitted to the ECMA for standardization.
 Mono implementation of WCF, Windows Communication Foundation
 
 %prep
-%setup -qDT
-%if 0
+%setup -q
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch4 -p1 -b .glop
@@ -621,8 +620,6 @@ make
 #gw unit tests in mcs/class/corlib fail
 #make check
 
-
-%endif
 
 %install
 rm -rf %{buildroot} installed-docs
