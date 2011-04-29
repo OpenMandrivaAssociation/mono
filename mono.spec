@@ -1410,6 +1410,9 @@ rm -rf %{buildroot}
 %monodir/gac/System.Transactions/4.0.0.0*
 %monodir/gac/WebMatrix.Data/4.0.0.0*
 
+%files data-compat
+%defattr(-, root, root)
+
 %files locale-extras
 %defattr(-, root, root)
 %monodir/gac/I18N.MidEast
