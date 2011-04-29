@@ -187,8 +187,8 @@ Loadable LLVM libary for mono.
 %package data-sqlite
 Summary:	SQLite database connectivity for mono
 Group:		Development/Other
-Requires:	%mklibname sqlite 0
-Requires:	%mklibname sqlite3_ 0
+Requires:	%{name}-data-sqlite-2.0 = %{version}-%{release}
+Requires:	%{name}-data-sqlite-4.0 = %{version}-%{release}
 
 %description data-sqlite
 Mono is an implementation of the ECMA Common Language Infrastructure,
@@ -196,6 +196,34 @@ it contains both a just-in-time compiler for maximum performance, and
 an interpeter.  It can also be used to run programs from the .NET
 Framework.
 This package provides the connectivity to the sqlite database for Mono.
+
+%package data-sqlite-2.0
+Summary:	SQLite database connectivity for mono 2.0 API
+Group:		Development/Other
+Requires:	%{name}-2.0 = %{version}
+Conflicts:	mono-data-sqlite < 2.10.2-2
+
+%description data-sqlite-2.0
+Mono is an implementation of the ECMA Common Language Infrastructure,
+it contains both a just-in-time compiler for maximum performance, and
+an interpeter.  It can also be used to run programs from the .NET
+Framework.
+
+This package provides the connectivity to the sqlite database for Mono under 2.0 API.
+
+%package data-sqlite-4.0
+Summary:	SQLite database connectivity for mono 4.0 API
+Group:		Development/Other
+Requires:	%{name}-4.0 = %{version}
+Conflicts:	mono-data-sqlite < 2.10.2-2
+
+%description data-sqlite-4.0
+Mono is an implementation of the ECMA Common Language Infrastructure,
+it contains both a just-in-time compiler for maximum performance, and
+an interpeter.  It can also be used to run programs from the .NET
+Framework.
+
+This package provides the connectivity to the sqlite database for Mono under 4.0 API.
 
 %package -n %libnamedev
 Summary:	Tools required to embed the Mono runtime
@@ -235,7 +263,8 @@ Header files and libraries used to embed the Mono runtime in an application.
 %package winfxcore
 Summary: Mono implementation of core WinFX APIs
 Group: Development/Other
-Requires: mono = %version
+Requires: %name-winfxcore-2.0 = %version
+Requires: %name-winfxcore-4.0 = %version
 
 %description winfxcore
 The Mono Project is an open development initiative that is working to
@@ -246,20 +275,80 @@ technologies that have been submitted to the ECMA for standardization.
 
 Mono implementation of core WinFX APIs
 
-	
+%package winfxcore-2.0
+Summary: Mono implementation of core WinFX APIs 2.0
+Group: Development/Other
+Requires: mono-2.0 = %version
+Conflicts: mono-winfxcore < 2.10.2-2
+
+%description winfxcore-2.0
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono implementation of core WinFX APIs 2.0
+
+%package winfxcore-4.0
+Summary: Mono implementation of core WinFX APIs 4.0
+Group: Development/Other
+Requires: mono-4.0 = %version
+Conflicts: mono-winfxcore < 2.10.2-2
+
+%description winfxcore-4.0
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono implementation of core WinFX APIs 4.0
+
 %package web
 Summary: ASP.NET, Remoting, and Web Services for Mono
 Group:	 	  Development/Other
 Requires: mono = %version
-Provides:        mono(System.Web) = 1.0.3300.0
-Provides:       mono(Mono.Http) = 1.0.5000.0
-Provides:       mono(System.Runtime.Remoting) = 1.0.5000.0
-Provides:       mono(System.Runtime.Serialization.Formatters.Soap) = 1.0.5000.0
-Provides:       mono(System.Web) = 1.0.5000.0
-Provides:       mono(System.Web.Services) = 1.0.5000.0
+Requires: %{name}-web-2.0 = %version
+Requires: %{name}-web-4.0 = %version
+Requires: %{name}-web-comapt = %version
 
 %description web
 This package provides the ASP.NET libraries and runtime for
+development of web application, web services and remoting support.
+
+%package web-2.0
+Summary: ASP.NET 2.0, Remoting, and Web Services for Mono
+Group: Development/Other
+Requires: mono-2.0 = %version
+Conflicts: mono-web < 2.10.2-2
+
+%description web-2.0
+This package provides the ASP.NET 4.0 libraries and runtime for
+development of web application, web services and remoting support.
+
+%package web-4.0
+Summary: ASP.NET 4.0, Remoting, and Web Services for Mono
+Group: Development/Other
+Requires: mono-4.0 = %version
+Conflicts: mono-web < 2.10.2-2
+
+%description web-4.0
+This package provides the ASP.NET 4.0 libraries and runtime for
+development of web application, web services and remoting support.
+
+%package web-compat
+Summary: ASP.NET, Remoting, and Web Services for Mono (Compatible package)
+Group: Development/Other
+Requires: mono-web = %version
+Provides: mono(Mono.Http) = 1.0.5000.0
+Provides: mono(System.Runtime.Remoting) = 1.0.5000.0
+Provides: mono(System.Runtime.Serialization.Formatters.Soap) = 1.0.5000.0
+Provides: mono(System.Web) = 1.0.5000.0
+Provides: mono(System.Web.Services) = 1.0.5000.0
+
+%description web-compat
+This package provides the ASP.NET compatible requirements for
 development of web application, web services and remoting support.
 
 %package data-oracle
@@ -692,9 +781,14 @@ rm -rf %{buildroot}
 
 %files data-sqlite
 %defattr(-, root, root)
+
+%files data-sqlite-2.0
 %monodir/2.0/Mono.Data.Sqlite.dll
+%monodir/gac/Mono.Data.Sqlite/2.0.0.0*
+
+%files data-sqlite-4.0
 %monodir/4.0/Mono.Data.Sqlite.dll
-%monodir/gac/Mono.Data.Sqlite
+%monodir/gac/Mono.Data.Sqlite/4.0.0.0*
 
 %files -n %libnamedev
 %defattr(-, root, root)
@@ -888,26 +982,27 @@ rm -rf %{buildroot}
 %monodir/xbuild-frameworks/
 %_datadir/mono-2.0/
 
-
-
-%files -n mono-winfxcore
+%files winfxcore
 %defattr(-, root, root)
-%monodir/gac/System.Data.Services.Client
+
+%files winfxcore-2.0
+%defattr(-, root, root)
 %monodir/2.0/System.Data.Services.Client.dll
-%monodir/4.0/System.Data.Services.Client.dll
-%monodir/gac/WindowsBase
+%monodir/gac/System.Data.Services.Client/3.5.0.0*
 %monodir/2.0/WindowsBase.dll*
+%monodir/gac/WindowsBase/3.0.0.0
+
+%files winfxcore-4.0
+%defattr(-, root, root)
+%monodir/4.0/System.Data.Services.Client.dll
+%monodir/gac/System.Data.Services.Client/4.0.0.0*
 %monodir/4.0/WindowsBase.dll*
+%monodir/gac/WindowsBase/4.0.0.0*
 
 %files web
 %defattr(-, root, root)
 %dir %{_sysconfdir}/mono/mconfig
 %config(noreplace) %{_sysconfdir}/mono/browscap.ini
-%config(noreplace) %{_sysconfdir}/mono/2.0/Browsers/Compat.browser
-%config(noreplace) %{_sysconfdir}/mono/2.0/DefaultWsdlHelpGenerator.aspx
-%config(noreplace) %{_sysconfdir}/mono/4.0/DefaultWsdlHelpGenerator.aspx
-%config(noreplace) %{_sysconfdir}/mono/2.0/web.config
-%config(noreplace) %{_sysconfdir}/mono/4.0/web.config
 %config(noreplace) %{_sysconfdir}/mono/mconfig/config.xml
 %_bindir/disco
 %_bindir/mconfig
@@ -920,7 +1015,98 @@ rm -rf %{buildroot}
 %_mandir/man1/soapsuds.1*
 %_mandir/man1/wsdl.1*
 %_mandir/man1/xsd.1*
-%monodir/gac/Microsoft.Web.Infrastructure
+
+%files web-2.0
+%defattr(-, root, root)
+%config(noreplace) %{_sysconfdir}/mono/2.0/Browsers/Compat.browser
+%config(noreplace) %{_sysconfdir}/mono/2.0/DefaultWsdlHelpGenerator.aspx
+%config(noreplace) %{_sysconfdir}/mono/2.0/web.config
+%monodir/2.0/Mono.Http.dll
+%monodir/2.0/Mono.Web.dll
+%monodir/2.0/System.ComponentModel.DataAnnotations.dll
+%monodir/2.0/System.Runtime.Remoting.dll
+%monodir/2.0/System.Runtime.Serialization.Formatters.Soap.dll
+%monodir/2.0/System.Web.Abstractions.dll
+%monodir/2.0/System.Web.DynamicData.dll
+%monodir/2.0/System.Web.Extensions.Design.dll
+%monodir/2.0/System.Web.Extensions.dll
+%monodir/2.0/System.Web.Mvc.dll
+%monodir/2.0/System.Web.Routing.dll
+%monodir/2.0/System.Web.Services.dll
+%monodir/2.0/System.Web.dll
+%monodir/2.0/wsdl.exe
+%monodir/2.0/wsdl.exe.mdb
+%monodir/2.0/xsd.exe
+%monodir/2.0/xsd.exe.mdb
+%monodir/gac/Mono.Http/2.0.0.0*
+%monodir/gac/Mono.Web/2.0.0.0*
+%monodir/gac/System.ComponentModel.DataAnnotations/3.5.0.0*
+%monodir/gac/System.Runtime.Remoting/2.0.0.0*
+%monodir/gac/System.Runtime.Serialization.Formatters.Soap/2.0.0.0*
+%monodir/gac/System.Web.Abstractions/3.5.0.0*
+%monodir/gac/System.Web.DynamicData/3.5.0.0*
+%monodir/gac/System.Web.Extensions.Design/3.5.0.0*
+%monodir/gac/System.Web.Extensions/3.5.0.0*
+%monodir/gac/System.Web.Mvc/2.0.0.0*
+%monodir/gac/System.Web.Routing/3.5.0.0*
+%monodir/gac/System.Web.Services/2.0.0.0*
+%monodir/gac/System.Web/2.0.0.0*
+
+%files web-4.0
+%defattr(-, root, root)
+%config(noreplace) %{_sysconfdir}/mono/4.0/DefaultWsdlHelpGenerator.aspx
+%config(noreplace) %{_sysconfdir}/mono/4.0/web.config
+%monodir/4.0/Microsoft.Web.Infrastructure.dll
+%monodir/4.0/Mono.Http.dll
+%monodir/4.0/Mono.Web.dll
+%monodir/4.0/System.ComponentModel.Composition.dll
+%monodir/4.0/System.ComponentModel.DataAnnotations.dll
+%monodir/4.0/System.Runtime.Remoting.dll
+%monodir/4.0/System.Runtime.Serialization.Formatters.Soap.dll
+%monodir/4.0/System.Web.Abstractions.dll
+%monodir/4.0/System.Web.ApplicationServices.dll
+%monodir/4.0/System.Web.DynamicData.dll
+%monodir/4.0/System.Web.Extensions.Design.dll
+%monodir/4.0/System.Web.Extensions.dll
+%monodir/4.0/System.Web.Routing.dll
+%monodir/4.0/System.Web.Services.dll
+%monodir/4.0/System.Web.dll
+%monodir/4.0/disco.exe
+%monodir/4.0/disco.exe.mdb
+%monodir/4.0/mconfig.exe
+%monodir/4.0/mconfig.exe.mdb
+%monodir/4.0/soapsuds.exe
+%monodir/4.0/soapsuds.exe.mdb
+%monodir/4.0/wsdl.exe
+%monodir/4.0/wsdl.exe.mdb
+%monodir/4.0/xsd.exe
+%monodir/4.0/xsd.exe.mdb
+%monodir/gac/Microsoft.Web.Infrastructure/1.0.0.0*
+%monodir/gac/Mono.Http/4.0.0.0*
+%monodir/gac/Mono.Web/4.0.0.0*
+%monodir/gac/System.ComponentModel.Composition 4.0.0.0*
+%monodir/gac/System.ComponentModel.DataAnnotations/4.0.0.0*
+%monodir/gac/System.Runtime.Remoting/4.0.0.0*
+%monodir/gac/System.Runtime.Serialization.Formatters.Soap/4.0.0.0*
+%monodir/gac/System.Web.Abstractions/4.0.0.0*
+%monodir/gac/System.Web.ApplicationServices/4.0.0.0*
+%monodir/gac/System.Web.DynamicData/4.0.0.0*
+%monodir/gac/System.Web.Extensions.Design/4.0.0.0*
+%monodir/gac/System.Web.Extensions/4.0.0.0*
+%monodir/gac/System.Web.Routing/4.0.0.0*
+%monodir/gac/System.Web.Services/4.0.0.0*
+%monodir/gac/System.Web/4.0.0.0*
+
+%files web-compat
+%defattr(-, root, root)
+%monodir/compat-2.0/System.Web.Extensions.Design.dll
+%monodir/compat-2.0/System.Web.Extensions.dll
+%monodir/compat-2.0/System.Web.Mvc.dll
+%monodir/gac/System.Web.Extensions.Design/1.0.61025.0*
+%monodir/gac/System.Web.Extensions/1.0.61025.0*
+%monodir/gac/System.Web.Mvc/1.0.0.0*
+
+
 %monodir/4.0/Microsoft.Web.Infrastructure.dll
 %monodir/gac/Mono.Http
 %monodir/2.0/Mono.Http.dll
