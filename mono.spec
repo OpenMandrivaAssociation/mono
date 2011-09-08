@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.10.5
-%define release %mkrel 1
+%define release %mkrel 2
 
 %define major 0
 %define major1 1
@@ -194,6 +194,7 @@ Requires:       %libnamellvm = %version-%release
 %endif
 Requires:	mono = %version
 Requires:       mono-data = %version
+Requires:       mono-build = %version
 Requires: 	mono-extras = %version
 Requires: 	mono-web = %version
 Requires: 	mono-locale-extras = %version
@@ -592,6 +593,61 @@ technologies that have been submitted to the ECMA for standardization.
 
 Mono implementation of WCF, Windows Communication Foundation
 
+%package build
+Summary: Mono APIs needed for software development
+Group: Development/Other
+Requires: %name-build-2.0 = %version
+Requires: %name-build-3.5 = %version
+Requires: %name-build-4.0 = %version
+
+%description build
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono APIs needed for software development
+
+%package build-2.0
+Summary: Mono APIs needed for software development, API 2.0
+Group: Development/Other
+
+%description build-2.0
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono APIs needed for software development, API 2.0
+
+%package build-3.5
+Summary: Mono APIs needed for software development, API 3.5
+Group: Development/Other
+
+%description build-3.5
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono APIs needed for software development, API 3.5
+
+%package build-4.0
+Summary: Mono APIs needed for software development, API 4.0
+Group: Development/Other
+
+%description build-4.0
+The Mono Project is an open development initiative that is working to
+develop an open source, Unix version of the .NET development platform.
+Its objective is to enable Unix developers to build and deploy
+cross-platform .NET applications. The project will implement various
+technologies that have been submitted to the ECMA for standardization.
+
+Mono APIs needed for software development, API 4.0
+
 %prep
 %setup -q
 %patch0 -p1 -b .dllmap
@@ -856,6 +912,73 @@ rm -rf %{buildroot}
 %monodir/compat-2.0/ICSharpCode.SharpZipLib.dll
 %monodir/gac/ICSharpCode.SharpZipLib/2.6.0.0*
 
+%files build
+%defattr(-, root, root)
+
+%files build-2.0
+%defattr(-, root, root)
+%monodir/2.0/Microsoft.Build.Tasks.dll
+%dir %monodir/gac/Microsoft.Build.Tasks
+%monodir/gac/Microsoft.Build.Tasks/2.0.0.0*
+%monodir/2.0/Microsoft.Build.Framework.dll
+%dir %monodir/gac/Microsoft.Build.Framework/
+%monodir/gac/Microsoft.Build.Framework/2.0.0.0*
+%monodir/2.0/Microsoft.Build.Utilities.dll
+%dir %monodir/gac/Microsoft.Build.Utilities/
+%monodir/gac/Microsoft.Build.Utilities/2.0.0.0*
+%monodir/2.0/Microsoft.Build.Engine.dll
+%dir %monodir/gac/Microsoft.Build.Engine/
+%monodir/gac/Microsoft.Build.Engine/2.0.0.0*
+%monodir/2.0/Mono.Debugger.Soft.dll
+%dir %monodir/gac/Mono.Debugger.Soft/
+%monodir/gac/Mono.Debugger.Soft/2.0.0.0*
+%monodir/2.0/PEAPI.dll
+%dir %monodir/gac/PEAPI/
+%monodir/gac/PEAPI/2.0.0.0*
+%monodir/2.0/MSBuild
+
+%files build-3.5
+%defattr(-, root, root)
+%monodir/3.5/Microsoft.Build.Framework.dll
+%dir %monodir/gac/Microsoft.Build.Framework/
+%monodir/gac/Microsoft.Build.Framework/3.5.0.0*
+%monodir/3.5/Microsoft.Build.Engine.dll
+%dir %monodir/gac/Microsoft.Build.Engine/
+%monodir/gac/Microsoft.Build.Engine/3.5.0.0*
+%monodir/3.5/Microsoft.Build.Tasks.v3.5.dll
+%monodir/gac/Microsoft.Build.Tasks.v3.5
+%monodir/gac/Microsoft.Build.Utilities.v3.5
+%monodir/3.5/Microsoft.Build.Utilities.v3.5.dll
+%monodir/3.5/MSBuild
+
+%files build-4.0
+%defattr(-, root, root)
+%monodir/4.0/Microsoft.Build.xsd
+%monodir/4.0/Microsoft.Build.Framework.dll
+%dir %monodir/gac/Microsoft.Build.Framework/
+%monodir/gac/Microsoft.Build.Framework/4.0.0.0*
+%monodir/4.0/Microsoft.Build.Engine.dll
+%dir %monodir/gac/Microsoft.Build.Engine/
+%monodir/gac/Microsoft.Build.Engine/4.0.0.0*
+%monodir/gac/Microsoft.Build.Tasks.v4.0
+%monodir/4.0/Microsoft.Build.Tasks.v4.0.dll
+%monodir/gac/Microsoft.Build.Utilities.v4.0
+%monodir/4.0/Microsoft.Build.Utilities.v4.0.dll
+%monodir/4.0/Microsoft.CSharp.targets
+%monodir/4.0/Microsoft.Common.targets
+%monodir/4.0/Microsoft.Common.tasks
+%monodir/4.0/Microsoft.VisualBasic.targets
+%monodir/4.0/PEAPI.dll
+%dir %monodir/gac/PEAPI/
+%monodir/gac/PEAPI/4.0.0.0*
+%monodir/4.0/Mono.CodeContracts.dll
+%dir %monodir/gac/Mono.CodeContracts/
+%monodir/gac/Mono.CodeContracts/4.0.0.0*
+%monodir/4.0/Mono.Debugger.Soft.dll
+%dir %monodir/gac/Mono.Debugger.Soft/
+%monodir/gac/Mono.Debugger.Soft/4.0.0.0*
+%monodir/4.0/MSBuild
+
 %files doc
 %defattr(-, root, root)
 %doc AUTHORS COPYING.LIB NEWS README
@@ -995,34 +1118,6 @@ rm -rf %{buildroot}
 %monodir/4.0/secutil.exe*
 %monodir/4.0/sgen.exe*
 %monodir/4.0/signcode.exe*
-%monodir/4.0/Microsoft.Build.xsd
-%monodir/gac/Microsoft.Build.Tasks
-%monodir/2.0/Microsoft.Build.Tasks.dll
-%monodir/gac/Microsoft.Build.Framework
-%monodir/2.0/Microsoft.Build.Framework.dll
-%monodir/3.5/Microsoft.Build.Framework.dll
-%monodir/4.0/Microsoft.Build.Framework.dll
-%monodir/gac/Microsoft.Build.Utilities
-%monodir/2.0/Microsoft.Build.Utilities.dll
-%monodir/gac/Microsoft.Build.Engine
-%monodir/2.0/Microsoft.Build.Engine.dll
-%monodir/3.5/Microsoft.Build.Engine.dll
-%monodir/4.0/Microsoft.Build.Engine.dll
-%monodir/3.5/Microsoft.Build.Tasks.v3.5.dll
-%monodir/gac/Microsoft.Build.Tasks.v3.5
-%monodir/gac/Microsoft.Build.Tasks.v4.0
-%monodir/4.0/Microsoft.Build.Tasks.v4.0.dll
-%monodir/gac/Microsoft.Build.Utilities.v3.5
-%monodir/3.5/Microsoft.Build.Utilities.v3.5.dll
-%monodir/gac/Microsoft.Build.Utilities.v4.0
-%monodir/4.0/Microsoft.Build.Utilities.v4.0.dll
-%monodir/4.0/Microsoft.CSharp.targets
-%monodir/4.0/Microsoft.Common.targets
-%monodir/4.0/Microsoft.Common.tasks
-%monodir/4.0/Microsoft.VisualBasic.targets
-%monodir/gac/PEAPI
-%monodir/2.0/PEAPI.dll
-%monodir/4.0/PEAPI.dll
 %monodir/2.0/Microsoft.Build.xsd
 %monodir/2.0/Microsoft.Common.tasks
 %monodir/2.0/Microsoft.Common.targets
@@ -1032,14 +1127,6 @@ rm -rf %{buildroot}
 #
 %monodir/gac/Mono.Cecil/
 %monodir/gac/Mono.Cecil.Mdb/
-%monodir/gac/Mono.CodeContracts
-%monodir/4.0/Mono.CodeContracts.dll
-%monodir/gac/Mono.Debugger*
-%monodir/2.0/Mono.Debugger*
-%monodir/4.0/Mono.Debugger*
-%monodir/2.0/MSBuild
-%monodir/3.5/MSBuild
-%monodir/4.0/MSBuild
 %monodir/2.0/xbuild.rsp
 %monodir/2.0/al.exe
 %monodir/2.0/al.exe.mdb
