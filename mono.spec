@@ -612,6 +612,7 @@ Mono APIs needed for software development
 %package build-2.0
 Summary: Mono APIs needed for software development, API 2.0
 Group: Development/Other
+Conflicts: %libnamedev < 2.10.5-2
 
 %description build-2.0
 The Mono Project is an open development initiative that is working to
@@ -625,6 +626,7 @@ Mono APIs needed for software development, API 2.0
 %package build-3.5
 Summary: Mono APIs needed for software development, API 3.5
 Group: Development/Other
+Conflicts: %libnamedev < 2.10.5-2
 
 %description build-3.5
 The Mono Project is an open development initiative that is working to
@@ -638,6 +640,7 @@ Mono APIs needed for software development, API 3.5
 %package build-4.0
 Summary: Mono APIs needed for software development, API 4.0
 Group: Development/Other
+Conflicts: %libnamedev < 2.10.5-2
 
 %description build-4.0
 The Mono Project is an open development initiative that is working to
