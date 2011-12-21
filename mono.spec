@@ -1019,7 +1019,6 @@ rm -rf %{buildroot}
 %dir %_includedir/mono-2.0/
 %_includedir/mono-2.0/*
 %{_libdir}/*.a
-%attr(644,root,root) %{_libdir}/*.la
 %_libdir/libmono*.so
 %_libdir/pkgconfig/cecil.pc
 %_libdir/pkgconfig/dotnet.pc
