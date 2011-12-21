@@ -1402,6 +1402,7 @@ rm -rf %{buildroot}
 %_bindir/sqlsharp
 %_mandir/man1/sqlsharp.1*
 %dir %monodir
+%dir %monodir/2.0
 %dir %monodir/4.0
 %dir %monodir/gac
 %monodir/gac/IBM.Data.DB2
