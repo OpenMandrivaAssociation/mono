@@ -958,6 +958,9 @@ rm -rf %{buildroot}
 
 %files build-4.0
 %defattr(-, root, root)
+%monodir/4.0/Microsoft.Build.dll
+%dir %monodir/gac/Microsoft.Build/
+%monodir/gac/Microsoft.Build/4.0.0.0*
 %monodir/4.0/Microsoft.Build.xsd
 %monodir/4.0/Microsoft.Build.Framework.dll
 %dir %monodir/gac/Microsoft.Build.Framework/
