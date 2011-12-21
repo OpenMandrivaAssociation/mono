@@ -1310,6 +1310,17 @@ rm -rf %{buildroot}
 
 %files winforms-4.0
 %defattr(-, root, root)
+#gw stupid rpm5:
+%dir %_prefix/lib
+%dir %monodir
+%dir %monodir/4.0
+%dir %monodir/gac
+%dir %monodir/gac/Accessibility
+%dir %monodir/gac/Mono.WebBrowser
+%dir %monodir/gac/System.Design
+%dir %monodir/gac/System.Drawing.Design
+%dir %monodir/gac/System.Windows.Forms
+%dir %monodir/gac/System.Windows.Forms.DataVisualization
 %monodir/4.0/Accessibility.dll
 %monodir/4.0/Mono.WebBrowser.dll
 %monodir/4.0/System.Design.dll
@@ -1390,6 +1401,9 @@ rm -rf %{buildroot}
 %_bindir/sqlmetal
 %_bindir/sqlsharp
 %_mandir/man1/sqlsharp.1*
+%dir %monodir
+%dir %monodir/4.0
+%dir %monodir/gac
 %monodir/gac/IBM.Data.DB2
 %monodir/2.0/IBM.Data.DB2.dll
 %monodir/4.0/IBM.Data.DB2.dll
