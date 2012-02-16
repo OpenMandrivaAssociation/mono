@@ -709,6 +709,9 @@ rm -f %buildroot%_mandir/man1/prj2make.1*
 mkdir -p %{buildroot}%{_sysconfdir}/pki/mono
 install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 
+#gw not wanted anymore:
+rm -f %buildroot%_libdir/lib*.la
+
 %clean
 rm -rf %{buildroot}
 
