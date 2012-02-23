@@ -1,6 +1,6 @@
 %define name	mono
 %define version 2.10.8.1
-%define release %mkrel 3
+%define release %mkrel 4
 
 %define major 0
 %define major1 1
@@ -37,7 +37,8 @@ Source1: mono.snk
 Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-2.6-selfexe.patch
-Patch4: mono-wapi_glop.patch
+Patch4:		mono-wapi_glop.patch
+Patch5:		mono-2.10.8.1-mono-find-requires_strip-whitespace.patch
 URL:		http://www.go-mono.com/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	bison
@@ -656,6 +657,7 @@ Mono APIs needed for software development, API 4.0
 %patch0 -p1 -b .dllmap
 %patch1 -p1 -b .selfexe
 %patch4 -p1 -b .glop
+%patch5 -p1 -b .dep_whitespace~
 
 %build
 #gw else the syslog() call will not build
