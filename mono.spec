@@ -660,9 +660,6 @@ Mono APIs needed for software development, API 4.0
 %patch5 -p1 -b .dep_whitespace~
 
 %build
-#gw else the syslog() call will not build
-#https://bugzilla.novell.com/show_bug.cgi?id=590967#c16
-%define Werror_cflags %nil
 #gw else libmonosgen-2.0.la does not build
 %define _disable_ld_no_undefined 1
 %configure2_5x --with-preview=yes \
