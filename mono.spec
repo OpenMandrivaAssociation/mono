@@ -5,8 +5,7 @@
 %define libname1 %mklibname %{name} 2.0 %{major1}
 %define libnamedev %mklibname -d %{name}
 
-%define bootstrap 0
-%{?_with_bootstrap: %{expand: %%global bootstrap 1}}
+%bcond_without bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -55,7 +54,7 @@ Requires: 	libgdiplus
 # Since mono 0.91 (mdk 10.0) we can rely on included config
 Provides:	mono-config
 Provides:	libmono-runtime
-%if ! %bootstrap
+%if %{without bootstrap}
 #gw needed for mono-find-requires which needs monodis and libmono.so
 BuildRequires:	mono-devel
 %endif
