@@ -5,7 +5,7 @@
 %define libname1 %mklibname %{name} 2.0 %{major1}
 %define libnamedev %mklibname -d %{name}
 
-%define bootstrap 1
+%define bootstrap 0
 %{?_with_bootstrap: %{expand: %%global bootstrap 1}}
 %define monodir %{_prefix}/lib/mono
 
@@ -20,7 +20,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	3
+Release:	4
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar.bz2
