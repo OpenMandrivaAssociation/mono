@@ -20,7 +20,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	4
+Release:	5
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar.bz2
@@ -39,6 +39,8 @@ URL:		http://www.go-mono.com/
 BuildRequires:	bison
 BuildRequires:	zlib-devel
 BuildRequires:	oprofile-devel
+# for xmllint
+BuildRequires:	libxml2-utils
 %if %llvm == yes
 #gw mono 2.8 does not build with our llvm 2.7
 BuildRequires:	llvm > 2.7
@@ -658,8 +660,7 @@ Mono APIs needed for software development, API 4.0
 %endif
  --with-oprofile=%_prefix
 
-#gw parallel build broken in 2.6
-make
+%make
 
 %check
 #gw unit tests in mcs/class/corlib fail
@@ -688,6 +689,16 @@ rm -f %buildroot%{_mandir}/man1/prj2make.1*
 #gw not usable on Cooker:
 #gw it is still needed for the deps
 #rm -rf %buildroot/%{monodir}/*/Mono.WebBrowser*
+
+# The following is a workaround for
+# error: unpacking of archive failed on file /usr/lib/mono/2.0/gmcs.exe.config;511a6661: cpio: File digest mismatch
+# when trying to install the package...
+# This is obviously not a fix for the actual problem (which yet has to be
+# debugged), but beautifying the XML file certainly can't hurt, and makes the
+# problem disappear for reasons yet to be found.
+xmllint -format %buildroot/%{monodir}/2.0/gmcs.exe.config >%buildroot/%{monodir}/2.0/gmcs.exe.config.new
+mv -f %buildroot/%{monodir}/2.0/gmcs.exe.config.new %buildroot/%{monodir}/2.0/gmcs.exe.config
+
 
 %find_lang mcs
 
