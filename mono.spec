@@ -659,7 +659,7 @@ Mono APIs needed for software development, API 4.0
 %endif
  --with-oprofile=%_prefix
 
-%make
+make
 
 %check
 #gw unit tests in mcs/class/corlib fail
