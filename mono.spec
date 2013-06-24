@@ -5,7 +5,7 @@
 %define libname1 %mklibname %{name} 2.0 %{major1}
 %define libnamedev %mklibname -d %{name}
 
-%bcond_with bootstrap
+%bcond_without bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -34,6 +34,9 @@ Patch0:		mono-dllmap.patch
 Patch1:		mono-2.6-selfexe.patch
 Patch4:		mono-wapi_glop.patch
 Patch5:		mono-2.10.8.1-mono-find-requires_strip-whitespace.patch
+Patch6:		mono-281-libgdiplusconfig.patch
+Patch7:		mono-2.10-armhfp.patch	
+
 URL:		http://www.go-mono.com/
 BuildRequires:	bison
 BuildRequires:	zlib-devel
@@ -648,6 +651,11 @@ Mono APIs needed for software development, API 4.0
 %patch1 -p1 -b .selfexe
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .dep_whitespace~
+%patch6 -F 1 -p1 -b .libgdiplus
+
+#% ifarch armv7hl
+%patch7 -p1 -b .armhfp
+#% endif
 
 %build
 #gw else libmonosgen-2.0.la does not build
