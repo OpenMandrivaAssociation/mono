@@ -5,7 +5,7 @@
 %define libname1 %mklibname %{name} 2.0 %{major1}
 %define libnamedev %mklibname -d %{name}
 
-%bcond_without bootstrap
+%bcond_with bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -19,7 +19,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	6
+Release:	7
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar.bz2
@@ -653,9 +653,9 @@ Mono APIs needed for software development, API 4.0
 %patch5 -p1 -b .dep_whitespace~
 %patch6 -F 1 -p1 -b .libgdiplus
 
-#% ifarch armv7hl
+%ifarch armv7hl
 %patch7 -p1 -b .armhfp
-#% endif
+%endif
 
 %build
 #gw else libmonosgen-2.0.la does not build
