@@ -43,6 +43,10 @@ Patch4:		mono-wapi_glop.patch
 Patch5:		mono-2.10.8.1-mono-find-requires_strip-whitespace.patch
 Patch6:		mono-281-libgdiplusconfig.patch
 Patch7:		mono-2.10-armhfp.patch	
+Patch8:		mono-2.10.9-CVE-2012-3543_2.patch
+Patch9:		mono-2.10.9-CVE-2012-3543.patch
+Patch10:	mono-2.10.9-CVE-2012-3382.patch
+Patch11:	mono-2.10.2-threads-access.patch
 BuildRequires:	bison
 # for xmllint
 BuildRequires:	libxml2-utils
@@ -604,10 +608,13 @@ Mono APIs needed for software development, API 4.0
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .dep_whitespace~
 %patch6 -F 1 -p1 -b .libgdiplus
-
 %ifarch armv7hl
 %patch7 -p1 -b .armhfp
 %endif
+%patch8 -p1 -b .cve2
+%patch9 -p1 -b .cve1
+%patch10 -p1 -b .cve3
+%patch11 -p1 -b .threads
 
 %build
 #gw else libmonosgen-2.0.la does not build
