@@ -11,7 +11,7 @@
 %define libllvm %mklibname %{name}-llvm %{major}
 %define devname %mklibname -d %{name}
 
-%bcond_without bootstrap
+%bcond_with bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -25,7 +25,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	8
+Release:	9
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
