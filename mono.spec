@@ -11,7 +11,7 @@
 %define libllvm %mklibname %{name}-llvm %{major}
 %define devname %mklibname -d %{name}
 
-%bcond_without bootstrap
+%bcond_with bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
