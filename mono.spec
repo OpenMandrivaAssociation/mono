@@ -10,6 +10,9 @@
 
 %define libllvm %mklibname %{name}-llvm %{major}
 %define devname %mklibname -d %{name}
+%ifarch %arm
+%define Werror_cflags %nil
+%endif
 
 %bcond_with bootstrap
 %define monodir %{_prefix}/lib/mono
@@ -17,10 +20,11 @@
 %define llvm no
 %define sgen yes
 
-%ifnarch %{ix86} x86_64
-%define llvm no
-%define sgen no
-%endif
+# sgen exist for ARM
+#% ifnarch %{ix86} x86_64
+#% define llvm no
+#% define sgen no
+#% endif
 
 Summary:	Mono Runtime
 Name:		mono
@@ -47,6 +51,8 @@ Patch8:		mono-2.10.9-CVE-2012-3543_2.patch
 Patch9:		mono-2.10.9-CVE-2012-3543.patch
 Patch10:	mono-2.10.9-CVE-2012-3382.patch
 Patch11:	mono-2.10.2-threads-access.patch
+# arm patch from archlinux
+Patch12:	alarm.patch
 BuildRequires:	bison
 # for xmllint
 BuildRequires:	libxml2-utils
@@ -615,13 +621,26 @@ Mono APIs needed for software development, API 4.0
 %patch9 -p1 -b .cve1
 %patch10 -p1 -b .cve3
 %patch11 -p1 -b .threads
+%patch12 -p1 -b .alarm
 
 %build
+
+sed -i 's/^AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' configure.in
+sed -i 's/^AM_CONFIG_HEADER/AC_CONFIG_HEADERS/' eglib/configure.ac
+sed -i 's/AM_PROG_CC_STDC/AC_PROG_CC/' configure.in
+sed -i 's/AUTOMAKE_OPTIONS = cygnus//' runtime/Makefile.am
+autoreconf -fiv
+
+#./autogen.sh --prefix=/usr --sysconfdir=/etc \
+#                 --with-fpu=VFP
 #gw else libmonosgen-2.0.la does not build
 %define _disable_ld_no_undefined 1
 %configure2_5x \
 	--with-preview=yes \
 	--with-sgen=%{sgen} \
+%ifarch %arm
+	--with-fpu=VFP \
+%endif
 %if %llvm == yes
 	--enable-loadedllvm \
 %endif
@@ -684,8 +703,8 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %{_bindir}/mono-configuration-crypto
 %if %sgen == yes
 %{_bindir}/mono-sgen
-%endif
 %{_bindir}/mono-sgen-gdb.py
+%endif
 %{_bindir}/mono-test-install
 %{_bindir}/csharp
 %{_bindir}/csharp2
@@ -759,11 +778,8 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %{monodir}/2.0/gmcs.exe
 %{monodir}/2.0/gmcs.exe.config
 %{monodir}/2.0/gmcs.exe.mdb
-%{monodir}/2.0/mcs.exe
-%{monodir}/2.0/mcs.exe.so
-%{monodir}/2.0/mscorlib.dll
-%{monodir}/2.0/mscorlib.dll.mdb
-%{monodir}/2.0/mscorlib.dll.so
+%{monodir}/2.0/mcs.exe*
+%{monodir}/2.0/mscorlib.dll*
 %{monodir}/gac/Commons.Xml.Relaxng/2.0.0.0*
 %{monodir}/gac/CustomMarshalers/2.0.0.0*
 %{monodir}/gac/I18N.West/2.0.0.0*
