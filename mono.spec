@@ -53,6 +53,8 @@ Patch10:	mono-2.10.9-CVE-2012-3382.patch
 Patch11:	mono-2.10.2-threads-access.patch
 # arm patch from archlinux
 Patch12:	alarm.patch
+# thumb mode for ARM
+Patch13:	armv7-thumb-mode.patch
 BuildRequires:	bison
 # for xmllint
 BuildRequires:	libxml2-utils
@@ -622,6 +624,7 @@ Mono APIs needed for software development, API 4.0
 %patch10 -p1 -b .cve3
 %patch11 -p1 -b .threads
 %patch12 -p1 -b .alarm
+%patch13 -p1 -b .thumb
 
 %build
 

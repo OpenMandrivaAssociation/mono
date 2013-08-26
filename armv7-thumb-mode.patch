@@ -1,0 +1,12 @@
+diff --git a/mono/mini/mini-arm.c b/mono/mini/mini-arm.c
+index 291e1dc..834bd41 100644
+--- a/mono/mini/mini-arm.c
++++ b/mono/mini/mini-arm.c
+@@ -6084,6 +6084,7 @@ mono_arch_set_target (char *mtriple)
+ 	/* The GNU target triple format is not very well documented */
+ 	if (strstr (mtriple, "armv7")) {
+ 		v6_supported = TRUE;
++		thumb_supported = TRUE;
+ 		v7_supported = TRUE;
+ 	}
+ 	if (strstr (mtriple, "armv6")) {
