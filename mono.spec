@@ -991,6 +991,7 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %{_sysconfdir}/pki/mono/
 %dir %{_includedir}/mono-%{api}/
 %{_includedir}/mono-%{api}/*
+%{_libdir}/*.a
 %{_libdir}/libmono*.so
 %{_libdir}/pkgconfig/cecil.pc
 %{_libdir}/pkgconfig/dotnet.pc
