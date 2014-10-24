@@ -64,7 +64,7 @@ BuildRequires:	oprofile-devel
 BuildRequires:	pkgconfig(mono)
 %endif
 BuildRequires:	pkgconfig(zlib)
-%if %llvm == yes
+%if "%llvm" == "yes"
 #gw mono 2.8 does not build with our llvm 2.7
 BuildRequires:	llvm > 2.7
 %endif
@@ -177,7 +177,7 @@ Conflicts:	%{_lib}mono0 < 2.10.9-8
 %description -n %{liblog}
 This package provides a shared library for the Mono runtime.
 
-%if %sgen == yes
+%if "%sgen" == "yes"
 %package -n %{libmonosgen}
 Summary:	Library for the Mono runtime
 Group:		System/Libraries
@@ -187,7 +187,7 @@ Conflicts:	%{_lib}mono0 < 2.10.9-8
 This package provides a shared library for the Mono runtime.
 %endif
 
-%if %llvm == yes
+%if "%llvm" == "yes"
 %package -n %{libllvm}
 License:	LGPLv2
 Summary:	Loadable LLVM libary for mono
@@ -205,10 +205,10 @@ Requires:	%{libaot} = %{version}-%{release}
 Requires:	%{libcov} = %{version}-%{release}
 Requires:	%{libiomap} = %{version}-%{release}
 Requires:	%{liblog} = %{version}-%{release}
-%if %sgen == yes
+%if "%sgen" == "yes"
 Requires:	%{libmonosgen} = %{version}-%{release}
 %endif
-%if %llvm == yes
+%if "%llvm" == "yes"
 Requires:	%{libllvm} = %{version}-%{release}
 %endif
 Requires:	mono = %{version}-%{release}
@@ -644,7 +644,7 @@ autoreconf -fiv
 %ifarch %arm
 	--with-fpu=VFP \
 %endif
-%if %llvm == yes
+%if "%llvm" == "yes"
 	--enable-loadedllvm \
 %endif
 	--with-oprofile=%{_prefix}
@@ -704,7 +704,7 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %config  %{_sysconfdir}/mono/config
 %{_bindir}/mono
 %{_bindir}/mono-configuration-crypto
-%if %sgen == yes
+%if "%sgen" == "yes"
 %{_bindir}/mono-sgen
 %{_bindir}/mono-sgen-gdb.py
 %endif
@@ -976,12 +976,12 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %files -n %{liblog}
 %{_libdir}/libmono-profiler-log.so.%{profmaj}*
 
-%if %sgen == yes
+%if "%sgen" == "yes"
 %files -n %{libmonosgen}
 %{_libdir}/libmonosgen-%{api}.so.%{profmaj}*
 %endif
 
-%if %llvm == yes
+%if "%llvm" == "yes"
 %files -n %{libllvm}
 %{_libdir}/libmono-llvm.so.%{profmaj}*
 %endif
