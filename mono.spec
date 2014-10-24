@@ -14,7 +14,7 @@
 %define Werror_cflags %nil
 %endif
 
-%bcond_with bootstrap
+%bcond_without bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
