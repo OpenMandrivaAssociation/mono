@@ -14,7 +14,7 @@
 %define Werror_cflags %nil
 %endif
 
-%bcond_without bootstrap
+%bcond_with bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -641,6 +641,7 @@ autoreconf -fiv
 %configure2_5x \
 	--with-preview=yes \
 	--with-sgen=%{sgen} \
+	--enable-static \
 %ifarch %arm
 	--with-fpu=VFP \
 %endif
