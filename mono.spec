@@ -638,7 +638,9 @@ autoreconf -fiv
 #                 --with-fpu=VFP
 #gw else libmonosgen-2.0.la does not build
 %define _disable_ld_no_undefined 1
-%configure2_5x \
+
+# cb - enable-static here as errors occur without it (warning in build that disabling static is bad)
+%configure \
 	--with-preview=yes \
 	--with-sgen=%{sgen} \
 	--enable-static \
@@ -993,6 +995,7 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %dir %{_includedir}/mono-%{api}/
 %{_includedir}/mono-%{api}/*
 %{_libdir}/libmono*.so
+%{_libdir}/*.a
 %{_libdir}/pkgconfig/cecil.pc
 %{_libdir}/pkgconfig/dotnet.pc
 %{_libdir}/pkgconfig/dotnet35.pc
