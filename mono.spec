@@ -29,7 +29,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	19
+Release:	20
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
