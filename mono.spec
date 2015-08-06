@@ -56,6 +56,7 @@ Patch12:	alarm.patch
 # thumb mode for ARM
 Patch13:	armv7-thumb-mode.patch
 BuildRequires:	bison
+BuildRequires:	gettext-devel
 # for xmllint
 BuildRequires:	libxml2-utils
 BuildRequires:	oprofile-devel
