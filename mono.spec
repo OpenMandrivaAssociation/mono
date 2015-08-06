@@ -20,6 +20,8 @@
 %define llvm no
 %define sgen yes
 
+%define _disable_rebuild_configure 1
+
 # sgen exist for ARM
 #% ifnarch %{ix86} x86_64
 #% define llvm no
