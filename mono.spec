@@ -14,7 +14,7 @@
 %define Werror_cflags %nil
 %endif
 
-%bcond_with bootstrap
+%bcond_without bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -31,7 +31,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	20
+Release:	21
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
@@ -57,6 +57,7 @@ Patch11:	mono-2.10.2-threads-access.patch
 Patch12:	alarm.patch
 # thumb mode for ARM
 Patch13:	armv7-thumb-mode.patch
+Patch14:	mono-2.10.9-mono-find-requires-strip-newlines.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 # for xmllint
@@ -628,6 +629,7 @@ Mono APIs needed for software development, API 4.0
 %patch11 -p1 -b .threads
 %patch12 -p1 -b .alarm
 %patch13 -p1 -b .thumb
+%patch14 -p1 -b .mfrq
 
 %build
 
