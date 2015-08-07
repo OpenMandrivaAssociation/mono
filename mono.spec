@@ -14,7 +14,7 @@
 %define Werror_cflags %nil
 %endif
 
-%bcond_without bootstrap
+%bcond_with bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -31,7 +31,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	21
+Release:	22
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
