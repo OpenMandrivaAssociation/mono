@@ -7,7 +7,7 @@
 %define libcov %mklibname %{name}-profiler-cov %{profmaj}
 %define libiomap %mklibname %{name}-profiler-iomap %{profmaj}
 %define liblog %mklibname %{name}-profiler-log %{profmaj}
-
+%define _disable_lto 1
 %define libllvm %mklibname %{name}-llvm %{major}
 %define devname %mklibname -d %{name}
 %ifarch %arm
@@ -31,7 +31,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	2.10.9
-Release:	22
+Release:	23
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
