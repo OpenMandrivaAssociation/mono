@@ -1,3 +1,5 @@
+%define _disable_rebuild_configure 1
+
 %define api	2.0
 %define profmaj	0
 %define major	1
