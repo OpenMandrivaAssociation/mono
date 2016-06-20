@@ -1202,7 +1202,7 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 
 
 %files doc
-%doc AUTHORS COPYING.LIB NEWS README
+%doc COPYING.LIB NEWS README.md
 %doc docs/*[^Makefile-Makefile.in]
 %doc mcs*/docs/clr-abi.txt mcs*/docs/compiler.txt mcs*/docs/control-flow-analysis.txt
 %doc installed-docs/*
