@@ -35,7 +35,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	4.2.4
-Release:	2
+Release:	3
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
@@ -56,6 +56,7 @@ Patch7:		mono-2.10-armhfp.patch
 # thumb mode for ARM
 Patch13:	armv7-thumb-mode.patch
 Patch14:	mono-2.10.9-mono-find-requires-strip-newlines.patch
+Patch15:	mono-4.2.4-nunit_pkgconfig.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 # for xmllint
@@ -702,7 +703,7 @@ Mono APIs needed for software development, API 4.5
 %patch7 -p1 -b .armhfp
 %endif
 %patch14 -p1 -b .mfrq
-
+%patch15 -p1 -b .nunitpkgconfig
 %build
 
 %ifarch %ix86
