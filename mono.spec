@@ -7,7 +7,6 @@
 %define libmonosgen %mklibname %{name}sgen %{api} %{major}
 %define libmonoboehm %mklibname %{name}boehm %{api} %{major}
 %define libaot %mklibname %{name}-profiler-aot %{profmaj}
-%define libcov %mklibname %{name}-profiler-cov %{profmaj}
 %define libiomap %mklibname %{name}-profiler-iomap %{profmaj}
 %define liblog %mklibname %{name}-profiler-log %{profmaj}
 %define _disable_lto 1
@@ -24,6 +23,8 @@
 %define sgen yes
 
 %define _disable_rebuild_configure 1
+
+%define __noautoreq 'mono\\(\\)(.*)'
 
 # sgen exist for ARM
 #% ifnarch %{ix86} x86_64
@@ -71,13 +72,14 @@ BuildRequires:	llvm > 2.7
 %endif
 Requires:	%{name}-2.0 = %{version}-%{release}
 Requires:	%{name}-4.0 = %{version}-%{release}
+Requires:	%{name}-4.5 = %{version}-%{release}
 # gw requires by System.Drawing
 Requires:	libgdiplus
 # Since mono 0.91 (mdk 10.0) we can rely on included config
 Provides:	mono-config
 Provides:	libmono-runtime
 Conflicts:	%{_lib}mono0 < 2.10.9-8
-
+Obsoletes:	mono-compat < %{version}-%{release}
 %description
 Mono is an implementation of the ECMA Common Language Infrastructure,
 it contains both a just-in-time compiler for maximum performance, and
@@ -111,33 +113,11 @@ This package contains 4.0 API for mono.
 Summary:        4.5 API for mono
 Group:          Development/Other
 Requires:       %{name} = %{version}-%{release}
+Provides:	mono(System.Reactive.Linq) = 2.2.0.0
 Conflicts:      mono < 2.10.2-2
 
 %description 4.5
 This package contains 4.5 API for mono
-
-%package compat
-Summary:	Compatible API for mono
-Group:		Development/Other
-Requires:	%{name} = %{version}-%{release}
-# gw this is for some binary-only packages, the versions are retargetted
-# by the mono runtime
-Provides:	mono(Commons.Xml.Relaxng) = 1.0.5000.0
-Provides:	mono(CustomMarshalers) = 1.0.5000.0
-Provides:	mono(I18N) = 1.0.5000.0
-Provides:	mono(I18N.West) = 1.0.5000.0
-Provides:	mono(Mono.Cairo) = 1.0.5000.0
-Provides:	mono(Mono.CompilerServices.SymbolWriter) = 1.0.5000.0
-Provides:	mono(Mono.Posix) = 1.0.5000.0
-Provides:	mono(Mono.Security) = 1.0.5000.0
-Provides:	mono(OpenSystem.C) = 1.0.5000.0
-Provides:	mono(System) = 1.0.5000.0
-Provides:	mono(System.Security) = 1.0.5000.0
-Provides:	mono(System.Xml) = 1.0.5000.0
-Provides:	mono(mscorlib) = 1.0.5000.0
-
-%description compat
-This package contains compatible API for mono.
 
 %package doc
 Summary:	Documentation for the Mono runtime
@@ -161,14 +141,6 @@ Group:		System/Libraries
 Conflicts:	%{_lib}mono0 < 2.10.9-8
 
 %description -n %{libaot}
-This package provides a shared library for the Mono runtime.
-
-%package -n %{libcov}
-Summary:	Library for the Mono runtime
-Group:		System/Libraries
-Conflicts:	%{_lib}mono0 < 2.10.9-8
-
-%description -n %{libcov}
 This package provides a shared library for the Mono runtime.
 
 %package -n %{libiomap}
@@ -220,7 +192,6 @@ Summary:	Tools required to embed the Mono runtime
 Group:		Development/Other
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{libaot} = %{version}-%{release}
-Requires:	%{libcov} = %{version}-%{release}
 Requires:	%{libiomap} = %{version}-%{release}
 Requires:	%{liblog} = %{version}-%{release}
 Requires:       %{libmonoboehm} = %{version}-%{release}
@@ -242,6 +213,7 @@ Requires:	monodoc-core = %{version}-%{release}
 Requires:	mono-wcf = %{version}-%{release}
 Requires:	mono-winfxcore = %{version}-%{release}
 Conflicts:	mono-nunit < %{version}-%{release}
+Obsoletes:	%{_lib}mono-profiler-cov0 < %{version}-%{release}
 Provides:	mono-devel = %{version}-%{release}
 Provides:	libmono-devel = %{version}-%{release}
 Provides:	mono(PEAPI) = 1.0.5000.0
@@ -295,7 +267,7 @@ Requires:	mono = %{version}-%{release}
 Requires:	%{name}-web-2.0 = %{version}-%{release}
 Requires:	%{name}-web-4.0 = %{version}-%{release}
 Requires:       %{name}-web-4.5 = %{version}-%{release}
-Requires:	%{name}-web-compat = %{version}-%{release}
+Obsoletes:	mono-web-compat < %{version}-%{release}
 
 %description web
 This package provides the ASP.NET libraries and runtime for
