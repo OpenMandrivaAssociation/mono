@@ -733,6 +733,11 @@ Mono APIs needed for software development, API 4.5
 
 %build
 
+%ifarch %ix86
+export CC=gcc
+export CXX=g++
+%endif
+
 #./autogen.sh --prefix=/usr --sysconfdir=/etc \
 #                 --with-fpu=VFP
 #gw else libmonosgen-2.0.la does not build
