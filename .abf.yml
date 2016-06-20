@@ -1,2 +1,3 @@
 sources:
-  "mono-2.10.9.tar.bz2": 1a6e8c5a0c3d88d87982259aa04402e028a283de
+  mono-4.2.4.4.tar.bz2: ef8e8dcd9dea964f093d4986f0a435f6ccc125ee
+  mono.snk: b1ed4139f1dec3258166918570852bfc77f68dbb
