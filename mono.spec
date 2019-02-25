@@ -16,7 +16,7 @@
 %define Werror_cflags %nil
 %endif
 
-%bcond_with bootstrap
+%bcond_without bootstrap
 %define monodir %{_prefix}/lib/mono
 
 %define llvm no
@@ -35,7 +35,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	4.2.4
-Release:	4
+Release:	5
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
@@ -49,6 +49,7 @@ Source1:	mono.snk
 #Patch0:		mono-dllmap.patch
 # (fc) 1.2.3.1-4mdv disable using /proc/self/exe to detect root prefix, it breaks under unionfs
 Patch1:		mono-2.6-selfexe.patch
+Patch2:		mono-4.2.4-glibc-2.28.patch
 Patch4:		mono-wapi_glop.patch
 Patch5:		mono-2.10.8.1-mono-find-requires_strip-whitespace.patch
 Patch6:		mono-4.0.0-libgdiplusconfig.patch
@@ -61,7 +62,6 @@ BuildRequires:	bison
 BuildRequires:	gettext-devel
 # for xmllint
 BuildRequires:	libxml2-utils
-BuildRequires:	oprofile-devel
 %if %{without bootstrap}
 #gw needed for mono-find-requires which needs monodis and libmono.so
 BuildRequires:	pkgconfig(mono)
@@ -696,6 +696,7 @@ Mono APIs needed for software development, API 4.5
 %prep
 %setup -q
 %patch1 -p1 -b .selfexe
+%patch2 -p1 -b .glibc~
 %patch4 -p1 -b .glop
 %patch5 -p1 -b .dep_whitespace~
 %patch6 -F 1 -p1 -b .libgdiplus
@@ -706,7 +707,7 @@ Mono APIs needed for software development, API 4.5
 %patch15 -p1 -b .nunitpkgconfig
 %build
 
-%ifarch %ix86
+%ifarch %ix86 %{x86_64}
 export CC=gcc
 export CXX=g++
 %endif
@@ -727,9 +728,8 @@ export CXX=g++
 %if "%llvm" == "yes"
 	--enable-loadedllvm \
 %endif
-	--with-oprofile=%{_prefix}
 
-make
+%make
 
 %check
 #gw unit tests in mcs/class/corlib fail

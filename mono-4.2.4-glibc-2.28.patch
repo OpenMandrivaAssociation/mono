@@ -1,0 +1,20 @@
+diff -up mono-4.2.4/mono/io-layer/processes.c.omv~ mono-4.2.4/mono/io-layer/processes.c
+--- mono-4.2.4/mono/io-layer/processes.c.omv~	2019-02-25 02:47:55.185713777 +0100
++++ mono-4.2.4/mono/io-layer/processes.c	2019-02-25 02:51:32.653882599 +0100
+@@ -19,6 +19,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <unistd.h>
++#include <sys/sysmacros.h>
+ #ifdef HAVE_SIGNAL_H
+ #include <signal.h>
+ #endif
+@@ -1631,7 +1632,7 @@ static GSList *load_modules (FILE *fp)
+ 			continue;
+ 		}
+ 
+-		device = makedev ((int)maj_dev, (int)min_dev);
++		device = gnu_dev_makedev ((int)maj_dev, (int)min_dev);
+ 		if ((device == 0) &&
+ 		    (inode == 0)) {
+ 			continue;
