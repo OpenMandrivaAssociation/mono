@@ -1,0 +1,27 @@
+diff -up mono-5.18.0.268/external/boringssl/crypto/sha/asm/sha256-armv4.pl.omv~ mono-5.18.0.268/external/boringssl/crypto/sha/asm/sha256-armv4.pl
+--- mono-5.18.0.268/external/boringssl/crypto/sha/asm/sha256-armv4.pl.omv~	2019-03-01 00:23:15.534049074 +0100
++++ mono-5.18.0.268/external/boringssl/crypto/sha/asm/sha256-armv4.pl	2019-03-01 00:32:31.074751563 +0100
+@@ -479,7 +479,7 @@ sha256_block_data_order_neon:
+ 	stmdb	sp!,{r4-r12,lr}
+ 
+ 	sub	$H,sp,#16*4+16
+-	adrl	$Ktbl,K256
++	adr	$Ktbl,K256
+ 	bic	$H,$H,#15		@ align for 128-bit stores
+ 	mov	$t2,sp
+ 	mov	sp,$H			@ alloca
+@@ -610,14 +610,7 @@ $code.=<<___;
+ sha256_block_data_order_armv8:
+ .LARMv8:
+ 	vld1.32	{$ABCD,$EFGH},[$ctx]
+-# ifdef	__APPLE__
+ 	sub	$Ktbl,$Ktbl,#256+32
+-# elif	defined(__thumb2__)
+-	adr	$Ktbl,.LARMv8
+-	sub	$Ktbl,$Ktbl,#.LARMv8-K256
+-# else
+-	adrl	$Ktbl,K256
+-# endif
+ 	add	$len,$inp,$len,lsl#6	@ len to point at the end of inp
+ 
+ .Loop_v8:

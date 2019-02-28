@@ -48,6 +48,7 @@ Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar
 # sn -k mono.snk
 # You should not regenerate this unless you have a really, really, really good reason.
 Source1:	mono.snk
+Patch0:		mono-5.18.0.268-arm32-asm-clang.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 # for xmllint
@@ -1334,10 +1335,13 @@ Monodoc-core contains documentation tools for C#.
 
 %build
 
-#ifarch %ix86 %{x86_64}
+%ifarch %{arm}
+# As of mono 5.18.0.268, clang 7.0.1:
+# Necessary for invalid asm code in sha256-armv4.S
+# Probably fixed by Patch0
 #export CC=gcc
 #export CXX=g++
-#endif
+%endif
 
 #./autogen.sh --prefix=/usr --sysconfdir=/etc \
 #                 --with-fpu=VFP
