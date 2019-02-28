@@ -62,6 +62,7 @@ BuildRequires:	pkgconfig(zlib)
 #gw mono 2.8 does not build with our llvm 2.7
 BuildRequires:	llvm > 2.7
 %endif
+BuildRequires:	cmake ninja make
 Requires:	%{name}-2.0 = %{EVRD}
 Requires:	%{name}-4.0 = %{EVRD}
 Requires:	%{name}-4.5 = %{EVRD}
