@@ -9,7 +9,6 @@
 %define libmonoboehm %mklibname %{name}boehm %{api} %{major}
 %define libaot %mklibname %{name}-profiler-aot %{profmaj}
 %define libcoverage %mklibname %{name}-profiler-coverage %{profmaj}
-%define libiomap %mklibname %{name}-profiler-iomap %{profmaj}
 %define liblog %mklibname %{name}-profiler-log %{profmaj}
 %define _disable_lto 1
 %define libllvm %mklibname %{name}-llvm %{major}
@@ -73,6 +72,7 @@ Provides:	mono-config
 Provides:	libmono-runtime
 Conflicts:	%{_lib}mono0 < 2.10.9-8
 Obsoletes:	mono-compat < %{EVRD}
+%define libiomap %mklibname %{name}-profiler-iomap %{profmaj}
 Obsoletes:	%{libiomap} < %{EVRD}
 
 %description
@@ -125,14 +125,6 @@ Conflicts:	%{_lib}mono0 < 2.10.9-8
 %description -n %{libcoverage}
 This package provides a shared library for the Mono runtime.
 
-%package -n %{libiomap}
-Summary:	Library for the Mono runtime
-Group:		System/Libraries
-Conflicts:	%{_lib}mono0 < 2.10.9-8
-
-%description -n %{libiomap}
-This package provides a shared library for the Mono runtime.
-
 %package -n %{liblog}
 Summary:	Library for the Mono runtime
 Group:		System/Libraries
@@ -176,7 +168,6 @@ Requires:	%{libname} = %{EVRD}
 Requires:	%{libnative} = %{EVRD}
 Requires:	%{libaot} = %{EVRD}
 Requires:	%{libcoverage} = %{EVRD}
-Requires:	%{libiomap} = %{EVRD}
 Requires:	%{liblog} = %{EVRD}
 Requires:       %{libmonoboehm} = %{EVRD}
 %if "%sgen" == "yes"
@@ -744,7 +735,27 @@ EOF
 Summary:	$i API for mono
 Group:		Development/Other
 Requires:	%{name} = %{EVRD}
+EOF
 
+	if [ "$version" = "450" ]; then
+		cat <<EOF
+Provides:	mono(System.Collections.Immutable) = 1.2.0.0
+Provides:	mono(System.IO.Compression) = 4.1.1.0
+Provides:	mono(System.Security.Cryptography.Algorithms) = 4.0.0.0
+Provides:	mono(System.Text.Encoding.CodePages) = 4.0.2.0
+Provides:	mono(System.ValueTuple) = 4.0.1.0
+Provides:	mono(System.Xml.XPath.XDocument) = 4.0.1.0
+Provides:	mono(System.Diagnostics.StackTrace) = 4.0.2.0
+Provides:	mono(System.Runtime.Loader) = 4.0.0.0
+Provides:	mono(System) = 4.0.0.0
+Provides:	mono(System.Xml) = 4.0.0.0
+Provides:	mono(System.Core) = 4.0.0.0
+Provides:	mono(System.Xml.Linq) = 4.0.0.0
+Provides:	mono(System.Configuration) = 4.0.0.0
+EOF
+	fi
+
+	cat <<EOF
 %description $i
 This package contains $i API for mono.
 
