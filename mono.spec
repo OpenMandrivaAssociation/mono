@@ -1345,8 +1345,7 @@ Monodoc-core contains documentation tools for C#.
 %ifarch %{aarch64} %{ix86}
 # Weird error caused by doltlibtool
 # "incompatible target" while linking libmono-system-native.so.0
-export CC=gcc
-export CXX=g++
+%global optflags %{optflags} -fuse-ld=bfd
 %endif
 
 #./autogen.sh --prefix=/usr --sysconfdir=/etc \
