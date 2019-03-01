@@ -1367,6 +1367,10 @@ export CXX=g++
 	--enable-loadedllvm \
 %endif
 
+# Make sure the newly built mono tools are preferred over
+# anything that may already be on the system
+export PATH=`pwd`/runtime/_tmpinst/bin:$PATH
+
 %make
 
 %check
