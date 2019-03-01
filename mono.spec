@@ -1334,6 +1334,11 @@ Monodoc-core contains documentation tools for C#.
 %prep
 %autosetup -p1
 
+# https://github.com/mono/mono/issues/13253
+find . -name "*.o" -o -name "*.so" -o -name "*.lo" |xargs rm -f
+
+[ -e autogen.sh ] && NOCONFIGURE=1 ./autogen.sh
+
 %build
 
 %ifarch %{arm}
@@ -1342,13 +1347,6 @@ Monodoc-core contains documentation tools for C#.
 # Probably fixed by Patch0
 #export CC=gcc
 #export CXX=g++
-%endif
-%ifarch %{aarch64} %{ix86}
-# Weird error caused by doltlibtool
-# "incompatible target" while linking libmono-system-native.so.0
-%global optflags %{optflags} -fuse-ld=bfd
-%global ldflags %{ldflags} -fuse-ld=bfd
-%global _disable_lto 1
 %endif
 
 #./autogen.sh --prefix=/usr --sysconfdir=/etc \
