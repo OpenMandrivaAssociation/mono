@@ -1,0 +1,8 @@
+diff -up mono-5.18.0.268/mono/btls/CMakeLists.txt.omv~ mono-5.18.0.268/mono/btls/CMakeLists.txt
+--- mono-5.18.0.268/mono/btls/CMakeLists.txt.omv~	2019-03-01 02:42:30.334533366 +0100
++++ mono-5.18.0.268/mono/btls/CMakeLists.txt	2019-03-01 02:42:45.933755853 +0100
+@@ -96,3 +96,4 @@ set (
+ )
+ 
+ add_library (mono-btls-shared SHARED ${MONO_BTLS_SOURCES})
++target_link_libraries (mono-btls-shared pthread)

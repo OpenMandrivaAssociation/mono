@@ -49,6 +49,7 @@ Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar
 # You should not regenerate this unless you have a really, really, really good reason.
 Source1:	mono.snk
 Patch0:		mono-5.18.0.268-arm32-asm-clang.patch
+Patch1:		mono-5.18.0.268-btls-link-pthread.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 # for xmllint
