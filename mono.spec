@@ -48,7 +48,6 @@ Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar
 # sn -k mono.snk
 # You should not regenerate this unless you have a really, really, really good reason.
 Source1:	mono.snk
-Patch0:		mono-5.18.0.268-arm32-asm-clang.patch
 Patch1:		mono-5.18.0.268-btls-link-pthread.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
@@ -1341,12 +1340,17 @@ find . -name "*.o" -o -name "*.so" -o -name "*.lo" |xargs rm -f
 
 %build
 
+%ifarch %{aarch64}
+# As of mono 5.18.0.268, clang 7.0.1:
+# Newly built C# compiler crashes while building other parts of mono
+export CC=gcc
+export CXX=g++
+%endif
 %ifarch %{arm}
 # As of mono 5.18.0.268, clang 7.0.1:
-# Necessary for invalid asm code in sha256-armv4.S
-# Probably fixed by Patch0
-#export CC=gcc
-#export CXX=g++
+# Build failure because of bogus asm code in sha256-armv4 from btls
+export CC=gcc
+export CXX=g++
 %endif
 
 #./autogen.sh --prefix=/usr --sysconfdir=/etc \
