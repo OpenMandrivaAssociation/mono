@@ -1331,7 +1331,7 @@ Provides:	monodoc
 Monodoc-core contains documentation tools for C#.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 
