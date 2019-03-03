@@ -49,6 +49,8 @@ Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar
 # You should not regenerate this unless you have a really, really, really good reason.
 Source1:	mono.snk
 Patch1:		mono-5.18.0.268-btls-link-pthread.patch
+# https://github.com/mono/mono/issues/12632
+Patch2:		mono-5.18.0.268-workaround-arm-build-failure.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 # for xmllint
@@ -170,7 +172,9 @@ Requires:	%{libnative} = %{EVRD}
 Requires:	%{libaot} = %{EVRD}
 Requires:	%{libcoverage} = %{EVRD}
 Requires:	%{liblog} = %{EVRD}
+%ifarch %{x86_64} %{ix86}
 Requires:       %{libmonoboehm} = %{EVRD}
+%endif
 %if "%sgen" == "yes"
 Requires:	%{libmonosgen} = %{EVRD}
 %endif
@@ -1342,7 +1346,8 @@ find . -name "*.o" -o -name "*.so" -o -name "*.lo" |xargs rm -f
 
 %ifarch %{aarch64}
 # As of mono 5.18.0.268, clang 7.0.1:
-# Newly built C# compiler crashes while building other parts of mono
+# Build failure with clang and/or gold
+%global ldflags -fuse-ld=bfd
 export CC=gcc
 export CXX=g++
 %endif
@@ -1352,11 +1357,6 @@ export CXX=g++
 export CC=gcc
 export CXX=g++
 %endif
-
-#./autogen.sh --prefix=/usr --sysconfdir=/etc \
-#                 --with-fpu=VFP
-#gw else libmonosgen-2.0.la does not build
-%define _disable_ld_no_undefined 1
 
 # cb - enable-static here as errors occur without it (warning in build that disabling static is bad)
 %configure \
@@ -1380,9 +1380,12 @@ export PATH=`pwd`/runtime/_tmpinst/bin:$PATH
 %install
 %makeinstall_std
 
+%ifarch %{x86_64} %{ix86}
+# libgc-mono is built on x86 but not arm
 mv %{buildroot}%{_datadir}/libgc-mono installed-docs
 # Prevent duplicated packaging
 rm -f installed-docs/README
+%endif
 
 %find_lang mcs
 
@@ -1407,7 +1410,9 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %{_bindir}/mono-sgen
 %{_bindir}/mono-sgen-gdb.py
 %endif
+%ifarch %{x86_64} %{ix86}
 %{_bindir}/mono-boehm
+%endif
 %{_bindir}/mono-test-install
 %{_bindir}/csharp
 %{_bindir}/certmgr
@@ -1448,7 +1453,9 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %doc COPYING.LIB NEWS README.md
 %doc docs/*[^Makefile-Makefile.in]
 %doc mcs*/docs/clr-abi.txt mcs*/docs/compiler.txt mcs*/docs/control-flow-analysis.txt
+%ifarch %{ix86} %{x86_64}
 %doc installed-docs/*
+%endif
 
 %files -n %{libname}
 %{_libdir}/libmono-%{api}.so.%{major}*
@@ -1465,8 +1472,10 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %files -n %{liblog}
 %{_libdir}/libmono-profiler-log.so.%{profmaj}*
 
+%ifarch %{x86_64} %{ix86}
 %files -n %{libmonoboehm}
 %{_libdir}/libmonoboehm-%{api}.so.%{major}*
+%endif
 
 %files -n %{libmonosgen}
 %{_libdir}/libmonosgen-%{api}.so.%{major}*
