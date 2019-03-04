@@ -1362,6 +1362,10 @@ export CXX=g++
 # Build failure because of bogus asm code in sha256-armv4 from btls
 export CC=gcc
 export CXX=g++
+# Try to work around
+# "mscorlib.dll.so: Bad string pointer index 1836008224 for unit name"
+# while extracting debuginfo
+%global ldflags %{ldflags} -fuse-ld=bfd
 %endif
 
 # cb - enable-static here as errors occur without it (warning in build that disabling static is bad)
