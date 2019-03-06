@@ -1,3 +1,9 @@
+%ifarch %{arm}
+# Workaround for debuginfo generator bug
+# Build fails with "Bad string pointer index 1836008224 for unit name"
+%define debug_package %{nil}
+%endif
+
 %define _disable_rebuild_configure 1
 
 %define api	2.0
