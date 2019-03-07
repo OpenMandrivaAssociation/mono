@@ -184,7 +184,7 @@ Requires:	%{libnative} = %{EVRD}
 Requires:	%{libaot} = %{EVRD}
 Requires:	%{libcoverage} = %{EVRD}
 Requires:	%{liblog} = %{EVRD}
-%ifarch %{x86_64} %{ix86}
+%ifarch %{x86_64} %{ix86} %{arm}
 Requires:       %{libmonoboehm} = %{EVRD}
 %endif
 %if "%sgen" == "yes"
@@ -1396,8 +1396,8 @@ export PATH=`pwd`/runtime/_tmpinst/bin:$PATH
 %install
 %makeinstall_std
 
-%ifarch %{x86_64} %{ix86}
-# libgc-mono is built on x86 but not arm
+%ifarch %{x86_64} %{ix86} %{arm}
+# libgc-mono is built on x86 but not aarch64
 mv %{buildroot}%{_datadir}/libgc-mono installed-docs
 # Prevent duplicated packaging
 rm -f installed-docs/README
@@ -1426,7 +1426,7 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %{_bindir}/mono-sgen
 %{_bindir}/mono-sgen-gdb.py
 %endif
-%ifarch %{x86_64} %{ix86}
+%ifarch %{x86_64} %{ix86} %{arm}
 %{_bindir}/mono-boehm
 %endif
 %{_bindir}/mono-test-install
@@ -1488,7 +1488,7 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %files -n %{liblog}
 %{_libdir}/libmono-profiler-log.so.%{profmaj}*
 
-%ifarch %{x86_64} %{ix86}
+%ifarch %{x86_64} %{ix86} %{arm}
 %files -n %{libmonoboehm}
 %{_libdir}/libmonoboehm-%{api}.so.%{major}*
 %endif
