@@ -10,9 +10,9 @@
 %define profmaj	0
 %define major	1
 %define libname %mklibname %{name} %{api} %{major}
-%define libnative %mklibname %{name}-system-native 0
 %define libmonosgen %mklibname %{name}sgen %{api} %{major}
 %define libmonoboehm %mklibname %{name}boehm %{api} %{major}
+%define libnative %mklibname %{name}-native 0
 %define libaot %mklibname %{name}-profiler-aot %{profmaj}
 %define libcoverage %mklibname %{name}-profiler-coverage %{profmaj}
 %define liblog %mklibname %{name}-profiler-log %{profmaj}
@@ -49,7 +49,7 @@
 
 Summary:	Mono Runtime
 Name:		mono
-Version:	5.18.0.268
+Version:	5.20.1.19
 Release:	1
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
@@ -87,7 +87,9 @@ Provides:	mono-config
 Provides:	libmono-runtime
 Conflicts:	%{_lib}mono0 < 2.10.9-8
 Obsoletes:	mono-compat < %{EVRD}
+# Bits that existed in previous versions, but not anymore
 %define libiomap %mklibname %{name}-profiler-iomap %{profmaj}
+%define libsystemnative %mklibname %{name}-system-native 0
 Obsoletes:	%{libiomap} < %{EVRD}
 
 %description
@@ -120,6 +122,7 @@ This package provides a shared library for the Mono runtime.
 %package -n %{libnative}
 Summary:	Library for the Mono runtime
 Group:		System/Libraries
+Obsoletes:	%{libsystemnative} < %{EVRD}
 
 %description -n %{libnative}
 This package provides a shared library for the Mono runtime.
@@ -1476,9 +1479,6 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 %files -n %{libname}
 %{_libdir}/libmono-%{api}.so.%{major}*
 
-%files -n %{libnative}
-%{_libdir}/libmono-system-native.so.0*
-
 %files -n %{libaot}
 %{_libdir}/libmono-profiler-aot.so.%{profmaj}*
 
@@ -1495,6 +1495,9 @@ install -p -m0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/pki/mono/
 
 %files -n %{libmonosgen}
 %{_libdir}/libmonosgen-%{api}.so.%{major}*
+
+%files -n %{libnative}
+%{_libdir}/libmono-native.so.0*
 
 %if "%llvm" == "yes"
 %files -n %{libllvm}
