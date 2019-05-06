@@ -39,7 +39,7 @@
 
 %define _disable_rebuild_configure 1
 
-%define __noautoreq 'mono\\(\\)(.*)'
+%global __requires_exclude 'mono\\(\\)(.*)'
 
 # sgen exist for ARM
 #% ifnarch %{ix86} x86_64
@@ -50,7 +50,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	5.20.1.19
-Release:	1
+Release:	2
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
