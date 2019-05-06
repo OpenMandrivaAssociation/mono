@@ -6,9 +6,9 @@
 
 %define _disable_rebuild_configure 1
 
-%define api	2.0
-%define profmaj	0
-%define major	1
+%define api 2.0
+%define profmaj 0
+%define major 1
 %define libname %mklibname %{name} %{api} %{major}
 %define libmonosgen %mklibname %{name}sgen %{api} %{major}
 %define libmonoboehm %mklibname %{name}boehm %{api} %{major}
@@ -152,9 +152,9 @@ Conflicts:	%{_lib}mono0 < 2.10.9-8
 This package provides a shared library for the Mono runtime.
 
 %package -n %{libmonoboehm}
-Summary:        Library for the Mono runtime
-Group:          System/Libraries
-Conflicts:      %{_lib}mono0 < 2.10.9-8
+Summary:	Library for the Mono runtime
+Group:		System/Libraries
+Conflicts:	%{_lib}mono0 < 2.10.9-8
 
 %description -n %{libmonoboehm}
 This package provides a shared library for the Mono runtime.
@@ -188,7 +188,7 @@ Requires:	%{libaot} = %{EVRD}
 Requires:	%{libcoverage} = %{EVRD}
 Requires:	%{liblog} = %{EVRD}
 %ifarch %{x86_64} %{ix86} %{arm}
-Requires:       %{libmonoboehm} = %{EVRD}
+Requires:	%{libmonoboehm} = %{EVRD}
 %endif
 %if "%sgen" == "yes"
 Requires:	%{libmonosgen} = %{EVRD}
@@ -274,7 +274,7 @@ Provides:	mono(mono-service) = 1.0.5000.0
 %description extras
 This package provides the libary and application to run services and
 daemons with Mono. It also includes stubs for the following .NET 1.1
-and 2.0 assemblies:	Microsoft.Vsa, System.Configuration.Install,
+and 2.0 assemblies: Microsoft.Vsa, System.Configuration.Install,
 System.Management, System.Messaging.
 
 %files extras
@@ -1355,6 +1355,9 @@ Monodoc-core contains documentation tools for C#.
 # https://github.com/mono/mono/issues/13253
 find . -name "*.o" -o -name "*.so" -o -name "*.lo" |xargs rm -f
 
+# Remove hardcoded lib directory for libMonoPosixHelper.so from the config
+sed -i 's|$mono_libdir/||g' data/config.in
+
 [ -e autogen.sh ] && NOCONFIGURE=1 ./autogen.sh
 
 %build
@@ -1390,14 +1393,17 @@ export CXX=g++
 # anything that may already be on the system
 export PATH=`pwd`/runtime/_tmpinst/bin:$PATH
 
-%make
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+%make_build
 
 %check
 #gw unit tests in mcs/class/corlib fail
 #make check
 
 %install
-%makeinstall_std
+%make_install
 
 %ifarch %{x86_64} %{ix86} %{arm}
 # libgc-mono is built on x86 but not aarch64
