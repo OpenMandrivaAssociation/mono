@@ -49,8 +49,8 @@
 
 Summary:	Mono Runtime
 Name:		mono
-Version:	5.20.1.19
-Release:	2
+Version:	5.20.1.27
+Release:	1
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
@@ -77,6 +77,8 @@ BuildRequires:	pkgconfig(zlib)
 BuildRequires:	llvm > 2.7
 %endif
 BuildRequires:	cmake ninja make
+# FIXME Why isn't the correct version detected?
+Provides:	mono(Mono.Cecil) = 0.10.0.0
 Requires:	%{name}-2.0 = %{EVRD}
 Requires:	%{name}-4.0 = %{EVRD}
 Requires:	%{name}-4.5 = %{EVRD}
@@ -332,7 +334,7 @@ Group:		Development/Other
 Mono APIs needed for software development
 
 %files build
-%{monodir}/msbuild/15.0
+%{monodir}/msbuild/Current
 
 %(
 for i in %{api_versions}; do
