@@ -50,7 +50,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	5.20.1.27
-Release:	1
+Release:	2
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
