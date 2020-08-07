@@ -60,7 +60,7 @@ Source0:	http://download.mono-project.com/sources/%{name}/%{name}-%{version}.tar
 # sn -k mono.snk
 # You should not regenerate this unless you have a really, really, really good reason.
 Source1:	mono.snk
-Patch1:		mono-5.18.0.268-btls-link-pthread.patch
+#Patch1:		mono-5.18.0.268-btls-link-pthread.patch
 # https://github.com/mono/mono/issues/12632
 Patch2:		mono-5.18.0.268-workaround-arm-build-failure.patch
 BuildRequires:	bison
