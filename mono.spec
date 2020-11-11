@@ -30,6 +30,7 @@
 %endif
 
 %global api_versions 2.0 4.0 4.5 4.5.1 4.5.2 4.6 4.6.1 4.6.2 4.7 4.7.1 4.7.2 4.8
+%global optflags %{optflags} -I%{_includedir}/libunwind
 
 %bcond_without bootstrap
 %define monodir %{_prefix}/lib/mono
@@ -1393,7 +1394,7 @@ sed -i 's|$mono_libdir/||g' data/config.in
 
 %if %{with bootstrap}
 # for bootstrap, keep some binaries
-find . -name "*.dll" -not -path "./mcs/class/lib/monolite-linux/*" -not -path "./external/binary-reference-assemblies/v4.7.1/*" -print -delete
+#find . -name "*.dll" -not -path "./mcs/class/lib/monolite-linux/*" -not -path "./external/binary-reference-assemblies/v4.7.1/*" -print -delete
 #find . -name "*.exe" -not -path "./mcs/class/lib/monolite-linux/*" -print -delete
 %else
 # Remove all prebuilt binaries
