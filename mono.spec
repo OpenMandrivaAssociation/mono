@@ -90,6 +90,7 @@ Patch62:	https://src.fedoraproject.org/rpms/mono/raw/master/f/mono-6.6.0-fix-mul
 BuildRequires:	bison
 BuildRequires:	python
 BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(libunwind)
 # for xmllint
 BuildRequires:	libxml2-utils
 %if %{without bootstrap}
