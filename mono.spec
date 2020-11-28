@@ -1558,6 +1558,9 @@ rm %{buildroot}%{_bindir}/mono-find-provides
 %dir %{monodir}/3.5-api/
 %{monodir}/mono-configuration-crypto
 %{monodir}/gac/Mono.Cecil/
+%{_prefix}/lib/rpm/fileattrs/mono.attr
+%{_prefix}/lib/rpm/mono-find-provides
+%{_prefix}/lib/rpm/mono-find-requires
 
 %files doc
 %doc COPYING.LIB NEWS README.md
