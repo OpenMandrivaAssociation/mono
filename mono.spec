@@ -23,11 +23,7 @@
 %define Werror_cflags %nil
 %endif
 
-%ifnarch %{aarch64}
-# FIXME need to investigate why this is needed on anything
-# but aarch64... but it is (compile failure everywhere else)
 %define _disable_ld_no_undefined 1
-%endif
 
 %global api_versions 2.0 4.0 4.5 4.5.1 4.5.2 4.6 4.6.1 4.6.2 4.7 4.7.1 4.7.2 4.8
 %global optflags %{optflags} -I%{_includedir}/libunwind
