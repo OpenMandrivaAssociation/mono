@@ -47,7 +47,7 @@
 Summary:	Mono Runtime
 Name:		mono
 Version:	6.12.0.122
-Release:	1
+Release:	2
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
@@ -118,9 +118,21 @@ Obsoletes:	mono-compat < %{EVRD}
 Obsoletes:	%{libiomap} < %{EVRD}
 
 %global _use_internal_dependency_generator 0
-%global __find_provides env sh -c 'filelist=($(cat)) && { printf "%s\\n" "${filelist[@]}" | grep -v 4.7.1-api | grep -v 4.5-api| /usr/lib/rpm/find-provides && printf "%s\\n" "${filelist[@]}" | grep -v 4.7.1-api | grep -v 4.5-api | prefix=%{buildroot}%{_prefix} %{buildroot}%{_bindir}/mono-find-provides; } | sort | uniq'
-%global __find_requires env sh -c 'filelist=($(cat)) && { printf "%s\\n" "${filelist[@]}" | /usr/lib/rpm/find-requires && printf "%s\\n" "${filelist[@]}" | prefix=%{buildroot}%{_prefix} %{buildroot}%{_bindir}/mono-find-requires; } | sort | uniq | grep ^...'
+%global __find_provides env sh -c 'filelist=($(cat)) && { printf "%s\\n" "${filelist[@]}" | grep -v 4.7.1-api | grep -v 4.5-api| /usr/lib/rpm/find-provides && printf "%s\\n" "${filelist[@]}" | grep -v 4.7.1-api | grep -v 4.5-api | prefix=%{buildroot}%{_prefix} %{buildroot}%{_usrlibrpm}/mono-find-provides; } | sort | uniq'
+%global __find_requires env sh -c 'filelist=($(cat)) && { printf "%s\\n" "${filelist[@]}" | /usr/lib/rpm/find-requires && printf "%s\\n" "${filelist[@]}" | prefix=%{buildroot}%{_prefix} %{buildroot}%{_usrlibrpm}/mono-find-requires; } | sort | uniq | grep ^... |grep -vE "mono\\((System\\.(Buffers|Numerics\\.Vectors|Runtime\\.CompilerServices\\.Unsafe|Text\\.Encoding\\.CodePages|Diagnostics.Tracing)|Microsoft\\.Build\\.(Framework|Tasks\\.Core|Utilities\\.Core))\\)"'
  
+# grep -vE statement above is a workaround for mono requiring versions of
+# its own components that it doesn't seeem to provide. There might be a
+# better fix.
+#        mono(System.Buffers) = 4.0.2.0 is needed by mono-4.5-6.12.0.122-2.znver1
+#        mono(System.Numerics.Vectors) = 4.1.3.0 is needed by mono-4.5-6.12.0.122-2.znver1
+#        mono(System.Runtime.CompilerServices.Unsafe) = 4.0.4.1 is needed by mono-4.5-6.12.0.122-2.znver1
+#        mono(System.Text.Encoding.CodePages) = 4.1.1.0 is needed by mono-4.5-6.12.0.122-2.znver1
+#        mono(System.Diagnostics.Tracing) = 4.1.2.0 is needed by mono-4.7.1-6.12.0.122-2.znver1
+#        mono(System.Text.Encoding.CodePages) = 4.1.1.0 is needed by mono-build-4.5-6.12.0.122-2.znver1
+#        mono(Microsoft.Build.Framework) = 15.1.0.0 is needed by mono-build-6.12.0.122-2.znver1
+#        mono(Microsoft.Build.Tasks.Core) = 15.1.0.0 is needed by mono-build-6.12.0.122-2.znver1
+#        mono(Microsoft.Build.Utilities.Core)
 
 %description
 Mono is an implementation of the ECMA Common Language Infrastructure,
@@ -381,21 +393,6 @@ sql application as well as the Microsoft SQL Server and ODBC data
 providers.
 
 %files data-$i
-%{monodir}/$i-api/IBM.Data.DB2.dll
-%{monodir}/$i-api/Novell.Directory.Ldap.dll
-%{monodir}/$i-api/System.Data.DataSetExtensions.dll
-%{monodir}/$i-api/System.Data.Linq.dll
-%{monodir}/$i-api/System.Data.Services.dll
-%{monodir}/$i-api/System.Data.dll
-%{monodir}/$i-api/System.DirectoryServices.dll
-%{monodir}/$i-api/System.DirectoryServices.Protocols.dll
-%{monodir}/$i-api/System.EnterpriseServices.dll
-%{monodir}/$i-api/System.Runtime.Serialization.dll
-%{monodir}/$i-api/System.Transactions.dll
-%{monodir}/$i-api/Mono.Data.Sqlite.dll
-%{monodir}/$i-api/Mono.Data.Tds.dll
-%{monodir}/$i-api/System.Data.OracleClient.dll
-%{monodir}/$i-api/WebMatrix.Data.dll
 EOF
 
 	if [ "$version" = "400" ]; then
@@ -415,6 +412,24 @@ EOF
 %{monodir}/gac/System.Transactions/4.0.0.0*
 %{monodir}/gac/WebMatrix.Data/4.0.0.0*
 %{monodir}/gac/System.DirectoryServices.Protocols/4.0.0.0*
+EOF
+	else
+		cat <<EOF
+%{monodir}/$i-api/IBM.Data.DB2.dll
+%{monodir}/$i-api/Novell.Directory.Ldap.dll
+%{monodir}/$i-api/System.Data.DataSetExtensions.dll
+%{monodir}/$i-api/System.Data.Linq.dll
+%{monodir}/$i-api/System.Data.Services.dll
+%{monodir}/$i-api/System.Data.dll
+%{monodir}/$i-api/System.DirectoryServices.dll
+%{monodir}/$i-api/System.DirectoryServices.Protocols.dll
+%{monodir}/$i-api/System.EnterpriseServices.dll
+%{monodir}/$i-api/System.Runtime.Serialization.dll
+%{monodir}/$i-api/System.Transactions.dll
+%{monodir}/$i-api/Mono.Data.Sqlite.dll
+%{monodir}/$i-api/Mono.Data.Tds.dll
+%{monodir}/$i-api/System.Data.OracleClient.dll
+%{monodir}/$i-api/WebMatrix.Data.dll
 EOF
 	fi
 
@@ -440,12 +455,15 @@ Requires:	mono-$i = %{EVRD}
 Mono implementation of core WinFX APIs $i
 
 %files winfxcore-$i
-%{monodir}/$i-api/System.Data.Services.Client.dll
-%{monodir}/$i-api/WindowsBase.dll*
 EOF
 	if [ "$i" = "4.0" ]; then
 		echo '%{monodir}/gac/System.Data.Services.Client/4.0.0.0*'
 		echo '%{monodir}/gac/WindowsBase/4.0.0.0*'
+	else
+		cat <<EOF
+%{monodir}/$i-api/System.Data.Services.Client.dll
+%{monodir}/$i-api/WindowsBase.dll*
+EOF
 	fi
 
 	cat <<EOF
@@ -462,21 +480,8 @@ development of web application, web services and remoting support.
 %optional %config(noreplace) %{_sysconfdir}/mono/$i/Browsers/Compat.browser
 %optional %config(noreplace) %{_sysconfdir}/mono/$i/DefaultWsdlHelpGenerator.aspx
 %optional %config(noreplace) %{_sysconfdir}/mono/$i/web.config
-%{monodir}/$i-api/Mono.Http.dll
-%{monodir}/$i-api/Microsoft.Web.Infrastructure.dll
-%{monodir}/$i-api/System.ComponentModel.DataAnnotations.dll
-%{monodir}/$i-api/System.Runtime.Remoting.dll
-%{monodir}/$i-api/System.Runtime.Serialization.Formatters.Soap.dll
-%{monodir}/$i-api/System.Web.Abstractions.dll
-%{monodir}/$i-api/System.Web.DynamicData.dll
-%{monodir}/$i-api/System.Web.Extensions.Design.dll
-%{monodir}/$i-api/System.Web.Extensions.dll
-%{monodir}/$i-api/System.Web.Mvc.dll
-%{monodir}/$i-api/System.Web.Routing.dll
-%{monodir}/$i-api/System.Web.Services.dll
-%{monodir}/$i-api/System.Web.dll
 EOF
-	if [ "$i" != "2.0" ]; then
+	if [ "$i" != "2.0" -a "$i" != "4.0" ]; then
 		cat <<EOF
 %{monodir}/$i-api/System.ComponentModel.Composition.dll
 %{monodir}/$i-api/System.Web.ApplicationServices.dll
@@ -510,6 +515,22 @@ EOF
 %{monodir}/gac/System.Web.Services/4.0.0.0*
 %{monodir}/gac/System.Web/4.0.0.0*
 EOF
+	else
+		cat <<EOF
+%{monodir}/$i-api/Mono.Http.dll
+%{monodir}/$i-api/Microsoft.Web.Infrastructure.dll
+%{monodir}/$i-api/System.ComponentModel.DataAnnotations.dll
+%{monodir}/$i-api/System.Runtime.Remoting.dll
+%{monodir}/$i-api/System.Runtime.Serialization.Formatters.Soap.dll
+%{monodir}/$i-api/System.Web.Abstractions.dll
+%{monodir}/$i-api/System.Web.DynamicData.dll
+%{monodir}/$i-api/System.Web.Extensions.Design.dll
+%{monodir}/$i-api/System.Web.Extensions.dll
+%{monodir}/$i-api/System.Web.Mvc.dll
+%{monodir}/$i-api/System.Web.Routing.dll
+%{monodir}/$i-api/System.Web.Services.dll
+%{monodir}/$i-api/System.Web.dll
+EOF
 	fi
 	if [ "$i" = "4.5" ]; then
 		cat <<EOF
@@ -534,6 +555,10 @@ This package provides the libary and application to run services and
 daemons with Mono $i API.
 
 %files extras-$i
+EOF
+
+	if [ "$i" != "4.0" ]; then
+		cat <<EOF
 %{monodir}/$i-api/Mono.Messaging.RabbitMQ.dll
 %{monodir}/$i-api/Mono.Messaging.dll
 %{monodir}/$i-api/RabbitMQ.Client.dll
@@ -542,6 +567,7 @@ daemons with Mono $i API.
 %{monodir}/$i-api/System.Messaging.dll
 %{monodir}/$i-api/System.ServiceProcess.dll
 EOF
+	fi
 
 	if [ "$version" = "400" ]; then
 		cat <<EOF
@@ -574,26 +600,26 @@ System.Windows.Forms, the default graphical toolkit for .NET $i
 applications.
 
 %files winforms-$i
+EOF
+
+	if [ "$i" != "4.0" ]; then
+		cat <<EOF
+%dir %{monodir}/$i-api
 %{monodir}/$i-api/Accessibility.dll
 %{monodir}/$i-api/Mono.WebBrowser.dll
 %{monodir}/$i-api/System.Design.dll
 %{monodir}/$i-api/System.Drawing.Design.dll
 %{monodir}/$i-api/System.Windows.Forms.dll
 EOF
+	else
+		cat <<EOF
+%{monodir}/$i-api
+EOF
+	fi
 
 	if [ "$version" -ge "400" ]; then
 		cat <<EOF
 %dir %{monodir}
-EOF
-	fi
-	if [ "$version" -gt "400" ]; then
-		# 4.0-api is a symlink -- hence, can't %dir it
-		cat <<EOF
-%dir %{monodir}/$i-api
-EOF
-	else
-		cat <<EOF
-%{monodir}/$i-api
 EOF
 	fi
 	if [ "$version" -ge "400" ]; then
@@ -605,7 +631,10 @@ EOF
 %dir %{monodir}/gac/System.Drawing.Design
 %dir %{monodir}/gac/System.Windows.Forms
 %dir %{monodir}/gac/System.Windows.Forms.DataVisualization
-%{monodir}/$i-api/System.Windows.Forms.DataVisualization.dll
+EOF
+		if [ "$i" != "4.0" ]; then
+			echo "%{monodir}/$i-api/System.Windows.Forms.DataVisualization.dll"
+		fi
 EOF
 	fi
 
@@ -646,10 +675,6 @@ This package contains assemblies to support I18N applications for
 non-latin alphabets for Mono $i
 
 %files locale-extras-$i
-%{monodir}/$i-api/I18N.CJK.dll
-%{monodir}/$i-api/I18N.MidEast.dll
-%{monodir}/$i-api/I18N.Other.dll
-%{monodir}/$i-api/I18N.Rare.dll
 EOF
 
 	if [ "$version" = "400" ]; then
@@ -658,6 +683,13 @@ EOF
 %{monodir}/gac/I18N.MidEast/4.0.0.0*
 %{monodir}/gac/I18N.Other/4.0.0.0*
 %{monodir}/gac/I18N.Rare/4.0.0.0*
+EOF
+	else
+		cat <<EOF
+%{monodir}/$i-api/I18N.CJK.dll
+%{monodir}/$i-api/I18N.MidEast.dll
+%{monodir}/$i-api/I18N.Other.dll
+%{monodir}/$i-api/I18N.Rare.dll
 EOF
 	fi
 
@@ -680,13 +712,18 @@ Requires:	%{name}-$i = %{EVRD}
 Mono implementation of WCF, Windows Communication Foundation, API $i
 
 %files wcf-$i
+EOF
+
+	if [ "$i" != "4.0" ]; then
+		cat <<EOF
 %{monodir}/$i-api/System.IdentityModel.Selectors.dll
 %{monodir}/$i-api/System.IdentityModel.dll
 %{monodir}/$i-api/System.ServiceModel.Web.dll
 %{monodir}/$i-api/System.ServiceModel.dll
 EOF
+	fi
 
-	if [ "$version" -ge 400 ]; then
+	if [ "$version" -gt 400 ]; then
 		cat <<EOF
 %{monodir}/$i-api/System.Runtime.DurableInstancing.dll
 %{monodir}/$i-api/System.ServiceModel.Activation.dll
@@ -717,16 +754,21 @@ Group:		Development/Other
 Mono APIs needed for software development, API $i
 
 %files build-$i
-%{monodir}/$i-api/Microsoft.Build.Framework.dll
 %dir %{monodir}/gac/Microsoft.Build.Framework/
-%{monodir}/$i-api/Microsoft.Build.Engine.dll
-%{monodir}/$i-api/Mono.CodeContracts.dll
 %dir %{monodir}/gac/Microsoft.Build.Engine/
-%{monodir}/$i-api/Mono.Debugger.Soft.dll
 %dir %{monodir}/gac/Mono.Debugger.Soft/
-%{monodir}/$i-api/PEAPI.dll
 %dir %{monodir}/gac/PEAPI/
 EOF
+
+	if [ "$i" != "4.0" ]; then
+		cat <<EOF
+%{monodir}/$i-api/Microsoft.Build.Framework.dll
+%{monodir}/$i-api/Microsoft.Build.Engine.dll
+%{monodir}/$i-api/Mono.CodeContracts.dll
+%{monodir}/$i-api/Mono.Debugger.Soft.dll
+%{monodir}/$i-api/PEAPI.dll
+EOF
+	fi
 
 	if [ "$version" = "200" ]; then
 		cat <<EOF
@@ -754,9 +796,7 @@ EOF
 %{monodir}/gac/Microsoft.Build.Framework/4.0.0.0*
 %{monodir}/gac/Microsoft.Build.Engine/4.0.0.0*
 %{monodir}/gac/Microsoft.Build.Tasks.v4.0
-%{monodir}/$i-api/Microsoft.Build.Tasks.v4.0.dll
 %{monodir}/gac/Microsoft.Build.Utilities.v4.0
-%{monodir}/$i-api/Microsoft.Build.Utilities.v4.0.dll
 %{monodir}/gac/PEAPI/4.0.0.0*
 %dir %{monodir}/gac/Mono.CodeContracts/
 %{monodir}/gac/Mono.CodeContracts/4.0.0.0*
@@ -778,7 +818,7 @@ EOF
 EOF
 	fi
 
-	if [ "$version" -ge 400 ]; then
+	if [ "$version" -gt 400 ]; then
 		cat <<EOF
 %{monodir}/$i-api/Microsoft.Build.dll
 EOF
@@ -819,9 +859,6 @@ EOF
 		# 4.0-api is a symlink
 		cat <<EOF
 %dir %{monodir}/$i-api
-EOF
-	fi
-	cat <<EOF
 %{monodir}/$i-api/Commons.Xml.Relaxng.dll
 %{monodir}/$i-api/CustomMarshalers.dll
 %{monodir}/$i-api/I18N.West.dll
@@ -836,13 +873,6 @@ EOF
 %{monodir}/$i-api/Mono.Options.dll
 %{monodir}/$i-api/Mono.Parallel.dll
 %{monodir}/$i-api/Mono.Posix.dll
-%optional %{monodir}/$i/Mono.Posix.dll
-%optional %{monodir}/$i/Microsoft.VisualBasic.dll
-%optional %{monodir}/$i/Mono.C5.dll
-%optional %{monodir}/$i/Mono.Options.dll
-%optional %{monodir}/$i/System.Memory.dll
-%optional %{monodir}/$i/System.Runtime.CompilerServices.Unsafe.dll
-%optional %{monodir}/$i/System.Threading.Tasks.Extensions.dll
 %{monodir}/$i-api/Mono.Security.dll
 %{monodir}/$i-api/Mono.Security.Win32.dll
 %{monodir}/$i-api/Mono.Simd.dll
@@ -876,8 +906,19 @@ EOF
 %{monodir}/$i-api/cscompmgd.dll
 %{monodir}/$i-api/mscorlib.dll*
 EOF
+	fi
 
-	if [ "$version" -gt 200 ]; then
+	cat <<EOF
+%optional %{monodir}/$i/Mono.Posix.dll
+%optional %{monodir}/$i/Microsoft.VisualBasic.dll
+%optional %{monodir}/$i/Mono.C5.dll
+%optional %{monodir}/$i/Mono.Options.dll
+%optional %{monodir}/$i/System.Memory.dll
+%optional %{monodir}/$i/System.Runtime.CompilerServices.Unsafe.dll
+%optional %{monodir}/$i/System.Threading.Tasks.Extensions.dll
+EOF
+
+	if [ "$version" -gt 200 -a "$i" != "4.0" ]; then
 		cat <<EOF
 %{monodir}/$i-api/Microsoft.CSharp.dll
 %{monodir}/$i-api/System.Dynamic.dll
@@ -1257,7 +1298,7 @@ EOF
 		fi
 	fi
 
-	if [ "$version" -lt "471" ]; then
+	if [ "$version" -lt "471" -a "$i" != "4.0" ]; then
 		cat <<EOF
 %{monodir}/$i-api/ICSharpCode.SharpZipLib.dll
 EOF
