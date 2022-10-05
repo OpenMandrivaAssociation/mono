@@ -46,8 +46,8 @@
 
 Summary:	Mono Runtime
 Name:		mono
-Version:	6.12.0.122
-Release:	3
+Version:	6.12.0.182
+Release:	1
 License:	GPLv2 and LGPLv2+ and MIT
 Group:		Development/Other
 Url:		http://www.go-mono.com/
