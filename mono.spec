@@ -84,6 +84,10 @@ Patch61:	https://src.fedoraproject.org/rpms/mono/raw/master/f/0001-Reenable-mdoc
 Patch62:	https://src.fedoraproject.org/rpms/mono/raw/master/f/mono-6.6.0-fix-multi-arch-issue.patch
 #Patch63:	https://src.fedoraproject.org/rpms/mono/raw/master/f/mono-5.18.0.268-btls-link-pthread.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires:	bison
 BuildRequires:	python
 BuildRequires:	gettext-devel
